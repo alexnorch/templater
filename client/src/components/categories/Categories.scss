@@ -1,0 +1,12 @@
+.categories {
+  background-color: #08aeea;
+  background-image: linear-gradient(180deg, #0794c8 0%, #8fc4ac 100%);
+
+  padding: 20px 0;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

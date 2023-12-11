@@ -1,0 +1,55 @@
+.template-item {
+  background-color: #fff;
+  padding: 20px;
+  border-bottom: 5px solid transparent;
+  border-radius: 20px;
+  transition: all 0.3s;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__body {
+    position: relative;
+    margin-top: 10px;
+    padding-right: 30px;
+  }
+
+  &__btn-copy {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 5px;
+    margin: 10px 0;
+  }
+
+  &__tag {
+    cursor: pointer;
+    font-size: 12px;
+    background-color: rgb(161, 161, 239);
+    border-radius: 20px;
+    color: #fff;
+    font-weight: 400;
+    padding: 5px 15px;
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: rgb(95, 95, 234);
+    }
+  }
+
+  &:hover {
+    border-bottom: 5px solid rgba(15, 75, 240, 0.3);
+  }
+}

@@ -1,0 +1,31 @@
+.ellipsis-menu {
+  position: relative;
+
+  &__btn {
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  &__options {
+    position: absolute;
+    top: -100%;
+    display: none;
+    border-radius: 5px;
+    background-color: gray;
+    padding: 5px 10px;
+
+    button {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      background: none;
+      color: #fff;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
