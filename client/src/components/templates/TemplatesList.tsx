@@ -22,6 +22,42 @@ const TemplatesList = () => {
       <Grid item md={4}>
         <TemplateItem />
       </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
     </Grid>
   );
 };

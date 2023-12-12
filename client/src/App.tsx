@@ -4,7 +4,7 @@ import AppLayout from "./layout/AppLayout";
 
 // Pages
 import HomePage from "./routes/HomePage";
-import CategoryPage from "./routes/CategoryPage";
+import Templates from "./routes/Templates";
 import Register from "./routes/RegisterPage";
 import Login from "./routes/LoginPage";
 
@@ -13,7 +13,7 @@ function App() {
     <Routes>
       <Route path="/" element={<AppLayout />}>
         <Route index element={<HomePage />} />
-        <Route path=":category" element={<CategoryPage />} />
+        <Route path=":category" element={<Templates />} />
       </Route>
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />

@@ -2,9 +2,8 @@ import { useState } from "react";
 
 import BasicModal from "../ui/BasicModal";
 import { Button } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 
-const TemplateAdd = () => {
+const CategoryAdd = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpen = () => setIsModalOpen(true);
@@ -12,7 +11,7 @@ const TemplateAdd = () => {
 
   return (
     <div>
-      <Button variant="contained" onClick={handleOpen}>
+      <Button onClick={handleOpen} variant="outlined">
         Add New Template
       </Button>
 
@@ -23,4 +22,4 @@ const TemplateAdd = () => {
   );
 };
 
-export default TemplateAdd;
+export default CategoryAdd;

@@ -3,7 +3,7 @@ import { Stack } from "@mui/material";
 
 const CategoriesList = () => {
   return (
-    <Stack direction="row" spacing={3}>
+    <Stack alignItems="" flexWrap="wrap" direction="row" spacing={2}>
       <CategoryItem
         title="Bonuses"
         icon="https://upload.wikimedia.org/wikipedia/commons/1/14/Dollar_Sign.svg"
@@ -15,18 +15,6 @@ const CategoriesList = () => {
       <CategoryItem
         title="Withdraw "
         icon="https://cdn-icons-png.flaticon.com/512/6360/6360731.png"
-      />
-      <CategoryItem
-        title="Other"
-        icon="https://cdn-icons-png.flaticon.com/512/152/152529.png"
-      />
-      <CategoryItem
-        title="Block account"
-        icon="https://cdn-icons-png.flaticon.com/512/61/61457.png"
-      />
-      <CategoryItem
-        title="Limits"
-        icon="https://cdn-icons-png.flaticon.com/512/7490/7490434.png"
       />
     </Stack>
   );
