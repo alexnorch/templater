@@ -1,16 +1,28 @@
+import { Grid } from "@mui/material";
 import TemplateItem from "./TemplateItem";
-import "./TemplatesList.scss";
 
 const TemplatesList = () => {
   return (
-    <div className="templates-list">
-      <TemplateItem />
-      <TemplateItem />
-      <TemplateItem />
-      <TemplateItem />
-      <TemplateItem />
-      <TemplateItem />
-    </div>
+    <Grid container spacing={2}>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+      <Grid item md={4}>
+        <TemplateItem />
+      </Grid>
+    </Grid>
   );
 };
 
