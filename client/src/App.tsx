@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import AppLayout from "./layout/AppLayout";
 
 // Pages
-import DashboardPage from "./routes/DashboardPage";
+import DashboardPage from "./routes/Home";
 import Templates from "./routes/TemplatesPage";
 import Register from "./routes/RegisterPage";
 import Login from "./routes/LoginPage";

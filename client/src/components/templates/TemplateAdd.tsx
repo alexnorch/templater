@@ -1,8 +1,9 @@
 import { useState } from "react";
 
 import BasicModal from "../ui/BasicModal";
-import { Fab, Typography } from "@mui/material";
+import { Fab, Typography, Button, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import TemplateForm from "./TemplateForm";
 
 const TemplateAdd = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,6 +26,10 @@ const TemplateAdd = () => {
         <Typography component="h5" variant="h6">
           Create template
         </Typography>
+        <TemplateForm />
+        <Stack alignItems="flex-end">
+          <Button variant="contained">Submit</Button>
+        </Stack>
       </BasicModal>
     </>
   );

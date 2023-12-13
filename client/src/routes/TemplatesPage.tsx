@@ -21,12 +21,7 @@ const Templates = () => {
         alignItems="center"
       >
         <CategoriesNav />
-        <Box>
-          <CategoriesOptions />
-          <p style={{ fontSize: 12, color: "gray" }}>
-            Rewrite this to one button "Manage"
-          </p>
-        </Box>
+        <CategoriesOptions />
       </Stack>
       <Divider sx={{ margin: "10px 0" }} />
       <Box my={2}>
