@@ -1,22 +1,23 @@
 import CategoryItem from "./CategoryItem";
-import { Stack } from "@mui/material";
+import { Stack, Box, Typography, Divider } from "@mui/material";
+import CategoryAdd from "./CategoryAdd";
+
+const tempCategory = ["Bonuses", "Verification", "Tech issues", "Tickets"];
 
 const CategoriesList = () => {
   return (
-    <Stack alignItems="" flexWrap="wrap" direction="row" spacing={2}>
-      <CategoryItem
-        title="Bonuses"
-        icon="https://upload.wikimedia.org/wikipedia/commons/1/14/Dollar_Sign.svg"
-      />
-      <CategoryItem
-        title="KYC"
-        icon="https://cdn-icons-png.flaticon.com/512/7355/7355471.png"
-      />
-      <CategoryItem
-        title="Withdraw "
-        icon="https://cdn-icons-png.flaticon.com/512/6360/6360731.png"
-      />
-    </Stack>
+    <Box>
+      <Stack
+        flexDirection="column"
+        alignItems="space-between"
+        justifyContent="center"
+        spacing={1}
+      >
+        {tempCategory.map((item, index) => (
+          <CategoryItem key={index} title={item} />
+        ))}
+      </Stack>
+    </Box>
   );
 };
 

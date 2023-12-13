@@ -3,17 +3,18 @@ import { Routes, Route } from "react-router-dom";
 import AppLayout from "./layout/AppLayout";
 
 // Pages
-import HomePage from "./routes/HomePage";
-import Templates from "./routes/Templates";
+import DashboardPage from "./routes/DashboardPage";
+import Templates from "./routes/TemplatesPage";
 import Register from "./routes/RegisterPage";
 import Login from "./routes/LoginPage";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<AppLayout />}>
-        <Route index element={<HomePage />} />
-        <Route path=":category" element={<Templates />} />
+      <Route element={<AppLayout />}>
+        <Route index element={<DashboardPage />} />
+        <Route path="templates" element={<Templates />} />
+        <Route path="templates/:category" element={<Templates />} />
       </Route>
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />

@@ -11,9 +11,8 @@ const TemplateSearch: React.FC<TemplateSearchProps> = ({ value, onChange }) => {
       value={value}
       onChange={onChange}
       fullWidth
-      id="standard-basic"
       label="Search template"
-      variant="standard"
+      variant="filled"
     />
   );
 };

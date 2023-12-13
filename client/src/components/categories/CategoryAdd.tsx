@@ -1,24 +1,21 @@
-import { useState } from "react";
-
-import BasicModal from "../ui/BasicModal";
-import { Button } from "@mui/material";
+import { TextField, Button, Typography, Stack } from "@mui/material";
 
 const CategoryAdd = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleOpen = () => setIsModalOpen(true);
-  const handleClose = () => setIsModalOpen(false);
-
   return (
-    <div>
-      <Button onClick={handleOpen} variant="outlined">
-        Add New Template
-      </Button>
-
-      <BasicModal isOpen={isModalOpen} handleClose={handleClose}>
-        Hello World
-      </BasicModal>
-    </div>
+    <>
+      <Typography mb={2} component="h3" variant="h6">
+        Create new category
+      </Typography>
+      <TextField
+        fullWidth
+        id="outlined-basic"
+        label="Category title"
+        variant="outlined"
+      />
+      <Stack my={2}>
+        <Button variant="contained">Submit</Button>
+      </Stack>
+    </>
   );
 };
 

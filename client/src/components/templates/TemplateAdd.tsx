@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import BasicModal from "../ui/BasicModal";
-import { Button } from "@mui/material";
+import { Fab, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 const TemplateAdd = () => {
@@ -11,15 +11,22 @@ const TemplateAdd = () => {
   const handleClose = () => setIsModalOpen(false);
 
   return (
-    <div>
-      <Button variant="contained" onClick={handleOpen}>
-        Add New Template
-      </Button>
+    <>
+      <Fab
+        onClick={handleOpen}
+        sx={{ position: "fixed", bottom: 40, right: 40 }}
+        color="primary"
+        aria-label="add"
+      >
+        <AddIcon />
+      </Fab>
 
       <BasicModal isOpen={isModalOpen} handleClose={handleClose}>
-        Hello World
+        <Typography component="h5" variant="h6">
+          Create template
+        </Typography>
       </BasicModal>
-    </div>
+    </>
   );
 };
 
