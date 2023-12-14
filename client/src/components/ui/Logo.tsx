@@ -1,11 +1,16 @@
 import { Typography } from "@mui/material";
 
-const Logo = () => {
+interface LogoProps {
+  component?: any;
+  variant?: any;
+}
+
+const Logo: React.FC<LogoProps> = ({ variant, component }) => {
   return (
     <Typography
-      variant="h6"
+      variant={variant}
       noWrap
-      component="a"
+      component={component}
       href="#app-bar-with-responsive-menu"
       sx={{
         mr: 2,

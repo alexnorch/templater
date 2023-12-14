@@ -1,12 +1,14 @@
 import { Routes, Route } from "react-router-dom";
 
+// Layout
 import AppLayout from "./layout/AppLayout";
+import AuthLayout from "./layout/AuthLayout";
 
 // Pages
-import DashboardPage from "./routes/Home";
-import Templates from "./routes/TemplatesPage";
-import Register from "./routes/RegisterPage";
-import Login from "./routes/LoginPage";
+import DashboardPage from "./pages/Home";
+import Templates from "./pages/Templates";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -16,8 +18,10 @@ function App() {
         <Route path="templates" element={<Templates />} />
         <Route path="templates/:category" element={<Templates />} />
       </Route>
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
+      <Route element={<AuthLayout />}>
+        <Route path="register" element={<Register />} />
+        <Route path="login" element={<Login />} />
+      </Route>
     </Routes>
   );
 }

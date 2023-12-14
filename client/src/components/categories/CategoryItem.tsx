@@ -7,7 +7,9 @@ import {
   Button,
   TextField,
 } from "@mui/material";
+
 import BasicModal from "../ui/BasicModal";
+import ConfirmDialog from "../ui/ConfirmDialog";
 
 // Icons
 import EditIcon from "@mui/icons-material/Edit";
@@ -30,19 +32,19 @@ const CategoryItem: React.FC<CategoryItem> = ({ title }) => {
   const [newTitle, setNewTitle] = useState(title);
 
   // Handle editing
-  const handleStartEditingCategory = () => setIsEditing(true);
-  const handleFinishEditingCategory = () => setIsEditing(false);
+  const handleStartEditing = () => setIsEditing(true);
+  const handleFinishEditing = () => setIsEditing(false);
 
   // Handle deleting
-  const handleStartDeletingCategory = () => setIsDeleting(true);
-  const handleFinishDeletingCategory = () => setIsDeleting(false);
+  const handleStartDeleting = () => setIsDeleting(true);
+  const handleFinishDeleting = () => setIsDeleting(false);
 
   const onDeleteCategory = () => {
-    handleFinishDeletingCategory();
+    handleFinishDeleting();
   };
 
   const onEditCategory = () => {
-    handleFinishEditingCategory();
+    handleFinishEditing();
   };
 
   const categoryContent = isEditing ? (
@@ -70,36 +72,30 @@ const CategoryItem: React.FC<CategoryItem> = ({ title }) => {
         <Stack flexDirection="row">
           <EditButton
             isEditing={isEditing}
-            onEdit={handleStartEditingCategory}
+            onEdit={handleStartEditing}
             onConfirm={onEditCategory}
           />
-          <IconButton onClick={handleStartDeletingCategory} size="small">
+          <IconButton onClick={handleStartDeleting} size="small">
             <DeleteIcon fontSize="small" />
           </IconButton>
         </Stack>
       </Stack>
-      <BasicModal
+
+      {/* Deleting category */}
+      <ConfirmDialog
+        title="Deleting category"
+        text="Are you sure you want to delete this category?"
         isOpen={isDeleting}
-        handleClose={handleFinishDeletingCategory}
-      >
-        <Typography variant="h6" component="h4">
-          Are you sure you want to delete this category?
-        </Typography>
-        <Stack mt={2} alignItems="flex-end">
-          <Button onClick={onDeleteCategory} variant="contained" color="error">
-            Delete
-          </Button>
-        </Stack>
-      </BasicModal>
+        handleClose={handleFinishDeleting}
+        handleSubmit={onDeleteCategory}
+      />
     </>
   );
 };
 
-const EditButton: React.FC<EditButtonProps> = ({
-  isEditing,
-  onEdit,
-  onConfirm,
-}) => {
+const EditButton: React.FC<EditButtonProps> = (props) => {
+  const { isEditing, onEdit, onConfirm } = props;
+
   const handleClick = isEditing ? onConfirm : onEdit;
 
   return (

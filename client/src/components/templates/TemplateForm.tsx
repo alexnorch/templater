@@ -34,7 +34,9 @@ const TemplateForm = () => {
 
   return (
     <Stack my={2} minWidth={800} spacing={3} component="form">
+      {/* Title */}
       <TextField label="Template title" variant="filled" />
+      {/* Category */}
       <FormControl variant="filled" fullWidth>
         <InputLabel id="demo-simple-select-label">Category</InputLabel>
         <Select value={category} label="Category" onChange={handleChange}>

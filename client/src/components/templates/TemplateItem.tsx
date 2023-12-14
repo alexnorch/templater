@@ -16,6 +16,7 @@ import { CardActionArea } from "@mui/material";
 
 // Internal components
 import BasicModal from "../ui/BasicModal";
+import ConfirmDialog from "../ui/ConfirmDialog";
 import TemplateForm from "./TemplateForm";
 
 // Icons
@@ -24,12 +25,12 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 // Utils
 import { displayGenderIcon } from "../../utils/templateUtils";
 
-type ActionType = "deleting" | "editing" | null;
+type actionType = "deleting" | "editing" | null;
 
 const TemplateItem = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [isModal, setIsModal] = useState<boolean>(false);
-  const [action, setAction] = useState<ActionType>(null);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const open = Boolean(anchorEl);
 
@@ -38,20 +39,26 @@ const TemplateItem = () => {
   };
   const handleMenuClose = () => setAnchorEl(null);
 
-  const handleMenuAction = (action: ActionType) => {
-    setAction(action);
-    handleModalOpen();
+  const onDelete = () => alert("Deleted");
+  const onEdit = () => alert("Edited");
+
+  // Starting editing or deleting
+  const handleStartAction = (action: string) => {
     handleMenuClose();
+
+    if (action === "deleting") setIsDeleting(true);
+    if (action === "editing") setIsEditing(true);
   };
 
-  const handleModalOpen = () => setIsModal(true);
-  const handleModalClose = () => {
-    setIsModal(false);
-    setAction(null);
+  // Finishing editing or deleting
+  const handleFinishAction = () => {
+    setIsDeleting(false);
+    setIsEditing(false);
   };
 
   return (
     <>
+      {/* Card item */}
       <Card>
         <CardActionArea>
           <CardHeader
@@ -64,9 +71,7 @@ const TemplateItem = () => {
           />
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-              This impressive paella is a perfect party dish and a fun meal to
-              cook together with your guests. Add 1 cup of frozen peas along
-              with the mussels, if you like.
+              text
             </Typography>
           </CardContent>
           <Divider />
@@ -81,42 +86,35 @@ const TemplateItem = () => {
           </Stack>
         </CardActionArea>
         <Menu anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
-          <MenuItem onClick={() => handleMenuAction("deleting")}>
+          <MenuItem onClick={() => handleStartAction("deleting")}>
             Delete
           </MenuItem>
-          <MenuItem onClick={() => handleMenuAction("editing")}>Edit</MenuItem>
+          <MenuItem onClick={() => handleStartAction("editing")}>Edit</MenuItem>
         </Menu>
       </Card>
-      <BasicModal isOpen={isModal} handleClose={handleModalClose}>
-        {action === "deleting" ? (
-          <>
-            <Typography variant="h6" component="h4">
-              Are you sure you want to delete this category?
-            </Typography>
-            <Stack mt={2} alignItems="flex-end">
-              <Button
-                onClick={() => alert("Deleted")}
-                variant="contained"
-                color="error"
-              >
-                Delete
-              </Button>
-            </Stack>
-          </>
-        ) : (
-          <>
-            <Typography component="h4" variant="h5">
-              Edit template
-            </Typography>
-            <TemplateForm />
-            <Stack alignItems="flex-end">
-              <Button variant="contained">Submit</Button>
-            </Stack>
-          </>
-        )}
+
+      {/* Deleting template */}
+      <ConfirmDialog
+        title="Template deleting"
+        text="Are you sure you want to delete this template?"
+        isOpen={isDeleting}
+        handleClose={handleFinishAction}
+        handleSubmit={onDelete}
+      />
+
+      {/* Editing template */}
+      <BasicModal isOpen={isEditing} handleClose={handleFinishAction}>
+        <Typography component="h4" variant="h5">
+          Edit template
+        </Typography>
+        <TemplateForm />
+        <Stack alignItems="flex-end">
+          <Button onClick={onEdit} variant="contained">
+            Submit
+          </Button>
+        </Stack>
       </BasicModal>
     </>
   );
 };
-
 export default TemplateItem;
