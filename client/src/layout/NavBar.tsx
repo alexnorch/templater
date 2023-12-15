@@ -10,9 +10,8 @@ import Logo from "../components/ui/Logo";
 
 const pages = [
   { title: "Templates", path: "/templates" },
-  { title: "Profile", path: "/" },
+  { title: "Home", path: "/" },
   { title: "Log in", path: "/login" },
-  { title: "Register", path: "/register" },
 ];
 
 const NavBar = () => {

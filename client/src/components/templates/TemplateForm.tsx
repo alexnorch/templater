@@ -1,77 +1,166 @@
-import { useState } from "react";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 
 import {
   Stack,
   TextField,
   FormControl,
   InputLabel,
-  SelectChangeEvent,
+  FormHelperText,
   Select,
   MenuItem,
+  Button,
+  Typography,
 } from "@mui/material";
 
 const tempCategory = ["Bonuses", "Verification", "Tech issues", "Tickets"];
 const genders = ["male", "female", "both"];
 const languages = ["EN", "PL", "DE", "PT", "ES"];
 
-const TemplateForm = () => {
-  const [category, setCategory] = useState("");
-  const [gender, setGender] = useState("");
-  const [language, setLanguage] = useState("");
-  const [text, setText] = useState("");
+interface IFormInputs {
+  title: string;
+  category: string;
+  language: string;
+  gender: string;
+  text: string;
+}
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setCategory(event.target.value);
+interface ITemplateForm {
+  heading: string;
+  onSubmit: (data: IFormInputs) => void;
+}
+
+const defaultValues = {
+  title: "",
+  category: "",
+  language: "",
+  gender: "",
+  text: "",
+};
+
+const TemplateForm: React.FC<ITemplateForm> = ({ heading, onSubmit }) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues });
+
+  const onSubmitForm: SubmitHandler<IFormInputs> = (data) => {
+    onSubmit(data);
   };
 
-  const handleGenderChange = (event: SelectChangeEvent) => {
-    setGender(event?.target.value);
-  };
-
-  const handleLangChange = (event: SelectChangeEvent) => {
-    setLanguage(event.target.value);
-  };
+  // Rules
+  const required = "The field is required";
 
   return (
-    <Stack my={2} minWidth={800} spacing={3} component="form">
-      {/* Title */}
-      <TextField label="Template title" variant="filled" />
-      {/* Category */}
-      <FormControl variant="filled" fullWidth>
-        <InputLabel id="demo-simple-select-label">Category</InputLabel>
-        <Select value={category} label="Category" onChange={handleChange}>
-          {tempCategory.map((item) => (
-            <MenuItem value={item}>{item}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <Stack flexDirection="row" sx={{ gap: 2 }}>
-        {/* Language */}
-        <FormControl variant="filled" fullWidth>
-          <InputLabel id="demo-simple-select-label">Language</InputLabel>
-          <Select value={language} label="Language" onChange={handleLangChange}>
-            {languages.map((item) => (
-              <MenuItem value={item}>{item}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        {/* Gender */}
-        <FormControl variant="filled" fullWidth>
-          <InputLabel id="demo-simple-select-label">Gender</InputLabel>
-          <Select value={gender} label="Gender" onChange={handleGenderChange}>
-            {genders.map((item) => (
-              <MenuItem value={item}>{item}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Stack>
-      <TextField
-        id="template-text"
-        label="Template text"
-        multiline
-        minRows={8}
-        maxRows={12}
+    <Stack
+      onSubmit={handleSubmit(onSubmitForm)}
+      my={2}
+      minWidth={800}
+      spacing={2}
+      component="form"
+    >
+      <Typography component="h4" variant="h5">
+        {heading}
+      </Typography>
+
+      {/* Template Title */}
+      <Controller
+        name="title"
+        control={control}
+        rules={{ required }}
+        render={({ field, fieldState: { invalid } }) => (
+          <TextField
+            {...field}
+            error={invalid}
+            helperText={errors?.title?.message}
+            label="Template title"
+            variant="filled"
+          />
+        )}
       />
+      {/* Template Category */}
+      <Controller
+        name="category"
+        control={control}
+        rules={{ required }}
+        render={({ field, fieldState: { invalid } }) => (
+          <FormControl variant="filled" fullWidth>
+            <InputLabel error={invalid}>Category</InputLabel>
+            <Select error={invalid} {...field} label="Category">
+              {tempCategory.map((item) => (
+                <MenuItem value={item}>{item}</MenuItem>
+              ))}
+            </Select>
+            <FormHelperText error={invalid}>
+              {errors?.category?.message}
+            </FormHelperText>
+          </FormControl>
+        )}
+      />
+      <Stack flexDirection="row" sx={{ gap: 2 }}>
+        {/* Template Language */}
+        <Controller
+          name="language"
+          control={control}
+          rules={{ required }}
+          render={({ field, fieldState: { invalid } }) => (
+            <FormControl variant="filled" fullWidth>
+              <InputLabel error={invalid}>Language</InputLabel>
+              <Select {...field} error={invalid} name="language">
+                {languages.map((item) => (
+                  <MenuItem value={item}>{item}</MenuItem>
+                ))}
+              </Select>
+              <FormHelperText error={invalid}>
+                {errors?.language?.message}
+              </FormHelperText>
+            </FormControl>
+          )}
+        />
+
+        {/* Template Gender */}
+        <Controller
+          name="gender"
+          control={control}
+          rules={{ required }}
+          render={({ field, fieldState: { invalid } }) => (
+            <FormControl variant="filled" fullWidth>
+              <InputLabel error={invalid}>Gender</InputLabel>
+              <Select {...field} error={invalid} label="Gender">
+                {genders.map((item) => (
+                  <MenuItem value={item}>{item}</MenuItem>
+                ))}
+              </Select>
+              <FormHelperText error={invalid}>
+                {errors?.gender?.message}
+              </FormHelperText>
+            </FormControl>
+          )}
+        />
+      </Stack>
+      {/* Template Text */}
+      <Controller
+        name="text"
+        control={control}
+        rules={{ required }}
+        render={({ field, fieldState: { invalid } }) => (
+          <TextField
+            {...field}
+            error={invalid}
+            helperText={errors?.text?.message}
+            label="Template text"
+            multiline
+            minRows={8}
+            maxRows={12}
+          />
+        )}
+      />
+
+      <Stack alignItems="flex-end">
+        <Button type="submit" variant="contained">
+          Submit
+        </Button>
+      </Stack>
     </Stack>
   );
 };

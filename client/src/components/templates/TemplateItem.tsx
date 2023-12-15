@@ -104,15 +104,7 @@ const TemplateItem = () => {
 
       {/* Editing template */}
       <BasicModal isOpen={isEditing} handleClose={handleFinishAction}>
-        <Typography component="h4" variant="h5">
-          Edit template
-        </Typography>
-        <TemplateForm />
-        <Stack alignItems="flex-end">
-          <Button onClick={onEdit} variant="contained">
-            Submit
-          </Button>
-        </Stack>
+        <TemplateForm heading="Edit template" onSubmit={onEdit} />
       </BasicModal>
     </>
   );

@@ -1,7 +1,6 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation, Link } from "react-router-dom";
 import { Stack, Typography, Box } from "@mui/material";
 import Logo from "../components/ui/Logo";
-import { useLocation, Link } from "react-router-dom";
 
 const AuthLayout = () => {
   const location = useLocation();
@@ -27,7 +26,7 @@ const AuthLayout = () => {
       justifyContent="center"
       spacing={2}
     >
-      <Link to="/">Go home</Link>
+      <Link to="/templates">Go to the templates</Link>
       <Logo component="h1" variant="h4" />
       <Box>{isLoginPage ? LoginHeader : RegisterHeader}</Box>
       <Outlet />
