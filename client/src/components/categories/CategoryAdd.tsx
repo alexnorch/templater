@@ -1,21 +1,51 @@
-import { TextField, Button, Typography, Stack } from "@mui/material";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { TextField, Button, Typography, Stack, Box } from "@mui/material";
+
+const defaultValues = {
+  title: "",
+};
+
+interface IFormInput {
+  title: string;
+}
 
 const CategoryAdd = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues });
+
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    console.log(data);
+  };
+
   return (
-    <>
-      <Typography mb={2} component="h3" variant="h6">
+    <Box onSubmit={handleSubmit(onSubmit)} component="form">
+      <Typography mb={2} component="h4" variant="h5">
         Create new category
       </Typography>
-      <TextField
-        fullWidth
-        id="outlined-basic"
-        label="Category title"
-        variant="outlined"
+      <Controller
+        name="title"
+        control={control}
+        rules={{ required: "The field is required" }}
+        render={({ field, fieldState: { invalid } }) => (
+          <TextField
+            {...field}
+            fullWidth
+            error={invalid}
+            helperText={errors?.title?.message}
+            label="Category title"
+            variant="outlined"
+          />
+        )}
       />
       <Stack my={2}>
-        <Button variant="contained">Submit</Button>
+        <Button type="submit" variant="contained">
+          Submit
+        </Button>
       </Stack>
-    </>
+    </Box>
   );
 };
 

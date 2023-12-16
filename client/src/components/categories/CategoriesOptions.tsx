@@ -10,9 +10,9 @@ import BasicModal from "../ui/BasicModal";
 import CategoryAdd from "./CategoryAdd";
 import CategoriesList from "./CategoriesList";
 
-type MenuOptions = "add" | "manage" | null;
+type MenuOptions = "add" | "edit" | null;
 
-export default function FadeMenu() {
+export default function CategoriesOptions() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isModal, setIsModal] = useState(false);
   const [menuOption, setMenuOption] = useState<MenuOptions>(null);
@@ -37,7 +37,6 @@ export default function FadeMenu() {
     <div>
       <Button
         startIcon={<SettingsIcon />}
-        id="fade-button"
         aria-controls={open ? "fade-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
@@ -60,14 +59,14 @@ export default function FadeMenu() {
           Add category
         </MenuItem>
 
-        <MenuItem onClick={() => handleMenuOption("manage")}>
-          Manage categories
+        <MenuItem onClick={() => handleMenuOption("edit")}>
+          Edit categories
         </MenuItem>
       </Menu>
 
       <BasicModal handleClose={handleModalClose} isOpen={isModal}>
         {menuOption === "add" && <CategoryAdd />}
-        {menuOption === "manage" && <CategoriesList />}
+        {menuOption === "edit" && <CategoriesList />}
       </BasicModal>
     </div>
   );

@@ -1,14 +1,7 @@
 import { useState } from "react";
 
-import {
-  Typography,
-  Stack,
-  IconButton,
-  Button,
-  TextField,
-} from "@mui/material";
+import { Typography, Stack, IconButton, TextField } from "@mui/material";
 
-import BasicModal from "../ui/BasicModal";
 import ConfirmDialog from "../ui/ConfirmDialog";
 
 // Icons
