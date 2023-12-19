@@ -1,11 +1,14 @@
 import express from "express";
+import {
+  getTemplates,
+  createTemplate,
+  deleteTemplate,
+  updateTemplate,
+} from "../controllers/templateControllers";
 
 const router = express.Router();
 
-// Get all
-// Delete, update by ID
-// Add
-
-router.route("/");
+router.route("/").get(getTemplates).post(createTemplate);
+router.route("/:id").delete(deleteTemplate).patch(updateTemplate);
 
 export default router;

@@ -18,13 +18,13 @@ const TemplateGenderFilter: React.FC<TemplateGenderFilterProps> = ({
 }) => {
   return (
     <ToggleButtonGroup onChange={onChange} value={value} exclusive size="small">
-      <ToggleButton value="man">
+      <ToggleButton value="Man">
         <ManIcon />
       </ToggleButton>
-      <ToggleButton value="woman">
+      <ToggleButton value="Woman">
         <WomanIcon />
       </ToggleButton>
-      <ToggleButton value="both">
+      <ToggleButton value="Both">
         <WcIcon />
       </ToggleButton>
     </ToggleButtonGroup>

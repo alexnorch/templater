@@ -32,7 +32,6 @@ const TemplateSchema = new mongoose.Schema({
     type: String,
     required: [true, "Text is required"],
   },
-  color: String,
 });
 
 export default mongoose.model<Template>("Task", TemplateSchema);

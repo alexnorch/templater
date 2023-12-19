@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 
 const tempCategory = ["Bonuses", "Verification", "Tech issues", "Tickets"];
-const genders = ["male", "female", "both"];
+const genders = ["Male", "Female", "Both"];
 const languages = ["EN", "PL", "DE", "PT", "ES"];
 
 interface IFormInputs {

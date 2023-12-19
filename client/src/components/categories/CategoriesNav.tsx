@@ -7,7 +7,6 @@ const CategoriesNav = () => {
   return (
     <Stack alignItems="" flexWrap="wrap" direction="row" spacing={1}>
       <CategoryNavItem title="All" />
-
       {tempCategory.map((cat) => (
         <CategoryNavItem title={cat} />
       ))}

@@ -7,14 +7,19 @@ import { Request, Response, NextFunction } from "express";
 import AppError from "./utils/AppError";
 
 // Routes
-import templateRoutes from "./routes/templateRouter";
-import userRoutes from "./routes/userRouter";
-import categoryRoutes from "./routes/categoryRouter";
+import templateRouter from "./routes/templateRouter";
+import userRouter from "./routes/userRouter";
+import categoryRouter from "./routes/categoryRouter";
+
+// Middlewares
+import authenticate from "./middlewares/authenticate";
 
 const app = express();
-app.use("/api/template", templateRoutes);
-app.use("/api/category", userRoutes);
-app.use("/api/user", categoryRoutes);
+
+app.use(express.json());
+app.use("/api/templates", authenticate, templateRouter);
+app.use("/api/categories", authenticate, categoryRouter);
+app.use("/api/users", userRouter);
 
 // Error handling
 
@@ -32,22 +37,20 @@ app.use(
   }
 );
 
-// const startApp = () => {
-//   const mongoURL = process.env.MONGO_URL || "";
-//   const PORT = process.env.PORT || 5000;
+const startApp = () => {
+  const mongoURL = process.env.MONGO_URL || "";
+  const PORT = process.env.PORT || 5000;
 
-//   mongoose
-//     .connect(mongoURL)
-//     .then(() => {
-//       console.log("Successfully connected to the database");
+  mongoose
+    .connect(mongoURL)
+    .then(() => {
+      console.log("Successfully connected to the database");
 
-//       app.listen(PORT, () => {
-//         console.log(`Server started on port ${PORT}`);
-//       });
-//     })
-//     .catch((err) => console.log(err));
-// };
+      app.listen(PORT, () => {
+        console.log(`Server started on port ${PORT}`);
+      });
+    })
+    .catch((err) => console.log(err));
+};
 
-// startApp();
-
-app.use(express.json());
+startApp();

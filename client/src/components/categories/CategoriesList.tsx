@@ -1,6 +1,5 @@
+import { Stack, Box } from "@mui/material";
 import CategoryItem from "./CategoryItem";
-import { Stack, Box, Typography, Divider } from "@mui/material";
-import CategoryAdd from "./CategoryAdd";
 
 const tempCategory = ["Bonuses", "Verification", "Tech issues", "Tickets"];
 
