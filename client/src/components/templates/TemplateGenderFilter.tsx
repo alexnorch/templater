@@ -1,32 +1,36 @@
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store";
+import { updateQueryString } from "../../store/reducers/templateReducer";
+
 // Components
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 
-// Icons
-import ManIcon from "@mui/icons-material/Man";
-import WomanIcon from "@mui/icons-material/Woman";
-import WcIcon from "@mui/icons-material/Wc";
+import { displayGenderIcon } from "../../utils/helpers";
 
-interface TemplateGenderFilterProps {
-  value: string;
-  onChange: (e: React.MouseEvent<HTMLElement>, value: string) => void;
-}
+const TemplateGenderFilter = () => {
+  const { genderOptions, queryObj } = useSelector(
+    (state: RootState) => state.template
+  );
 
-const TemplateGenderFilter: React.FC<TemplateGenderFilterProps> = ({
-  onChange,
-  value,
-}) => {
+  const dispatch = useDispatch();
+
+  const onGenderChange = (e: React.MouseEvent<HTMLElement>, value: string) => {
+    dispatch(updateQueryString({ key: "gender", value }));
+  };
+
   return (
-    <ToggleButtonGroup onChange={onChange} value={value} exclusive size="small">
-      <ToggleButton value="Man">
-        <ManIcon />
-      </ToggleButton>
-      <ToggleButton value="Woman">
-        <WomanIcon />
-      </ToggleButton>
-      <ToggleButton value="Both">
-        <WcIcon />
-      </ToggleButton>
+    <ToggleButtonGroup
+      onChange={onGenderChange}
+      value={queryObj.gender}
+      exclusive
+      size="medium"
+    >
+      {genderOptions.map((gender, i) => (
+        <ToggleButton key={i} value={gender}>
+          {displayGenderIcon(gender)}
+        </ToggleButton>
+      ))}
     </ToggleButtonGroup>
   );
 };

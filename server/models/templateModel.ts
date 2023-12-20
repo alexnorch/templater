@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
 
-interface Template extends mongoose.Document {
+export interface ITemplate extends mongoose.Document {
   title: string;
-  completed: boolean;
   category: string;
   user: string;
+  gender: string;
+  language: string;
+  text: string;
 }
 
 const TemplateSchema = new mongoose.Schema({
@@ -34,4 +36,4 @@ const TemplateSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model<Template>("Task", TemplateSchema);
+export default mongoose.model<ITemplate>("Template", TemplateSchema);

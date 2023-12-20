@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import withAuth from "./hocs/withAuth";
 
 // Layout
 import AppLayout from "./layout/AppLayout";
@@ -10,10 +11,12 @@ import Templates from "./pages/Templates";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 
+const AppWithAuth = withAuth(AppLayout);
+
 function App() {
   return (
     <Routes>
-      <Route element={<AppLayout />}>
+      <Route element={<AppWithAuth />}>
         <Route index element={<DashboardPage />} />
         <Route path="templates" element={<Templates />} />
         <Route path="templates/:category" element={<Templates />} />

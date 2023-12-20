@@ -1,17 +1,24 @@
+import axios from "axios";
+import { useDispatch } from "react-redux";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 import { Box, TextField, Button, Stack } from "@mui/material";
-import { AccountCircle } from "@mui/icons-material";
+import { loginUser } from "../store/reducers/userReducer";
+import { initCategories } from "../store/reducers/categoryReducer";
+import useAlert from "../hooks/useAlert";
 
+// Icons
+import { AccountCircle } from "@mui/icons-material";
 import LockIcon from "@mui/icons-material/Lock";
 
 interface IFormInput {
-  login: string;
+  email: string;
   password: string;
 }
 
 const defaultValues = {
-  login: "",
+  email: "",
   password: "",
 };
 
@@ -22,14 +29,38 @@ const Login = () => {
     formState: { errors },
   } = useForm({ defaultValues });
 
+  const { showErrorAlert } = useAlert();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const onSubmitForm: SubmitHandler<IFormInput> = (data) => {
-    console.log("Submited", data);
+    handleLoginUser(data);
   };
 
   const boxStyles = {
     display: "flex",
     alignItems: "flex-end",
     width: "100%",
+  };
+
+  const handleLoginUser = async (credentials: IFormInput) => {
+    try {
+      const response = await axios.post("/api/users/login", credentials);
+
+      const { token, data, user } = response.data;
+
+      localStorage.setItem("accessToken", token);
+      localStorage.setItem("categories", JSON.stringify(data.categories));
+      localStorage.setItem("templates", JSON.stringify(data.templates));
+
+      dispatch(loginUser(token));
+      dispatch(initCategories(data.categories));
+
+      navigate("/templates");
+    } catch (error: any) {
+      const errorMsg = error.response.data.message;
+      showErrorAlert(errorMsg);
+    }
   };
 
   return (
@@ -43,10 +74,10 @@ const Login = () => {
       <Box sx={boxStyles}>
         <AccountCircle sx={{ color: "action.active", mr: 1, my: 0.5 }} />
         <Controller
-          name="login"
+          name="email"
           control={control}
           rules={{
-            required: "Password is required",
+            required: "Email is required",
             minLength: {
               value: 6,
               message: "Must be greater than 6 characters",
@@ -57,8 +88,8 @@ const Login = () => {
               {...field}
               fullWidth
               error={invalid}
-              helperText={errors?.login?.message}
-              label="Your login"
+              helperText={errors?.email?.message}
+              label="Your e-mail"
               variant="standard"
             />
           )}
@@ -81,6 +112,7 @@ const Login = () => {
             <TextField
               {...field}
               fullWidth
+              type="password"
               error={invalid}
               label="Your password"
               helperText={errors?.password?.message}

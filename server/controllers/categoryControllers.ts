@@ -5,9 +5,15 @@ import AppError from "../utils/AppError";
 
 export const getCategories: RequestHandler = async (req, res, next) => {
   const userId = req.userId;
-  const categories = await Category.find({ user: userId });
 
-  res.send(categories);
+  try {
+    const categories = await Category.find({ user: userId });
+
+    res.send(categories);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 };
 
 export const createCategory: RequestHandler = async (req, res, next) => {

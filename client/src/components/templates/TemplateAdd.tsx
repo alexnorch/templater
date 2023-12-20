@@ -4,6 +4,8 @@ import BasicModal from "../ui/BasicModal";
 import { Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import TemplateForm from "./TemplateForm";
+import useAuthAxios from "../../hooks/useAuthAxios";
+import useAlert from "../../hooks/useAlert";
 
 interface IFormInputs {
   title: string;
@@ -13,16 +15,33 @@ interface IFormInputs {
   text: string;
 }
 
+const defaultValues = {
+  title: "",
+  category: "",
+  language: "",
+  gender: "",
+  text: "",
+};
+
 const TemplateAdd = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { authAxios } = useAuthAxios();
+  const { showSuccessAlert } = useAlert();
 
   const handleOpen = () => setIsModalOpen(true);
   const handleClose = () => setIsModalOpen(false);
 
-  const fabStyles = { position: "fixed", bottom: 40, right: 40 };
+  const fabStyles = { position: "fixed", bottom: 25, right: 25 };
 
-  const onCreateTemplate = (data: IFormInputs) => {
-    console.log(data);
+  const onCreateTemplate = async (data: IFormInputs) => {
+    try {
+      const response = await authAxios.post("/api/templates", data);
+
+      if (response.data) {
+        showSuccessAlert("Template was successfully added");
+        handleClose();
+      }
+    } catch (error) {}
   };
 
   return (
@@ -32,7 +51,11 @@ const TemplateAdd = () => {
       </Fab>
 
       <BasicModal isOpen={isModalOpen} handleClose={handleClose}>
-        <TemplateForm heading="Create template" onSubmit={onCreateTemplate} />
+        <TemplateForm
+          heading="Create template"
+          onSubmit={onCreateTemplate}
+          values={defaultValues}
+        />
       </BasicModal>
     </>
   );

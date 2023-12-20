@@ -1,19 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AlertColor } from "@mui/material";
 
 interface AppState {
-  alertType: string;
+  alertType: AlertColor | undefined;
   alertText: string | null;
   isAlert: boolean;
+
 }
 
 const initialState: AppState = {
   alertType: "info",
   alertText: null,
   isAlert: false,
+
 };
 
 interface AlertProps {
-  type: string;
+  type: AlertColor | undefined;
   text: string;
 }
 

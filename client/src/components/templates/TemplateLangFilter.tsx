@@ -1,30 +1,39 @@
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store";
+import { updateQueryString } from "../../store/reducers/templateReducer";
+
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
-interface TemplateLangFilterProps {
-  value: string;
-  onChange: (event: SelectChangeEvent) => void;
-}
+const TemplateLangFilter = () => {
+  const { languageOptions, queryObj } = useSelector(
+    (state: RootState) => state.template
+  );
 
-const TemplateLangFilter: React.FC<TemplateLangFilterProps> = ({
-  onChange,
-  value,
-}) => {
+  const dispatch = useDispatch();
+
+  const onLangChange = (e: SelectChangeEvent) => {
+    dispatch(updateQueryString({ key: "language", value: e.target.value }));
+  };
+
+  useEffect(() => {}, []);
+
   return (
     <FormControl sx={{ minWidth: 120 }}>
-      <InputLabel id="demo-simple-select-label">Language</InputLabel>
+      <InputLabel>Language</InputLabel>
       <Select
-        onChange={onChange}
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={value}
-        label="Age"
+        onChange={onLangChange}
+        value={queryObj.language}
+        label="Language"
       >
-        <MenuItem value="PL">PL</MenuItem>
-        <MenuItem value="EN">EN</MenuItem>
-        <MenuItem value="PT">PT</MenuItem>
+        {languageOptions.map((lang, i) => (
+          <MenuItem key={i} value={lang}>
+            {lang}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   );

@@ -24,9 +24,21 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 // Utils
-import { displayGenderIcon } from "../../utils/templateUtils";
+import { displayGenderIcon } from "../../utils/helpers";
 
-const TemplateItem = () => {
+interface ITemplateItem {
+  title: string;
+  language: string;
+  gender: string;
+  text: string;
+}
+
+const TemplateItem: React.FC<ITemplateItem> = ({
+  title,
+  language,
+  gender,
+  text,
+}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -73,7 +85,7 @@ const TemplateItem = () => {
       {/* Card item */}
       <Card>
         <CardHeader
-          title="Withdraw under 500 EUR"
+          title={title}
           action={
             <IconButton onClick={handleMenuOpen}>
               <MoreVertIcon />
@@ -88,10 +100,7 @@ const TemplateItem = () => {
             <ContentCopyIcon fontSize="inherit" />
           </IconButton>
           <Typography ref={templateContentRef} pr={5} variant="body2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi quia
-            eaque labore a cupiditate ipsam facilis sapiente sit ratione,
-            voluptatem temporibus eum sequi unde enim. Consequatur architecto
-            esse est exercitationem itaque ipsam nam voluptate tempore.
+            {text}
           </Typography>
         </CardContent>
         <Divider />
@@ -101,8 +110,8 @@ const TemplateItem = () => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Box>{displayGenderIcon("male")}</Box>
-          <Box>PL</Box>
+          <Box>{displayGenderIcon(gender)}</Box>
+          <Box>{language}</Box>
         </Stack>
         <Menu anchorEl={anchorEl} open={isOpen} onClose={handleMenuClose}>
           <MenuItem onClick={() => handleStartAction("deleting")}>
@@ -123,7 +132,7 @@ const TemplateItem = () => {
 
       {/* Editing template */}
       <BasicModal isOpen={isEditing} handleClose={handleFinishAction}>
-        <TemplateForm heading="Edit template" onSubmit={onEdit} />
+        <TemplateForm heading="Edit template" onSubmit={onEdit} values={{}} />
       </BasicModal>
     </>
   );

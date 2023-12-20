@@ -13,6 +13,8 @@ const displayGenderIcon = (sex: string) => {
   }
 };
 
-const getTemplateLanguage = (lang: string) => {};
+export const capitalizeFirstLetter = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1, str.length);
+};
 
 export { displayGenderIcon };

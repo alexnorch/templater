@@ -1,14 +1,20 @@
 import { NavLink } from "react-router-dom";
 import { Stack, Box } from "@mui/material";
-
-const tempCategory = ["Bonuses", "Verification", "Tech issues", "Tickets"];
+import { capitalizeFirstLetter } from "../../utils/helpers";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 const CategoriesNav = () => {
+  const { categories } = useSelector((state: RootState) => state.category);
+
   return (
     <Stack alignItems="" flexWrap="wrap" direction="row" spacing={1}>
       <CategoryNavItem title="All" />
-      {tempCategory.map((cat) => (
-        <CategoryNavItem title={cat} />
+      {categories.map((category: any) => (
+        <CategoryNavItem
+          key={category._id}
+          title={capitalizeFirstLetter(category.title)}
+        />
       ))}
     </Stack>
   );

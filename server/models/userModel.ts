@@ -12,26 +12,29 @@ export interface IUser extends mongoose.Document {
   comparePassword: (candidate: string, hashed: string) => Promise<boolean>;
 }
 
-const UserSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: [true, "Email is required"],
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: [true, "Password is required"],
-    minlength: 8,
-    select: false,
-  },
+const UserSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+      minlength: 8,
+      select: false,
+    },
 
-  categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
-  templates: [{ type: mongoose.Schema.Types.ObjectId, ref: "Template" }],
-  createdAt: {
-    type: Date,
-    default: Date.now(),
+    categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
+    templates: [{ type: mongoose.Schema.Types.ObjectId, ref: "Template" }],
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
   },
-});
+  { versionKey: false }
+);
 
 UserSchema.pre("save", async function () {
   if (!this.isModified("password")) return;

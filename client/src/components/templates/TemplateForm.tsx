@@ -12,8 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 
-const tempCategory = ["Bonuses", "Verification", "Tech issues", "Tickets"];
-const genders = ["Male", "Female", "Both"];
+const tempCategory = ["bonuses", "verification", "tech issues"];
+const genders = ["male", "female", "both"];
 const languages = ["EN", "PL", "DE", "PT", "ES"];
 
 interface IFormInputs {
@@ -27,22 +27,19 @@ interface IFormInputs {
 interface ITemplateForm {
   heading: string;
   onSubmit: (data: IFormInputs) => void;
+  values: any;
 }
 
-const defaultValues = {
-  title: "",
-  category: "",
-  language: "",
-  gender: "",
-  text: "",
-};
-
-const TemplateForm: React.FC<ITemplateForm> = ({ heading, onSubmit }) => {
+const TemplateForm: React.FC<ITemplateForm> = ({
+  heading,
+  onSubmit,
+  values,
+}) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues });
+  } = useForm({ values });
 
   const onSubmitForm: SubmitHandler<IFormInputs> = (data) => {
     onSubmit(data);
@@ -72,7 +69,7 @@ const TemplateForm: React.FC<ITemplateForm> = ({ heading, onSubmit }) => {
           <TextField
             {...field}
             error={invalid}
-            helperText={errors?.title?.message}
+            // helperText={errors?.title?.message}
             label="Template title"
             variant="filled"
           />
@@ -92,7 +89,7 @@ const TemplateForm: React.FC<ITemplateForm> = ({ heading, onSubmit }) => {
               ))}
             </Select>
             <FormHelperText error={invalid}>
-              {errors?.category?.message}
+              {/* {errors?.category?.message} */}
             </FormHelperText>
           </FormControl>
         )}
@@ -112,7 +109,7 @@ const TemplateForm: React.FC<ITemplateForm> = ({ heading, onSubmit }) => {
                 ))}
               </Select>
               <FormHelperText error={invalid}>
-                {errors?.language?.message}
+                {/* {errors?.language?.message} */}
               </FormHelperText>
             </FormControl>
           )}
@@ -132,7 +129,7 @@ const TemplateForm: React.FC<ITemplateForm> = ({ heading, onSubmit }) => {
                 ))}
               </Select>
               <FormHelperText error={invalid}>
-                {errors?.gender?.message}
+                {/* {errors?.gender?.message} */}
               </FormHelperText>
             </FormControl>
           )}
@@ -147,7 +144,7 @@ const TemplateForm: React.FC<ITemplateForm> = ({ heading, onSubmit }) => {
           <TextField
             {...field}
             error={invalid}
-            helperText={errors?.text?.message}
+            // helperText={errors?.text?.message}
             label="Template text"
             multiline
             minRows={8}
