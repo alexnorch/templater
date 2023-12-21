@@ -30,11 +30,9 @@ interface ITemplateForm {
   values: any;
 }
 
-const TemplateForm: React.FC<ITemplateForm> = ({
-  heading,
-  onSubmit,
-  values,
-}) => {
+const TemplateForm: React.FC<ITemplateForm> = (props) => {
+  const { heading, onSubmit, values } = props;
+
   const {
     control,
     handleSubmit,

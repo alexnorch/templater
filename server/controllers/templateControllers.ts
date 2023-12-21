@@ -38,7 +38,7 @@ export const getTemplates: RequestHandler = async (req, res, next) => {
     const templates: ITemplate[] | null = await Template.find({
       ...queryObj,
       user: req.userId,
-    });
+    }).populate("category");
 
     res.send(templates || []);
   } catch (error) {
@@ -92,6 +92,29 @@ export const createTemplate: RequestHandler = async (req, res, next) => {
 
 export const updateTemplate: RequestHandler = async (req, res, next) => {
   const userId = req.userId;
+  const templateId = req.params.id;
+  const { _id, title, text, language, gender, category } = req.body;
+  const categoryId = await getCategoryId(category as string, req.userId);
+
+  console.log(req.body);
+
+  const template = await Template.findOne({ user: userId, _id: templateId });
+
+  if (!template) {
+    return next(new AppError("Template with that ID wasn't found", 404));
+  }
+
+  await template?.updateOne({
+    _id,
+    title,
+    text,
+    language,
+    gender,
+    category: categoryId,
+  });
+
+  const templates = await Template.find({ user: userId });
+  res.send(templates);
 
   try {
   } catch (error) {

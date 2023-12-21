@@ -28,29 +28,24 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 // Utils
 import { displayGenderIcon } from "../../utils/helpers";
 
-const TemplateItem: React.FC<ITemplateItem> = ({
-  _id,
-  title,
-  language,
-  gender,
-  text,
-}) => {
+const TemplateItem: React.FC<ITemplateItem> = (props) => {
+  const { _id, title, language, gender, text, category } = props;
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+
   const isOpen = Boolean(anchorEl);
   const templateContentRef = useRef<HTMLElement | null>(null);
   const dispatch = useDispatch();
 
-  const { deleteTemplate, createTemplate } = useTemplateServices();
+  const { deleteTemplate, updateTemplate } = useTemplateServices();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleMenuClose = () => setAnchorEl(null);
-
-  const onEdit = () => alert("Edited");
 
   // Starting editing or deleting
   const handleStartAction = (action: string) => {
@@ -74,6 +69,15 @@ const TemplateItem: React.FC<ITemplateItem> = ({
       navigator.clipboard.writeText(textContent);
       dispatch(showAlert({ type: "success", text: "Copied to the clipboard" }));
     }
+  };
+
+  const handleUpdateTemplate = (data: ITemplateItem) => {
+    updateTemplate(_id, data);
+    handleFinishAction();
+  };
+
+  const handleDeleteTemplate = () => {
+    deleteTemplate(_id);
   };
 
   return (
@@ -123,12 +127,16 @@ const TemplateItem: React.FC<ITemplateItem> = ({
         text="Are you sure you want to delete this template?"
         isOpen={isDeleting}
         handleClose={handleFinishAction}
-        handleSubmit={() => deleteTemplate(_id)}
+        handleSubmit={handleDeleteTemplate}
       />
 
       {/* Editing template */}
       <BasicModal isOpen={isEditing} handleClose={handleFinishAction}>
-        <TemplateForm heading="Edit template" onSubmit={onEdit} values={{}} />
+        <TemplateForm
+          heading="Edit template"
+          onSubmit={handleUpdateTemplate}
+          values={props}
+        />
       </BasicModal>
     </>
   );

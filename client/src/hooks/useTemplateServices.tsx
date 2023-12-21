@@ -23,17 +23,19 @@ const useTemplateServices = () => {
     }
   };
 
-  //   Deleting template item
+  // Deleting template item
   const deleteTemplate = async (templateId: string | undefined) => {
     try {
-      await authAxios.delete(`/api/templates/${templateId}`);
-      await fetchTemplates();
+      if (templateId) {
+        await authAxios.delete(`/api/templates/${templateId}`);
+        await fetchTemplates();
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  //   Creating template
+  // Creating template
   const createTemplate = async (data: ITemplateItem) => {
     try {
       const response = await authAxios.post("/api/templates", data);
@@ -44,7 +46,20 @@ const useTemplateServices = () => {
     } catch (error) {}
   };
 
-  const updateTemplate = () => {};
+  // Updating template
+  const updateTemplate = async (
+    templateId: string | undefined,
+    updatedValues: ITemplateItem
+  ) => {
+    try {
+      if (templateId) {
+        await authAxios.patch(`/api/templates/${templateId}`, updatedValues);
+        await fetchTemplates();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return {
     fetchTemplates,

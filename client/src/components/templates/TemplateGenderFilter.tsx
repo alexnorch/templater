@@ -3,8 +3,12 @@ import { RootState } from "../../store";
 import { updateQueryString } from "../../store/reducers/templateReducer";
 
 // Components
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import ToggleButton from "@mui/material/ToggleButton";
+import {
+  Stack,
+  Typography,
+  ToggleButtonGroup,
+  ToggleButton,
+} from "@mui/material";
 
 import { displayGenderIcon } from "../../utils/helpers";
 
@@ -20,18 +24,23 @@ const TemplateGenderFilter = () => {
   };
 
   return (
-    <ToggleButtonGroup
-      onChange={onGenderChange}
-      value={queryObj.gender}
-      exclusive
-      size="medium"
-    >
-      {genderOptions.map((gender, i) => (
-        <ToggleButton key={i} value={gender}>
-          {displayGenderIcon(gender)}
-        </ToggleButton>
-      ))}
-    </ToggleButtonGroup>
+    <Stack spacing={1}>
+      <Typography variant="body1" component="h4">
+        Gender:
+      </Typography>
+      <ToggleButtonGroup
+        onChange={onGenderChange}
+        value={queryObj.gender}
+        exclusive
+        size="medium"
+      >
+        {genderOptions.map((gender, i) => (
+          <ToggleButton key={i} value={gender}>
+            {displayGenderIcon(gender)}
+          </ToggleButton>
+        ))}
+      </ToggleButtonGroup>
+    </Stack>
   );
 };
 

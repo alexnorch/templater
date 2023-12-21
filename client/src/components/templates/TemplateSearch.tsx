@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateQueryString } from "../../store/reducers/templateReducer";
 import { RootState } from "../../store";
-import TextField from "@mui/material/TextField";
+
+import { TextField } from "@mui/material";
 
 const TemplateSearch = () => {
   const { queryObj } = useSelector((state: RootState) => state.template);
@@ -24,10 +25,10 @@ const TemplateSearch = () => {
 
   return (
     <TextField
+      fullWidth
       value={inputValue}
       onChange={handleInputChange}
-      fullWidth
-      label="Search template"
+      label="Template title"
       variant="filled"
     />
   );

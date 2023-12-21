@@ -12,9 +12,10 @@ const TemplatesList = () => {
 
   return (
     <Grid container spacing={2}>
-      {templates.map(({ title, text, gender, language, _id }) => (
+      {templates.map(({ title, text, gender, language, _id, category }) => (
         <Grid key={_id} item md={4}>
           <TemplateItem
+            category={category.title}
             _id={_id}
             title={title}
             text={text}

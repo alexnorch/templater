@@ -1,6 +1,6 @@
 export interface ITemplateItem {
   title: string;
-  category?: string;
+  category: any;
   language: string;
   gender: string;
   text: string;

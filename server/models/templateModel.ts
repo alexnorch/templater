@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import { ICategory } from "./categoryModel";
 
 export interface ITemplate extends mongoose.Document {
   title: string;
-  category: string;
+  category: ICategory;
   user: string;
   gender: string;
   language: string;

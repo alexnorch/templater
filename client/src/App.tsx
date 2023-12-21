@@ -6,8 +6,8 @@ import AppLayout from "./layout/AppLayout";
 import AuthLayout from "./layout/AuthLayout";
 
 // Pages
-import DashboardPage from "./pages/Home";
 import Templates from "./pages/Templates";
+import Settings from "./pages/Settings";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 
@@ -18,7 +18,7 @@ function App() {
     <Routes>
       <Route element={<AppWithAuth />}>
         <Route index element={<Templates />} />
-        <Route path="settings" element={<div>Settings</div>} />
+        <Route path="settings" element={<Settings />} />
       </Route>
       <Route element={<AuthLayout />}>
         <Route path="register" element={<Register />} />

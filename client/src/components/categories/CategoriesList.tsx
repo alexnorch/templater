@@ -1,9 +1,10 @@
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import { Stack, Box } from "@mui/material";
 import CategoryItem from "./CategoryItem";
 
-const tempCategory = ["Bonuses", "Verification", "Tech issues", "Tickets"];
-
 const CategoriesList = () => {
+  const { categories } = useSelector((state: RootState) => state.category);
   return (
     <Box>
       <Stack
@@ -12,8 +13,8 @@ const CategoriesList = () => {
         justifyContent="center"
         spacing={1}
       >
-        {tempCategory.map((item, index) => (
-          <CategoryItem key={index} title={item} />
+        {categories.map((item) => (
+          <CategoryItem key={item._id} title={item.title} />
         ))}
       </Stack>
     </Box>

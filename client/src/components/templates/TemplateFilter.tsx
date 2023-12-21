@@ -8,19 +8,19 @@ import TemplateLangFilter from "./TemplateLangFilter";
 
 const TemplateFilter = () => {
   return (
-    <Box mb={3}>
-      <TemplateCategoryFilter />
-      <Divider sx={{ margin: "15px 0" }} />
+    <Box my={3}>
       <Stack
         spacing={5}
         direction="row"
         justifyContent="space-between"
-        alignItems="center"
+        alignItems="flex-end"
       >
         <TemplateSearch />
         <TemplateGenderFilter />
         <TemplateLangFilter />
       </Stack>
+      <TemplateCategoryFilter />
+      <Divider sx={{ margin: "15px 0" }} />
     </Box>
   );
 };

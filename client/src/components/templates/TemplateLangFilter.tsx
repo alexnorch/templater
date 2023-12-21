@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { updateQueryString } from "../../store/reducers/templateReducer";
 
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import {
+  Stack,
+  Typography,
+  Select,
+  SelectChangeEvent,
+  MenuItem,
+} from "@mui/material";
 
 const TemplateLangFilter = () => {
   const { languageOptions, queryObj } = useSelector(
@@ -19,13 +21,14 @@ const TemplateLangFilter = () => {
     dispatch(updateQueryString({ key: "language", value: e.target.value }));
   };
 
-  useEffect(() => {}, []);
-
   return (
-    <FormControl sx={{ minWidth: 120 }}>
-      <InputLabel>Language</InputLabel>
+    <Stack spacing={1}>
+      <Typography variant="body1" component="h4">
+        Language:
+      </Typography>
       <Select
         onChange={onLangChange}
+        variant="standard"
         value={queryObj.language}
         label="Language"
       >
@@ -35,7 +38,7 @@ const TemplateLangFilter = () => {
           </MenuItem>
         ))}
       </Select>
-    </FormControl>
+    </Stack>
   );
 };
 

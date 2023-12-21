@@ -19,6 +19,8 @@ interface CategoryItem {
   title: string;
 }
 
+import { capitalizeFirstLetter } from "../../utils/helpers";
+
 const CategoryItem: React.FC<CategoryItem> = ({ title }) => {
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -49,7 +51,7 @@ const CategoryItem: React.FC<CategoryItem> = ({ title }) => {
     />
   ) : (
     <Typography component="h4" variant="h6">
-      {title}
+      {title && capitalizeFirstLetter(title)}
     </Typography>
   );
 

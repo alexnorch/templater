@@ -7,7 +7,7 @@ import { RootState } from "../../store";
 
 const TemplateCategoryFilter = () => {
   const { categories } = useSelector((state: RootState) => state.category);
-  const [activeCategory, setActiveCategory] = useState(categories[0].title);
+  const [activeCategory, setActiveCategory] = useState("");
   const dispatch = useDispatch();
 
   const onChangeCategory = (event: any) => {
@@ -21,9 +21,9 @@ const TemplateCategoryFilter = () => {
   };
 
   return (
-    <Box>
-      <Typography mb={1} variant="h5" component="h3">
-        My categories
+    <Box mt={2}>
+      <Typography mb={1} variant="body1" component="h4">
+        Categories:
       </Typography>
       <Stack flexWrap="wrap" direction="row" spacing={1}>
         {categories.map((category: any) => (
