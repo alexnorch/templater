@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { showAlert } from "../../store/reducers/appReducer";
+import useTemplateServices from "../../hooks/useTemplateServices";
 
 // External components
 import Menu from "@mui/material/Menu";
@@ -13,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
+import { ITemplateItem } from "../../types";
 
 // Internal components
 import BasicModal from "../ui/BasicModal";
@@ -26,14 +28,8 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 // Utils
 import { displayGenderIcon } from "../../utils/helpers";
 
-interface ITemplateItem {
-  title: string;
-  language: string;
-  gender: string;
-  text: string;
-}
-
 const TemplateItem: React.FC<ITemplateItem> = ({
+  _id,
   title,
   language,
   gender,
@@ -42,10 +38,11 @@ const TemplateItem: React.FC<ITemplateItem> = ({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
   const isOpen = Boolean(anchorEl);
   const templateContentRef = useRef<HTMLElement | null>(null);
   const dispatch = useDispatch();
+
+  const { deleteTemplate, createTemplate } = useTemplateServices();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -53,7 +50,6 @@ const TemplateItem: React.FC<ITemplateItem> = ({
 
   const handleMenuClose = () => setAnchorEl(null);
 
-  const onDelete = () => alert("Deleted");
   const onEdit = () => alert("Edited");
 
   // Starting editing or deleting
@@ -127,7 +123,7 @@ const TemplateItem: React.FC<ITemplateItem> = ({
         text="Are you sure you want to delete this template?"
         isOpen={isDeleting}
         handleClose={handleFinishAction}
-        handleSubmit={onDelete}
+        handleSubmit={() => deleteTemplate(_id)}
       />
 
       {/* Editing template */}

@@ -11,8 +11,8 @@ import Logo from "../components/ui/Logo";
 import { logoutUser } from "../store/reducers/userReducer";
 
 const pages = [
-  { title: "Templates", path: "/templates" },
-  { title: "Home", path: "/" },
+  { title: "Templates", path: "/" },
+  { title: "Settings", path: "/settings" },
 ];
 
 const NavBar = () => {
@@ -45,13 +45,13 @@ const NavBar = () => {
                   {title}
                 </Button>
               ))}
-              <Button
-                onClick={handleLogout}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                Log Out
-              </Button>
             </Stack>
+            <Button
+              onClick={handleLogout}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              Log Out
+            </Button>
           </Stack>
         </Toolbar>
       </Container>

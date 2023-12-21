@@ -56,7 +56,7 @@ const Login = () => {
       dispatch(loginUser(token));
       dispatch(initCategories(data.categories));
 
-      navigate("/templates");
+      navigate("/");
     } catch (error: any) {
       const errorMsg = error.response.data.message;
       showErrorAlert(errorMsg);

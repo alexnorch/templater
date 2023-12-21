@@ -1,24 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ITemplateItem } from "../../types";
 
 interface TemplateState {
-  categories: any[];
+  templates: ITemplateItem[];
   genderOptions: string[];
   languageOptions: string[];
   queryObj: {
     gender: string;
     language: string;
     title: string;
+    category: string;
   };
 }
 
 const initialState: TemplateState = {
-  categories: [],
+  templates: [],
   genderOptions: ["male", "female", "both"],
   languageOptions: ["PL", "EN", "DE", "PT", "ES", "IT"],
   queryObj: {
     gender: "",
     language: "",
     title: "",
+    category: "",
   },
 };
 
@@ -26,8 +29,8 @@ export const templateSlice = createSlice({
   name: "Template",
   initialState,
   reducers: {
-    initCategories: (state, action: PayloadAction<any[]>) => {
-      state.categories = action.payload;
+    initTemplates: (state, action: PayloadAction<any[]>) => {
+      state.templates = action.payload;
     },
     updateQueryString: (
       state,
@@ -38,6 +41,6 @@ export const templateSlice = createSlice({
   },
 });
 
-export const { initCategories, updateQueryString } = templateSlice.actions;
+export const { initTemplates, updateQueryString } = templateSlice.actions;
 
 export default templateSlice.reducer;

@@ -17,9 +17,8 @@ function App() {
   return (
     <Routes>
       <Route element={<AppWithAuth />}>
-        <Route index element={<DashboardPage />} />
-        <Route path="templates" element={<Templates />} />
-        <Route path="templates/:category" element={<Templates />} />
+        <Route index element={<Templates />} />
+        <Route path="settings" element={<div>Settings</div>} />
       </Route>
       <Route element={<AuthLayout />}>
         <Route path="register" element={<Register />} />

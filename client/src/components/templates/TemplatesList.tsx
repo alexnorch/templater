@@ -1,17 +1,11 @@
 import { Grid, Typography } from "@mui/material";
 import TemplateItem from "./TemplateItem";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
-interface ITemplateItem {
-  _id: string;
-  title: string;
-  language: string;
-  gender: string;
-  text: string;
-}
+const TemplatesList = () => {
+  const { templates } = useSelector((state: RootState) => state.template);
 
-const TemplatesList: React.FC<{ templates: ITemplateItem[] }> = ({
-  templates,
-}) => {
   if (!templates || templates.length < 1) {
     return <Typography>No templates found</Typography>;
   }
@@ -21,6 +15,7 @@ const TemplatesList: React.FC<{ templates: ITemplateItem[] }> = ({
       {templates.map(({ title, text, gender, language, _id }) => (
         <Grid key={_id} item md={4}>
           <TemplateItem
+            _id={_id}
             title={title}
             text={text}
             language={language}

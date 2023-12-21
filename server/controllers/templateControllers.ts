@@ -14,15 +14,30 @@ const getCategoryId = async (categoryTitle: string, userId: string) => {
 };
 
 export const getTemplates: RequestHandler = async (req, res, next) => {
-  try {
-    const { category, title, language, gender } = req.query;
-    const user = req.userId;
+  const { category, title, language, gender } = req.query;
+  let queryObj: any = {};
 
+  if (category) {
+    const categoryId = await getCategoryId(category as string, req.userId);
+    queryObj.category = categoryId;
+  }
+
+  if (title) {
+    queryObj.title = title;
+  }
+
+  if (language) {
+    queryObj.language = language;
+  }
+
+  if (gender) {
+    queryObj.gender = gender;
+  }
+
+  try {
     const templates: ITemplate[] | null = await Template.find({
-      user,
-      gender,
-      language,
-      title,
+      ...queryObj,
+      user: req.userId,
     });
 
     res.send(templates || []);
@@ -67,7 +82,9 @@ export const createTemplate: RequestHandler = async (req, res, next) => {
     await user!.save();
     await userCategory!.save();
 
-    res.send(createdTemplate);
+    const templates = await Template.find({ user: userId });
+
+    res.send(templates);
   } catch (error) {
     next(error);
   }
@@ -83,10 +100,21 @@ export const updateTemplate: RequestHandler = async (req, res, next) => {
 };
 
 export const deleteTemplate: RequestHandler = async (req, res, next) => {
-  const userId = req.userId;
+  const user = req.userId;
 
   try {
-    const template = await Template.findById({ user: userId });
+    const template = await Template.findOne({ user, _id: req.params.id });
+    const deletedTemplate = await template?.deleteOne();
+
+    if (!deletedTemplate) {
+      return next(
+        new AppError("Something went wrong. Please try again later", 500)
+      );
+    }
+
+    const templates = await Template.find({ user });
+
+    res.send(templates);
   } catch (error) {
     next(error);
   }
