@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { showAlert } from "../../store/reducers/appReducer";
 import useTemplateServices from "../../hooks/useTemplateServices";
@@ -27,6 +27,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 // Utils
 import { displayGenderIcon } from "../../utils/helpers";
+import { CardGiftcardRounded } from "@mui/icons-material";
 
 const TemplateItem: React.FC<ITemplateItem> = (props) => {
   const { _id, title, language, gender, text, category } = props;
@@ -36,7 +37,6 @@ const TemplateItem: React.FC<ITemplateItem> = (props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const isOpen = Boolean(anchorEl);
-  const templateContentRef = useRef<HTMLElement | null>(null);
   const dispatch = useDispatch();
 
   const { deleteTemplate, updateTemplate } = useTemplateServices();
@@ -63,10 +63,8 @@ const TemplateItem: React.FC<ITemplateItem> = (props) => {
 
   // Copying template text to the clipboard
   const onCopyText = () => {
-    const textContent = templateContentRef.current?.textContent;
-
-    if (textContent) {
-      navigator.clipboard.writeText(textContent);
+    if (text) {
+      navigator.clipboard.writeText(text);
       dispatch(showAlert({ type: "success", text: "Copied to the clipboard" }));
     }
   };
@@ -99,7 +97,7 @@ const TemplateItem: React.FC<ITemplateItem> = (props) => {
           >
             <ContentCopyIcon fontSize="inherit" />
           </IconButton>
-          <Typography ref={templateContentRef} pr={5} variant="body2">
+          <Typography pr={5} variant="body2">
             {text}
           </Typography>
         </CardContent>

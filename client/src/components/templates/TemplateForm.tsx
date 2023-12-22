@@ -1,4 +1,6 @@
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 import {
   Stack,
@@ -12,10 +14,6 @@ import {
   Typography,
 } from "@mui/material";
 
-const tempCategory = ["bonuses", "verification", "tech issues"];
-const genders = ["male", "female", "both"];
-const languages = ["EN", "PL", "DE", "PT", "ES"];
-
 interface IFormInputs {
   title: string;
   category: string;
@@ -27,11 +25,15 @@ interface IFormInputs {
 interface ITemplateForm {
   heading: string;
   onSubmit: (data: IFormInputs) => void;
-  values: any;
+  values: IFormInputs;
 }
 
 const TemplateForm: React.FC<ITemplateForm> = (props) => {
   const { heading, onSubmit, values } = props;
+  const { genderOptions, languageOptions } = useSelector(
+    (state: RootState) => state.template
+  );
+  const { categories } = useSelector((state: RootState) => state.category);
 
   const {
     control,
@@ -82,8 +84,10 @@ const TemplateForm: React.FC<ITemplateForm> = (props) => {
           <FormControl variant="filled" fullWidth>
             <InputLabel error={invalid}>Category</InputLabel>
             <Select error={invalid} {...field} label="Category">
-              {tempCategory.map((item) => (
-                <MenuItem value={item}>{item}</MenuItem>
+              {categories.map((item) => (
+                <MenuItem key={item._id} value={item.title}>
+                  {item.title}
+                </MenuItem>
               ))}
             </Select>
             <FormHelperText error={invalid}>
@@ -102,7 +106,7 @@ const TemplateForm: React.FC<ITemplateForm> = (props) => {
             <FormControl variant="filled" fullWidth>
               <InputLabel error={invalid}>Language</InputLabel>
               <Select {...field} error={invalid} name="language">
-                {languages.map((item) => (
+                {languageOptions.map((item) => (
                   <MenuItem value={item}>{item}</MenuItem>
                 ))}
               </Select>
@@ -122,7 +126,7 @@ const TemplateForm: React.FC<ITemplateForm> = (props) => {
             <FormControl variant="filled" fullWidth>
               <InputLabel error={invalid}>Gender</InputLabel>
               <Select {...field} error={invalid} label="Gender">
-                {genders.map((item) => (
+                {genderOptions.map((item) => (
                   <MenuItem value={item}>{item}</MenuItem>
                 ))}
               </Select>

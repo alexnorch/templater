@@ -50,8 +50,6 @@ const Login = () => {
       const { token, data, user } = response.data;
 
       localStorage.setItem("accessToken", token);
-      localStorage.setItem("categories", JSON.stringify(data.categories));
-      localStorage.setItem("templates", JSON.stringify(data.templates));
 
       dispatch(loginUser(token));
       dispatch(initCategories(data.categories));

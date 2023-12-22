@@ -1,23 +1,18 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { Stack, Box } from "@mui/material";
+import { Stack, Box, Grid } from "@mui/material";
 import CategoryItem from "./CategoryItem";
 
 const CategoriesList = () => {
   const { categories } = useSelector((state: RootState) => state.category);
   return (
-    <Box>
-      <Stack
-        flexDirection="column"
-        alignItems="space-between"
-        justifyContent="center"
-        spacing={1}
-      >
-        {categories.map((item) => (
-          <CategoryItem key={item._id} title={item.title} />
-        ))}
-      </Stack>
-    </Box>
+    <Grid spacing={2} container>
+      {categories.map((item) => (
+        <Grid item md={4}>
+          <CategoryItem key={item._id} _id={item._id} title={item.title} />
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 

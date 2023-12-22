@@ -20,7 +20,7 @@ const NavBar = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
+    localStorage.clear();
     dispatch(logoutUser());
   };
 

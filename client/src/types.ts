@@ -6,3 +6,8 @@ export interface ITemplateItem {
   text: string;
   _id?: string;
 }
+
+export interface ICategoryItem {
+  title: string;
+  _id?: string | undefined;
+}

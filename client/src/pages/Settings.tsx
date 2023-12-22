@@ -1,24 +1,32 @@
-import { Typography, Box, Grid, Divider } from "@mui/material";
+import { useEffect } from "react";
+import { Typography, Box, Grid } from "@mui/material";
 import CategoriesList from "../components/categories/CategoriesList";
 import CategoryAdd from "../components/categories/CategoryAdd";
+import useCategoryServices from "../hooks/useCategoryServices";
 
 const Settings = () => {
+  const { fetchCategories } = useCategoryServices();
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
   return (
     <>
       {/* Categories */}
       <Box component="section">
-        <Typography component="h2" variant="h4">
-          Categories
-        </Typography>
-        <Typography component="p" variant="subtitle1">
-          Here you can adjust your categories
-        </Typography>
-        <Divider sx={{ margin: "15px 0" }} />
+        <Box mb={2}>
+          <Typography component="h2" variant="h4">
+            Categories
+          </Typography>
+          <Typography component="p" variant="subtitle1">
+            Here you can adjust your categories
+          </Typography>
+        </Box>
         <Grid spacing={10} container>
-          <Grid item md={8}>
+          <Grid item md={9}>
             <CategoriesList />
           </Grid>
-          <Grid item md={4}>
+          <Grid item md={3}>
             <CategoryAdd />
           </Grid>
         </Grid>
@@ -31,7 +39,6 @@ const Settings = () => {
         <Typography component="p" variant="subtitle1">
           Here you can adjust profile
         </Typography>
-        <Divider sx={{ margin: "15px 0" }} />
       </Box>
     </>
   );

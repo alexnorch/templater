@@ -1,106 +1,98 @@
 import { useState } from "react";
 
-import { Typography, Stack, IconButton, TextField } from "@mui/material";
+// External components
+import {
+  IconButton,
+  Menu,
+  MenuItem,
+  Card,
+  CardHeader,
+  Avatar,
+} from "@mui/material";
 
+// Internal components
 import ConfirmDialog from "../ui/ConfirmDialog";
+import CategoryForm from "./CategoryForm";
+import BasicModal from "../ui/BasicModal";
 
 // Icons
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CheckIcon from "@mui/icons-material/Check";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-interface EditButtonProps {
-  isEditing: boolean;
-  onEdit: () => void;
-  onConfirm: () => void;
-}
-
-interface CategoryItem {
-  title: string;
-}
-
+import useCategoryServices from "../../hooks/useCategoryServices";
+import { ICategoryItem } from "../../types";
 import { capitalizeFirstLetter } from "../../utils/helpers";
 
-const CategoryItem: React.FC<CategoryItem> = ({ title }) => {
+const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [newTitle, setNewTitle] = useState(title);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const isOpen = Boolean(anchorEl);
 
-  // Handle editing
-  const handleStartEditing = () => setIsEditing(true);
-  const handleFinishEditing = () => setIsEditing(false);
-
-  // Handle deleting
-  const handleStartDeleting = () => setIsDeleting(true);
-  const handleFinishDeleting = () => setIsDeleting(false);
+  const { deleteCategory } = useCategoryServices();
 
   const onDeleteCategory = () => {
-    handleFinishDeleting();
+    handleFinishActions();
+    deleteCategory(_id);
   };
 
-  const onEditCategory = () => {
-    handleFinishEditing();
+  const onEditCategory = (data: ICategoryItem) => {
+    handleFinishActions();
   };
 
-  const categoryContent = isEditing ? (
-    <TextField
-      fullWidth
-      value={newTitle}
-      label="Category title"
-      variant="standard"
-    />
-  ) : (
-    <Typography component="h4" variant="h6">
-      {title && capitalizeFirstLetter(title)}
-    </Typography>
-  );
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => setAnchorEl(null);
+
+  // Finishing editing or deleting
+  const handleFinishActions = () => {
+    setIsDeleting(false);
+    setIsEditing(false);
+  };
+
+  // Starting editing or deleting
+  const handleStartAction = (action: string) => {
+    handleMenuClose();
+
+    if (action === "deleting") setIsDeleting(true);
+    if (action === "editing") setIsEditing(true);
+  };
 
   return (
     <>
-      <Stack
-        minHeight={50}
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        {categoryContent}
-        <Stack flexDirection="row">
-          <EditButton
-            isEditing={isEditing}
-            onEdit={handleStartEditing}
-            onConfirm={onEditCategory}
-          />
-          <IconButton onClick={handleStartDeleting} size="small">
-            <DeleteIcon fontSize="small" />
-          </IconButton>
-        </Stack>
-      </Stack>
+      <Card>
+        <CardHeader
+          avatar={<Avatar>{title.charAt(0).toUpperCase()}</Avatar>}
+          action={
+            <IconButton onClick={handleMenuOpen} aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={title && capitalizeFirstLetter(title)}
+        />
+        <Menu anchorEl={anchorEl} open={isOpen} onClose={handleMenuClose}>
+          <MenuItem onClick={() => handleStartAction("deleting")}>
+            Delete
+          </MenuItem>
+          <MenuItem onClick={() => handleStartAction("editing")}>Edit</MenuItem>
+        </Menu>
+      </Card>
 
       {/* Deleting category */}
       <ConfirmDialog
         title="Deleting category"
         text="Are you sure you want to delete this category?"
         isOpen={isDeleting}
-        handleClose={handleFinishDeleting}
+        handleClose={handleFinishActions}
         handleSubmit={onDeleteCategory}
       />
+
+      {/* Editing category */}
+      <BasicModal isOpen={isEditing} handleClose={handleFinishActions}>
+        <CategoryForm values={{ title, _id }} onSubmit={onEditCategory} />
+      </BasicModal>
     </>
-  );
-};
-
-const EditButton: React.FC<EditButtonProps> = (props) => {
-  const { isEditing, onEdit, onConfirm } = props;
-
-  const handleClick = isEditing ? onConfirm : onEdit;
-
-  return (
-    <IconButton sx={{ flexShrink: 0 }} onClick={handleClick} size="small">
-      {isEditing ? (
-        <CheckIcon fontSize="small" />
-      ) : (
-        <EditIcon fontSize="small" />
-      )}
-    </IconButton>
   );
 };
 

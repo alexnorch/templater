@@ -1,4 +1,5 @@
-import Category from "../models/categoryModel";
+import Category, { ICategory } from "../models/categoryModel";
+import Template, { ITemplate } from "../models/templateModel";
 import User from "../models/userModel";
 import { RequestHandler } from "../types";
 import AppError from "../utils/AppError";
@@ -25,6 +26,7 @@ export const createCategory: RequestHandler = async (req, res, next) => {
   }
 
   const user = await User.findById(userId);
+
   const isAlreadyExists = await Category.findOne({
     title: title.toLowerCase(),
     user: userId,
@@ -44,4 +46,35 @@ export const createCategory: RequestHandler = async (req, res, next) => {
 };
 
 export const updateCategory: RequestHandler = (req, res, next) => {};
-export const deleteCategory: RequestHandler = (req, res, next) => {};
+export const deleteCategory: RequestHandler = async (req, res, next) => {
+  const user = req.userId;
+  const categoryId = req.params.id;
+
+  try {
+    const category: ICategory | null = await Category.findOne({
+      user,
+      _id: categoryId,
+    });
+
+    if (!category) {
+      return next(new AppError("Category not found", 404));
+    }
+
+    await Template.deleteMany({
+      user,
+      category: categoryId,
+    });
+
+    const deletedCategory = await category.deleteOne();
+
+    if (!deletedCategory) {
+      return next(
+        new AppError("Something went wrong. Please try again later", 500)
+      );
+    }
+
+    res.send(deletedCategory);
+  } catch (error) {
+    next(error);
+  }
+};

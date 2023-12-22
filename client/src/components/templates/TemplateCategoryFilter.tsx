@@ -10,12 +10,12 @@ const TemplateCategoryFilter = () => {
   const [activeCategory, setActiveCategory] = useState("");
   const dispatch = useDispatch();
 
-  const onChangeCategory = (event: any) => {
-    if (event.target && event.target.textContent !== activeCategory) {
-      setActiveCategory(event.target.textContent);
+  const onChangeCategory = (e: any) => {
+    if (e.target && e.target.textContent !== activeCategory) {
+      setActiveCategory(e.target.textContent);
 
       dispatch(
-        updateQueryString({ key: "category", value: event.target.textContent })
+        updateQueryString({ key: "category", value: e.target.textContent })
       );
     }
   };
