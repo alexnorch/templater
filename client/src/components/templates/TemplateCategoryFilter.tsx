@@ -10,13 +10,11 @@ const TemplateCategoryFilter = () => {
   const [activeCategory, setActiveCategory] = useState("");
   const dispatch = useDispatch();
 
-  const onChangeCategory = (e: any) => {
-    if (e.target && e.target.textContent !== activeCategory) {
-      setActiveCategory(e.target.textContent);
+  const onChangeCategory = (id: string) => {
+    setActiveCategory(id);
 
-      dispatch(
-        updateQueryString({ key: "category", value: e.target.textContent })
-      );
+    if (id !== activeCategory) {
+      dispatch(updateQueryString({ key: "category", value: id }));
     }
   };
 
@@ -28,14 +26,14 @@ const TemplateCategoryFilter = () => {
       <Stack flexWrap="wrap" direction="row" spacing={1}>
         {categories.map((category: any) => (
           <Button
-            onClick={onChangeCategory}
+            onClick={() => onChangeCategory(category._id)}
             size="small"
             variant="contained"
             key={category._id}
             title={capitalizeFirstLetter(category.title)}
             sx={{
               background:
-                activeCategory === category.title
+                activeCategory === category._id
                   ? "palette.primary.dark"
                   : "#bbb",
             }}

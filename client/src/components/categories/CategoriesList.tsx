@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { Stack, Box, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import CategoryItem from "./CategoryItem";
 
 const CategoriesList = () => {

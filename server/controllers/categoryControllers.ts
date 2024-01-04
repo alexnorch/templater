@@ -1,80 +1,51 @@
-import Category, { ICategory } from "../models/categoryModel";
-import Template, { ITemplate } from "../models/templateModel";
-import User from "../models/userModel";
 import { RequestHandler } from "../types";
+import CategoryService from "../services/categoryService";
 import AppError from "../utils/AppError";
 
 export const getCategories: RequestHandler = async (req, res, next) => {
-  const userId = req.userId;
-
   try {
-    const categories = await Category.find({ user: userId });
+    const userId = req.userId;
 
+    const categories = await CategoryService.getCategories(userId);
     res.send(categories);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
 
 export const createCategory: RequestHandler = async (req, res, next) => {
-  const { title } = req.body;
-  const userId = req.userId;
+  try {
+    const userId = req.userId;
+    const title = req.body.title;
 
-  if (!title) {
-    return next(new AppError("Please provide all values", 400));
+    if (!title) {
+      return new AppError("Please provide the title", 400);
+    }
+
+    const createdCategory = await CategoryService.createCategory(userId, title);
+
+    res.send(createdCategory);
+  } catch (error) {
+    next(error);
   }
-
-  const user = await User.findById(userId);
-
-  const isAlreadyExists = await Category.findOne({
-    title: title.toLowerCase(),
-    user: userId,
-  });
-
-  if (isAlreadyExists) {
-    return next(new AppError("Category is already exists", 400));
-  }
-
-  const category = new Category({ title: title.toLowerCase(), user: userId });
-  const createdCategory = await category.save();
-
-  user?.categories.push(createdCategory._id);
-  await user!.save();
-
-  res.send(createdCategory);
 };
 
-export const updateCategory: RequestHandler = (req, res, next) => {};
 export const deleteCategory: RequestHandler = async (req, res, next) => {
-  const user = req.userId;
-  const categoryId = req.params.id;
-
   try {
-    const category: ICategory | null = await Category.findOne({
+    const user = req.userId;
+    const categoryId = req.params.id;
+
+    const deletedCategory = await CategoryService.deleteCategory(
       user,
-      _id: categoryId,
-    });
-
-    if (!category) {
-      return next(new AppError("Category not found", 404));
-    }
-
-    await Template.deleteMany({
-      user,
-      category: categoryId,
-    });
-
-    const deletedCategory = await category.deleteOne();
-
-    if (!deletedCategory) {
-      return next(
-        new AppError("Something went wrong. Please try again later", 500)
-      );
-    }
+      categoryId
+    );
 
     res.send(deletedCategory);
   } catch (error) {
     next(error);
   }
+};
+
+export const updateCategory: RequestHandler = async (req, res, next) => {
+  res.send("The category was updated");
 };
