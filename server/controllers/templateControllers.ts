@@ -3,6 +3,17 @@ import Template, { ITemplate } from "../models/templateModel";
 import AppError from "../utils/AppError";
 import TemplateService from "../services/templateService";
 
+export const getTemplateById: RequestHandler = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const template = TemplateService.getTemplateById(req.userId, id);
+    res.send(template);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getTemplates: RequestHandler = async (req, res, next) => {
   const { category, title, language, gender } = req.query;
   let queryObj: any = {};

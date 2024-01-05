@@ -4,22 +4,33 @@ import Category, { ICategory } from "../models/categoryModel";
 import Template from "../models/templateModel";
 
 class CategoryService {
-  async getCategories(userId: string) {
-    return await Category.find({ user: userId });
+  private userId: string;
+
+  constructor(userId: string) {
+    this.userId = userId;
   }
 
-  async createCategory(userId: string, title: string) {
+  async getCategories() {
+    return await Category.find({ user: this.userId });
+  }
+
+  async getCategoryId() {}
+
+  async createCategory(title: string) {
     title = title.toLocaleLowerCase();
 
-    const user = (await User.findById(userId)) as IUser;
+    const user = (await User.findById(this.userId)) as IUser;
 
-    const isAlreadyExists = await Category.findOne({ title, user: userId });
+    const isAlreadyExists = await Category.findOne({
+      title,
+      user: this.userId,
+    });
 
     if (isAlreadyExists) {
       return new AppError("Category is already exists", 400);
     }
 
-    const category = new Category({ title, user: userId });
+    const category = new Category({ title, user: this.userId });
     const createdCategory = await category.save();
 
     user.categories.push(createdCategory._id);
@@ -28,9 +39,9 @@ class CategoryService {
     return createdCategory;
   }
 
-  async deleteCategory(userId: string, categoryId: string) {
+  async deleteCategory(categoryId: string) {
     const category: ICategory | null = await Category.findOne({
-      user: userId,
+      user: this.userId,
       _id: categoryId,
     });
 
@@ -39,7 +50,7 @@ class CategoryService {
     }
 
     await Template.deleteMany({
-      user: userId,
+      user: this.userId,
       category: categoryId,
     });
 
@@ -53,4 +64,4 @@ class CategoryService {
   }
 }
 
-export default new CategoryService();
+export default CategoryService;

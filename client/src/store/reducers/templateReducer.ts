@@ -5,6 +5,7 @@ interface TemplateState {
   templates: ITemplateItem[];
   genderOptions: string[];
   languageOptions: string[];
+  selectedTemplateId: null | string;
   queryObj: {
     gender: string;
     language: string;
@@ -17,6 +18,7 @@ const initialState: TemplateState = {
   templates: [],
   genderOptions: ["male", "female", "both"],
   languageOptions: ["PL", "EN", "DE", "PT", "ES", "IT"],
+  selectedTemplateId: null,
   queryObj: {
     gender: "",
     language: "",
@@ -29,6 +31,9 @@ export const templateSlice = createSlice({
   name: "Template",
   initialState,
   reducers: {
+    setSelectedTemplateId: (state, action: PayloadAction<string>) => {
+      state.selectedTemplateId = action.payload;
+    },
     initTemplates: (state, action: PayloadAction<any[]>) => {
       state.templates = action.payload;
     },
@@ -41,6 +46,7 @@ export const templateSlice = createSlice({
   },
 });
 
-export const { initTemplates, updateQueryString } = templateSlice.actions;
+export const { initTemplates, updateQueryString, setSelectedTemplateId } =
+  templateSlice.actions;
 
 export default templateSlice.reducer;

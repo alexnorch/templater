@@ -25,4 +25,5 @@ const authenticate: RequestHandler = (req, res, next) => {
 
   next();
 };
+
 export default authenticate;

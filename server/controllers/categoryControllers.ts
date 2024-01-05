@@ -3,10 +3,9 @@ import CategoryService from "../services/categoryService";
 import AppError from "../utils/AppError";
 
 export const getCategories: RequestHandler = async (req, res, next) => {
+  const categoryServices = new CategoryService(req.userId);
   try {
-    const userId = req.userId;
-
-    const categories = await CategoryService.getCategories(userId);
+    const categories = await categoryServices.getCategories();
     res.send(categories);
   } catch (error) {
     next(error);
@@ -14,15 +13,16 @@ export const getCategories: RequestHandler = async (req, res, next) => {
 };
 
 export const createCategory: RequestHandler = async (req, res, next) => {
+  const categoryServices = new CategoryService(req.userId);
+
   try {
-    const userId = req.userId;
     const title = req.body.title;
 
     if (!title) {
       return new AppError("Please provide the title", 400);
     }
 
-    const createdCategory = await CategoryService.createCategory(userId, title);
+    const createdCategory = await categoryServices.createCategory(title);
 
     res.send(createdCategory);
   } catch (error) {
@@ -31,14 +31,12 @@ export const createCategory: RequestHandler = async (req, res, next) => {
 };
 
 export const deleteCategory: RequestHandler = async (req, res, next) => {
+  const categoryServices = new CategoryService(req.userId);
+
   try {
-    const user = req.userId;
     const categoryId = req.params.id;
 
-    const deletedCategory = await CategoryService.deleteCategory(
-      user,
-      categoryId
-    );
+    const deletedCategory = await categoryServices.deleteCategory(categoryId);
 
     res.send(deletedCategory);
   } catch (error) {

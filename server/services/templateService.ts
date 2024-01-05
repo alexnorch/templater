@@ -4,6 +4,15 @@ import Template from "../models/templateModel";
 import AppError from "../utils/AppError";
 
 class TemplateService {
+  async getTemplateById(userId: string, templateId: string) {
+    if (!userId || !templateId) {
+      return new AppError("Bad request", 400);
+    }
+
+    const template = await Template.findOne({ user: userId, _id: templateId });
+    return template;
+  }
+
   async getTemplates() {}
 
   async createTemplate(userId: string, templateFields: any) {
