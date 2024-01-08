@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
-import { updateQueryString } from "../../store/reducers/templateReducer";
+import { updateQueryString } from "../../store/reducers/templatesSlice";
 
 import {
   Stack,
@@ -12,7 +12,7 @@ import {
 
 const TemplateLangFilter = () => {
   const { languageOptions, queryObj } = useSelector(
-    (state: RootState) => state.template
+    (state: RootState) => state.templates
   );
 
   const dispatch = useDispatch();

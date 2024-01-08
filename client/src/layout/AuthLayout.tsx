@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { Stack, Typography, Box, Alert, Snackbar } from "@mui/material";
 import Logo from "../components/ui/Logo";
-import { hideAlert } from "../store/reducers/appReducer";
+import { hideAlert } from "../store/reducers/appSlice";
 
 const AuthLayout = () => {
   const location = useLocation();

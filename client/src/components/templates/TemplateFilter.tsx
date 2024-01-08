@@ -1,10 +1,10 @@
 import { Box, Stack, Divider } from "@mui/material";
 
 // Filter components
-import TemplateCategoryFilter from "./TemplateCategoryFilter";
-import TemplateGenderFilter from "./TemplateGenderFilter";
-import TemplateSearch from "./TemplateSearch";
-import TemplateLangFilter from "./TemplateLangFilter";
+import CategoryFilter from "../filters/CategoryFilter";
+import GenderFilter from "../filters/GenderFilter";
+import SearchInput from "../filters/SearchInput";
+import LanguageFilter from "../filters/LanguageFilter";
 
 const TemplateFilter = () => {
   return (
@@ -15,11 +15,11 @@ const TemplateFilter = () => {
         justifyContent="space-between"
         alignItems="flex-end"
       >
-        <TemplateSearch />
-        <TemplateGenderFilter />
-        <TemplateLangFilter />
+        <SearchInput />
+        <GenderFilter />
+        <LanguageFilter />
       </Stack>
-      <TemplateCategoryFilter />
+      <CategoryFilter />
       <Divider sx={{ margin: "15px 0" }} />
     </Box>
   );

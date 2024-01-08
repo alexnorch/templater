@@ -3,9 +3,10 @@ import { ITemplateItem } from "../../types";
 
 interface TemplateState {
   templates: ITemplateItem[];
+  isLoading: boolean;
+  isError: boolean;
   genderOptions: string[];
   languageOptions: string[];
-  selectedTemplateId: null | string;
   queryObj: {
     gender: string;
     language: string;
@@ -16,9 +17,10 @@ interface TemplateState {
 
 const initialState: TemplateState = {
   templates: [],
+  isLoading: false,
+  isError: false,
   genderOptions: ["male", "female", "both"],
   languageOptions: ["PL", "EN", "DE", "PT", "ES", "IT"],
-  selectedTemplateId: null,
   queryObj: {
     gender: "",
     language: "",
@@ -28,14 +30,19 @@ const initialState: TemplateState = {
 };
 
 export const templateSlice = createSlice({
-  name: "Template",
+  name: "Templates",
   initialState,
   reducers: {
-    setSelectedTemplateId: (state, action: PayloadAction<string>) => {
-      state.selectedTemplateId = action.payload;
+    fetchTemplatesRequest: (state) => {
+      state.isLoading = true;
     },
-    initTemplates: (state, action: PayloadAction<any[]>) => {
+    fetchTemplatesSuccess: (state, action: PayloadAction<any[]>) => {
+      state.isLoading = false;
       state.templates = action.payload;
+    },
+    fetchTemplatesFailure: (state) => {
+      state.isError = true;
+      state.isLoading = false;
     },
     updateQueryString: (
       state,
@@ -46,7 +53,11 @@ export const templateSlice = createSlice({
   },
 });
 
-export const { initTemplates, updateQueryString, setSelectedTemplateId } =
-  templateSlice.actions;
+export const {
+  fetchTemplatesRequest,
+  fetchTemplatesSuccess,
+  fetchTemplatesFailure,
+  updateQueryString,
+} = templateSlice.actions;
 
 export default templateSlice.reducer;

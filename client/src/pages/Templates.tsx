@@ -1,39 +1,34 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../store";
+
+import { useDispatch } from "react-redux";
 import { Grid } from "@mui/material";
+import { Outlet, useParams } from "react-router-dom";
 
 import TemplateFilter from "../components/templates/TemplateFilter";
 import TemplatesList from "../components/templates/TemplatesList";
 import TemplateAdd from "../components/templates/TemplateAdd";
-import useTemplateServices from "../hooks/useTemplateServices";
-import useCategoryServices from "../hooks/useCategoryServices";
-import TemplateOverview from "../components/templates/TemplateOverview";
+import TemplatePlaceholder from "../components/templates/TemplatePlaceholder";
+
+import { fetchTemplatesRequest } from "../store/reducers/templatesSlice";
 
 const Templates = () => {
-  const { queryObj } = useSelector((state: RootState) => state.template);
-  const { category, gender, language, title } = queryObj;
-
-  const { fetchTemplates } = useTemplateServices();
-  const { fetchCategories } = useCategoryServices();
+  const { templateId } = useParams();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchTemplates();
-  }, [category, gender, language, title]);
-
-  useEffect(() => {
-    fetchCategories();
+    dispatch(fetchTemplatesRequest());
   }, []);
 
   return (
     <>
       <TemplateFilter />
-      <Grid spacing={5} container>
-        <Grid item md={6}>
+      <Grid spacing={5} container justifyContent="space-between">
+        <Grid item md={4}>
           <TemplatesList />
         </Grid>
         <Grid item md={6}>
-          <TemplateOverview />
+          {!templateId && <TemplatePlaceholder />}
+          <Outlet />
         </Grid>
       </Grid>
       <TemplateAdd />

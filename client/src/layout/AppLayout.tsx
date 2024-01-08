@@ -5,7 +5,7 @@ import { Snackbar, Box, Container, Alert } from "@mui/material";
 import NavBar from "./NavBar";
 
 import { RootState } from "../store";
-import { hideAlert } from "../store/reducers/appReducer";
+import { hideAlert } from "../store/reducers/appSlice";
 
 const AppLayout = () => {
   const { isAlert, alertText } = useSelector((state: RootState) => state.app);

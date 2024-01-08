@@ -18,9 +18,14 @@ import BasicModal from "../ui/BasicModal";
 // Icons
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-import useCategoryServices from "../../hooks/useCategoryServices";
 import { ICategoryItem } from "../../types";
 import { capitalizeFirstLetter } from "../../utils/helpers";
+
+// API
+import {
+  useDeleteCategoryMutation,
+  useUpdateCategoryMutation,
+} from "../../store/api/categoryApi";
 
 const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
@@ -28,7 +33,8 @@ const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
 
-  const { deleteCategory } = useCategoryServices();
+  const [deleteCategory, {}] = useDeleteCategoryMutation();
+  const [updateCategory, {}] = useUpdateCategoryMutation();
 
   const onDeleteCategory = () => {
     handleFinishActions();
@@ -36,6 +42,8 @@ const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
   };
 
   const onEditCategory = (data: ICategoryItem) => {
+    updateCategory({ id: _id, data });
+
     handleFinishActions();
   };
 

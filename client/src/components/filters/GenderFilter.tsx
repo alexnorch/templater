@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
-import { updateQueryString } from "../../store/reducers/templateReducer";
+import { updateQueryString } from "../../store/reducers/templatesSlice";
 
 // Components
 import {
@@ -14,12 +14,15 @@ import { displayGenderIcon } from "../../utils/helpers";
 
 const TemplateGenderFilter = () => {
   const { genderOptions, queryObj } = useSelector(
-    (state: RootState) => state.template
+    (state: RootState) => state.templates
   );
 
   const dispatch = useDispatch();
 
-  const onGenderChange = (e: React.MouseEvent<HTMLElement>, value: string) => {
+  const onGenderChange = (
+    e: React.MouseEvent<HTMLElement>,
+    value: string = ""
+  ) => {
     dispatch(updateQueryString({ key: "gender", value }));
   };
 

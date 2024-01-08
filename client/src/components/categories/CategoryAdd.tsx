@@ -1,5 +1,5 @@
-import useCategoryServices from "../../hooks/useCategoryServices";
 import { ICategoryItem } from "../../types";
+import { useCreateCategoryMutation } from "../../store/api/categoryApi";
 
 import CategoryForm from "./CategoryForm";
 
@@ -8,7 +8,8 @@ const defaultValues = {
 };
 
 const CategoryAdd = () => {
-  const { createCategory } = useCategoryServices();
+  // const { createCategory } = useCategoryServices();
+  const [createCategory, { isLoading }] = useCreateCategoryMutation();
 
   const handleCreateCategory = (data: ICategoryItem) => {
     createCategory(data);

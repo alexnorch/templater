@@ -1,30 +1,27 @@
 import { useDispatch, useSelector } from "react-redux";
-import { initTemplates } from "../store/reducers/templateReducer";
 import useAuthAxios from "../hooks/useAuthAxios";
 import { RootState } from "../store";
 import { ITemplateItem } from "../types";
 
 const useTemplateServices = () => {
-  const { queryObj, selectedTemplateId } = useSelector(
-    (state: RootState) => state.template
-  );
+  const { queryObj } = useSelector((state: RootState) => state.templates);
   const { authAxios } = useAuthAxios();
 
   const dispatch = useDispatch();
 
-  const fetchTemplateById = async () => {
-    try {
-      if (selectedTemplateId) {
-        const { data } = await authAxios.get(
-          `/api/templates/${selectedTemplateId}`
-        );
+  // const fetchTemplateById = async () => {
+  //   try {
+  //     if (selectedTemplateId) {
+  //       const { data } = await authAxios.get(
+  //         `/api/templates/${selectedTemplateId}`
+  //       );
 
-        return data;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //       return data;
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   //   Fetching template items
   const fetchTemplates = async () => {
@@ -32,8 +29,6 @@ const useTemplateServices = () => {
       const { data } = await authAxios.get("/api/templates", {
         params: queryObj,
       });
-
-      dispatch(initTemplates(data));
     } catch (error) {
       console.log(error);
     }
@@ -82,7 +77,6 @@ const useTemplateServices = () => {
     deleteTemplate,
     updateTemplate,
     createTemplate,
-    fetchTemplateById,
   };
 };
 

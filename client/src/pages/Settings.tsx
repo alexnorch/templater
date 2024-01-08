@@ -1,15 +1,8 @@
-import { useEffect } from "react";
 import { Typography, Box, Grid } from "@mui/material";
 import CategoriesList from "../components/categories/CategoriesList";
 import CategoryAdd from "../components/categories/CategoryAdd";
-import useCategoryServices from "../hooks/useCategoryServices";
 
 const Settings = () => {
-  const { fetchCategories } = useCategoryServices();
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
   return (
     <>
       {/* Categories */}
@@ -30,6 +23,15 @@ const Settings = () => {
             <CategoryAdd />
           </Grid>
         </Grid>
+      </Box>
+      {/* Templates */}
+      <Box mt={5} component="section">
+        <Typography component="h2" variant="h4">
+          Templates
+        </Typography>
+        <Typography component="p" variant="subtitle1">
+          Here you can adjust your template settings
+        </Typography>
       </Box>
       {/* User */}
       <Box mt={5} component="section">

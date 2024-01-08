@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { showAlert } from "../store/reducers/appReducer";
+import { showAlert } from "../store/reducers/appSlice";
 
 const useAlert = () => {
   const dispatch = useDispatch();

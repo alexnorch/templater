@@ -4,8 +4,7 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import { Box, TextField, Button, Stack } from "@mui/material";
-import { loginUser } from "../store/reducers/userReducer";
-import { initCategories } from "../store/reducers/categoryReducer";
+import { loginUser } from "../store/reducers/userSlice";
 import useAlert from "../hooks/useAlert";
 
 // Icons
@@ -47,12 +46,11 @@ const Login = () => {
     try {
       const response = await axios.post("/api/users/login", credentials);
 
-      const { token, data, user } = response.data;
+      const { token } = response.data;
 
       localStorage.setItem("accessToken", token);
 
       dispatch(loginUser(token));
-      dispatch(initCategories(data.categories));
 
       navigate("/");
     } catch (error: any) {

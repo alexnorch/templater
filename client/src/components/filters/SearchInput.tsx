@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateQueryString } from "../../store/reducers/templateReducer";
+import { updateQueryString } from "../../store/reducers/templatesSlice";
 import { RootState } from "../../store";
 
 import { TextField } from "@mui/material";
 
-const TemplateSearch = () => {
-  const { queryObj } = useSelector((state: RootState) => state.template);
+const SearchInput = () => {
+  const { queryObj } = useSelector((state: RootState) => state.templates);
   const dispatch = useDispatch();
 
   const [inputValue, setInputValue] = useState(queryObj.title || "");
@@ -34,4 +34,4 @@ const TemplateSearch = () => {
   );
 };
 
-export default TemplateSearch;
+export default SearchInput;

@@ -8,10 +8,10 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Logo from "../components/ui/Logo";
 
-import { logoutUser } from "../store/reducers/userReducer";
+import { logoutUser } from "../store/reducers/userSlice";
 
 const pages = [
-  { title: "Templates", path: "/" },
+  { title: "Templates", path: "/templates" },
   { title: "Settings", path: "/settings" },
 ];
 

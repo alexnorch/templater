@@ -45,5 +45,15 @@ export const deleteCategory: RequestHandler = async (req, res, next) => {
 };
 
 export const updateCategory: RequestHandler = async (req, res, next) => {
-  res.send("The category was updated");
+  const categoryServices = new CategoryService(req.userId);
+  const { title } = req.body;
+
+  try {
+    const category = await categoryServices.updateCategory(
+      req.params.id,
+      title
+    );
+
+    res.send(category);
+  } catch (error) {}
 };

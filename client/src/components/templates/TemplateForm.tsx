@@ -31,9 +31,8 @@ interface ITemplateForm {
 const TemplateForm: React.FC<ITemplateForm> = (props) => {
   const { heading, onSubmit, values } = props;
   const { genderOptions, languageOptions } = useSelector(
-    (state: RootState) => state.template
+    (state: RootState) => state.templates
   );
-  const { categories } = useSelector((state: RootState) => state.category);
 
   const {
     control,
@@ -76,7 +75,8 @@ const TemplateForm: React.FC<ITemplateForm> = (props) => {
         )}
       />
       {/* Template Category */}
-      <Controller
+
+      {/* <Controller
         name="category"
         control={control}
         rules={{ required }}
@@ -91,11 +91,12 @@ const TemplateForm: React.FC<ITemplateForm> = (props) => {
               ))}
             </Select>
             <FormHelperText error={invalid}>
-              {/* {errors?.category?.message} */}
+              {errors?.category?.message}
             </FormHelperText>
           </FormControl>
         )}
-      />
+      /> */}
+
       <Stack flexDirection="row" sx={{ gap: 2 }}>
         {/* Template Language */}
         <Controller

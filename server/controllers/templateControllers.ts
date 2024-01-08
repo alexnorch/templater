@@ -7,7 +7,7 @@ export const getTemplateById: RequestHandler = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const template = TemplateService.getTemplateById(req.userId, id);
+    const template = await TemplateService.getTemplateById(req.userId, id);
     res.send(template);
   } catch (error) {
     next(error);

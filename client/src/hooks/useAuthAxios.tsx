@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
-import { showAlert } from "../store/reducers/appReducer";
-import { logoutUser } from "../store/reducers/userReducer";
+import { logoutUser } from "../store/reducers/userSlice";
 import useAlert from "./useAlert";
 
 const useAuthAxios = () => {

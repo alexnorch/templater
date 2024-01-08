@@ -1,35 +1,38 @@
-import { Grid, Typography } from "@mui/material";
-import TemplateItem from "./TemplateItem";
 import { useSelector } from "react-redux";
+
+import { Stack } from "@mui/material";
+import TemplateItem from "./TemplateItem";
 import { RootState } from "../../store";
 
 const TemplatesList = () => {
-  const { templates } = useSelector((state: RootState) => state.template);
+  const { templates, isLoading } = useSelector(
+    (state: RootState) => state.templates
+  );
 
-  if (!templates || templates.length < 1) {
-    return <Typography>No templates found</Typography>;
+  console.log(isLoading);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (templates.length < 1) {
+    return <p>No templates found</p>;
   }
 
   return (
-    <>
-      <Typography mb={2} variant="body1" component="h4">
-        Template List
-      </Typography>
-      <Grid spacing={2} container>
-        {templates.map(({ title, text, gender, language, _id, category }) => (
-          <Grid item md={6}>
-            <TemplateItem
-              category={category.title}
-              _id={_id}
-              title={title}
-              text={text}
-              language={language}
-              gender={gender}
-            />
-          </Grid>
-        ))}
-      </Grid>
-    </>
+    <Stack spacing={2}>
+      {templates.map((template: any) => (
+        <TemplateItem
+          key={template._id}
+          category={template.category.title}
+          _id={template._id}
+          title={template.title}
+          text={template.text}
+          language={template.language}
+          gender={template.gender}
+        />
+      ))}
+    </Stack>
   );
 };
 

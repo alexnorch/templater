@@ -62,6 +62,23 @@ class CategoryService {
 
     return deletedCategory;
   }
+
+  async updateCategory(categoryId: string, newTitle: any) {
+    const category = await Category.findOne({
+      user: this.userId,
+      _id: categoryId,
+    });
+
+    if (!category) {
+      return new AppError("Category was not found", 404);
+    }
+
+    category.title = newTitle;
+
+    await category.save();
+
+    return category;
+  }
 }
 
 export default CategoryService;
