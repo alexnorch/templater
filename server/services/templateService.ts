@@ -1,4 +1,5 @@
 import User, { IUser } from "../models/userModel";
+import { ICategory } from "../models/categoryModel";
 import Category from "../models/categoryModel";
 import Template from "../models/templateModel";
 import AppError from "../utils/AppError";
@@ -22,8 +23,14 @@ class TemplateService {
       return new AppError("Please provide all values", 400);
     }
 
+    const foundCategory = (await Category.findOne({
+      title: category,
+    })) as ICategory;
+
     const user = (await User.findById(userId)) as IUser;
-    const userCategory = await Category.findById(category).select("+templates");
+    const userCategory = await Category.findById(foundCategory._id).select(
+      "+templates"
+    );
 
     if (!userCategory) {
       return new AppError("Invalid category", 400);
@@ -31,7 +38,7 @@ class TemplateService {
 
     const templateDoc = new Template({
       title,
-      category,
+      category: foundCategory._id,
       language,
       gender,
       user: userId,

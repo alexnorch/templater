@@ -17,24 +17,12 @@ const categoriesSlice = createSlice({
   name: "Categories",
   initialState,
   reducers: {
-    fetchCategoriesRequest: (state) => {
-      state.isLoading = true;
-    },
-    fetchCategoriesSuccess: (state, action: PayloadAction<ICategoryItem[]>) => {
-      state.isLoading = false;
+    initializeCategories: (state, action: PayloadAction<ICategoryItem[]>) => {
       state.data = action.payload;
-    },
-    fetchCategoriesFailure: (state) => {
-      state.isError = true;
-      state.isLoading = false;
     },
   },
 });
 
-export const {
-  fetchCategoriesRequest,
-  fetchCategoriesSuccess,
-  fetchCategoriesFailure,
-} = categoriesSlice.actions;
+export const { initializeCategories } = categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

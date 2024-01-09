@@ -1,6 +1,7 @@
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import useCategoriesServices from "../../services/useCategoriesServices";
 
 import {
   Stack,
@@ -28,11 +29,12 @@ interface ITemplateForm {
   values: IFormInputs;
 }
 
+const templateSelector = (state: RootState) => state.templates;
+
 const TemplateForm: React.FC<ITemplateForm> = (props) => {
   const { heading, onSubmit, values } = props;
-  const { genderOptions, languageOptions } = useSelector(
-    (state: RootState) => state.templates
-  );
+  const { genderOptions, languageOptions } = useSelector(templateSelector);
+  const { categoriesList } = useCategoriesServices();
 
   const {
     control,
@@ -76,7 +78,7 @@ const TemplateForm: React.FC<ITemplateForm> = (props) => {
       />
       {/* Template Category */}
 
-      {/* <Controller
+      <Controller
         name="category"
         control={control}
         rules={{ required }}
@@ -84,7 +86,7 @@ const TemplateForm: React.FC<ITemplateForm> = (props) => {
           <FormControl variant="filled" fullWidth>
             <InputLabel error={invalid}>Category</InputLabel>
             <Select error={invalid} {...field} label="Category">
-              {categories.map((item) => (
+              {categoriesList.map((item) => (
                 <MenuItem key={item._id} value={item.title}>
                   {item.title}
                 </MenuItem>
@@ -95,7 +97,7 @@ const TemplateForm: React.FC<ITemplateForm> = (props) => {
             </FormHelperText>
           </FormControl>
         )}
-      /> */}
+      />
 
       <Stack flexDirection="row" sx={{ gap: 2 }}>
         {/* Template Language */}
@@ -107,8 +109,10 @@ const TemplateForm: React.FC<ITemplateForm> = (props) => {
             <FormControl variant="filled" fullWidth>
               <InputLabel error={invalid}>Language</InputLabel>
               <Select {...field} error={invalid} name="language">
-                {languageOptions.map((item) => (
-                  <MenuItem value={item}>{item}</MenuItem>
+                {languageOptions.map((item, i) => (
+                  <MenuItem key={i} value={item}>
+                    {item}
+                  </MenuItem>
                 ))}
               </Select>
               <FormHelperText error={invalid}>
@@ -127,8 +131,10 @@ const TemplateForm: React.FC<ITemplateForm> = (props) => {
             <FormControl variant="filled" fullWidth>
               <InputLabel error={invalid}>Gender</InputLabel>
               <Select {...field} error={invalid} label="Gender">
-                {genderOptions.map((item) => (
-                  <MenuItem value={item}>{item}</MenuItem>
+                {genderOptions.map((item, i) => (
+                  <MenuItem key={i} value={item}>
+                    {item}
+                  </MenuItem>
                 ))}
               </Select>
               <FormHelperText error={invalid}>
@@ -155,7 +161,6 @@ const TemplateForm: React.FC<ITemplateForm> = (props) => {
           />
         )}
       />
-
       <Stack alignItems="flex-end">
         <Button type="submit" variant="contained">
           Submit

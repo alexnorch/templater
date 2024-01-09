@@ -1,6 +1,4 @@
 import { useEffect } from "react";
-
-import { useDispatch } from "react-redux";
 import { Grid } from "@mui/material";
 import { Outlet, useParams } from "react-router-dom";
 
@@ -9,15 +7,15 @@ import TemplatesList from "../components/templates/TemplatesList";
 import TemplateAdd from "../components/templates/TemplateAdd";
 import TemplatePlaceholder from "../components/templates/TemplatePlaceholder";
 
-import { fetchTemplatesRequest } from "../store/reducers/templatesSlice";
+import useTemplateServices from "../services/useTemplateServices";
 
 const Templates = () => {
   const { templateId } = useParams();
-  const dispatch = useDispatch();
+  const { getAllTemplates, queryObj } = useTemplateServices();
 
   useEffect(() => {
-    dispatch(fetchTemplatesRequest());
-  }, []);
+    getAllTemplates();
+  }, [queryObj.category, queryObj.gender, queryObj.language]);
 
   return (
     <>

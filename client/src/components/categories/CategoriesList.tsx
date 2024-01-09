@@ -1,32 +1,22 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { Grid, Skeleton } from "@mui/material";
+import { Grid } from "@mui/material";
 import CategoryItem from "./CategoryItem";
-import { RootState } from "../../store";
-import { fetchCategoriesRequest } from "../../store/reducers/categoriesSlice";
+import useCategoriesServices from "../../services/useCategoriesServices";
 
 const CategoriesList = () => {
+  const { categoriesList, getAllCategories } = useCategoriesServices();
+
   useEffect(() => {
-    dispatch(fetchCategoriesRequest());
+    getAllCategories();
   }, []);
 
-  const dispatch = useDispatch();
-
-  const { data, isLoading } = useSelector(
-    (state: RootState) => state.categories
-  );
-
-  if (!data) {
+  if (!categoriesList) {
     return <p>Not found</p>;
-  }
-
-  if (isLoading) {
-    return <Skeleton height={120} width={200} />;
   }
 
   return (
     <Grid spacing={2} container>
-      {data.map((item: any) => (
+      {categoriesList.map((item: any) => (
         <Grid key={item._id} item md={4}>
           <CategoryItem _id={item._id} title={item.title} />
         </Grid>

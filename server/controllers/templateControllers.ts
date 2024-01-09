@@ -54,9 +54,7 @@ export const createTemplate: RequestHandler = async (req, res, next) => {
       req.body
     );
 
-    const templates = await Template.find({ user: userId });
-
-    res.send(templates);
+    res.send(createdTemplate);
   } catch (error) {
     next(error);
   }
@@ -98,18 +96,12 @@ export const deleteTemplate: RequestHandler = async (req, res, next) => {
   const user = req.userId;
 
   try {
-    const template = await Template.findOne({ user, _id: req.params.id });
-    const deletedTemplate = await template?.deleteOne();
+    const deletedTemplate = await Template.findOneAndDelete({
+      user,
+      _id: req.params.id,
+    });
 
-    if (!deletedTemplate) {
-      return next(
-        new AppError("Something went wrong. Please try again later", 500)
-      );
-    }
-
-    const templates = await Template.find({ user });
-
-    res.send(templates);
+    res.send(deletedTemplate);
   } catch (error) {
     next(error);
   }

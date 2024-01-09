@@ -46,13 +46,13 @@ const Login = () => {
     try {
       const response = await axios.post("/api/users/login", credentials);
 
-      const { token } = response.data;
+      const { token, data } = response.data;
 
       localStorage.setItem("accessToken", token);
 
       dispatch(loginUser(token));
 
-      navigate("/");
+      navigate("/templates");
     } catch (error: any) {
       const errorMsg = error.response.data.message;
       showErrorAlert(errorMsg);

@@ -7,7 +7,7 @@ import AuthLayout from "./layout/AuthLayout";
 
 // Pages
 import Templates from "./pages/Templates";
-import TemplateDetails from "./pages/TemplateDetails";
+import TemplateDetails from "./pages/TemplateSingle";
 import Settings from "./pages/Settings";
 import Register from "./pages/Register";
 import Login from "./pages/Login";

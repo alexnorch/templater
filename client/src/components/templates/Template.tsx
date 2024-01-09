@@ -10,7 +10,7 @@ import { showAlert } from "../../store/reducers/appSlice";
 // Icons
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-const TemplateItem: React.FC<ITemplateItem> = ({ _id, title, text }) => {
+const TemplateItemLite: React.FC<ITemplateItem> = ({ _id, title, text }) => {
   const { templateId } = useParams();
 
   const navigate = useNavigate();
@@ -59,4 +59,4 @@ const TemplateItem: React.FC<ITemplateItem> = ({ _id, title, text }) => {
   );
 };
 
-export default TemplateItem;
+export default TemplateItemLite;

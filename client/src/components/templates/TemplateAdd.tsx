@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import { Fab } from "@mui/material";
-import useTemplateServices from "../../hooks/useTemplateServices";
 import { ITemplateItem } from "../../types";
+import useTemplateServices from "../../services/useTemplateServices";
 
 // Internal components
 import BasicModal from "../ui/BasicModal";
@@ -21,7 +21,7 @@ const defaultValues = {
 
 const TemplateAdd = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { createTemplate } = useTemplateServices();
+  const { onCreateTemplate } = useTemplateServices();
 
   const handleOpen = () => setIsModalOpen(true);
   const handleClose = () => setIsModalOpen(false);
@@ -29,7 +29,7 @@ const TemplateAdd = () => {
   const fabStyles = { position: "fixed", bottom: 25, right: 25 };
 
   const onSubmitForm = (data: ITemplateItem) => {
-    createTemplate(data);
+    onCreateTemplate(data);
     handleClose();
   };
 

@@ -1,28 +1,21 @@
-import { useSelector } from "react-redux";
-
 import { Stack } from "@mui/material";
-import TemplateItem from "./TemplateItem";
-import { RootState } from "../../store";
+
+import Template from "./Template";
+import useTemplateServices from "../../services/useTemplateServices";
 
 const TemplatesList = () => {
-  const { templates, isLoading } = useSelector(
-    (state: RootState) => state.templates
-  );
+  const { filterTemplates } = useTemplateServices();
 
-  console.log(isLoading);
+  const filteredTemplates = filterTemplates();
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (templates.length < 1) {
-    return <p>No templates found</p>;
+  if (filteredTemplates.length === 0) {
+    return "Templates no found";
   }
 
   return (
     <Stack spacing={2}>
-      {templates.map((template: any) => (
-        <TemplateItem
+      {filteredTemplates.map((template: any) => (
+        <Template
           key={template._id}
           category={template.category.title}
           _id={template._id}

@@ -1,10 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ITemplateItem } from "../../types";
 
-interface TemplateState {
+interface TemplatesState {
   templates: ITemplateItem[];
-  isLoading: boolean;
-  isError: boolean;
+  singleTemplate: any;
+  isTemplateEditing: boolean;
+  isTemplateDeleting: boolean;
+  isLoadingTemplates: boolean;
+  isErrorTemplates: boolean;
+  isLoadingSingleTemplate: boolean;
+  isErrorSingleTemplate: boolean;
   genderOptions: string[];
   languageOptions: string[];
   queryObj: {
@@ -15,10 +20,15 @@ interface TemplateState {
   };
 }
 
-const initialState: TemplateState = {
+const initialState: TemplatesState = {
   templates: [],
-  isLoading: false,
-  isError: false,
+  singleTemplate: {},
+  isTemplateDeleting: false,
+  isTemplateEditing: false,
+  isLoadingTemplates: false,
+  isLoadingSingleTemplate: false,
+  isErrorSingleTemplate: false,
+  isErrorTemplates: false,
   genderOptions: ["male", "female", "both"],
   languageOptions: ["PL", "EN", "DE", "PT", "ES", "IT"],
   queryObj: {
@@ -33,17 +43,45 @@ export const templateSlice = createSlice({
   name: "Templates",
   initialState,
   reducers: {
-    fetchTemplatesRequest: (state) => {
-      state.isLoading = true;
+    setIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoadingTemplates = action.payload;
     },
-    fetchTemplatesSuccess: (state, action: PayloadAction<any[]>) => {
-      state.isLoading = false;
+    setIsError: (state, action: PayloadAction<boolean>) => {
+      state.isErrorTemplates = action.payload;
+    },
+    setIsTemplateEditing: (state, action: PayloadAction<boolean>) => {
+      state.isTemplateEditing = action.payload;
+    },
+    setIsTemplateDeleting: (state, action: PayloadAction<boolean>) => {
+      state.isTemplateDeleting = action.payload;
+    },
+    initializeTemplates: (state, action: PayloadAction<ITemplateItem[]>) => {
       state.templates = action.payload;
     },
-    fetchTemplatesFailure: (state) => {
-      state.isError = true;
-      state.isLoading = false;
+    initializeTemplate: (state, action: PayloadAction<ITemplateItem>) => {
+      state.singleTemplate = action.payload;
     },
+    addTemplate: (state, action: PayloadAction<ITemplateItem>) => {
+      state.templates = [...state.templates, action.payload];
+    },
+    deleteTemplate: (state, action: PayloadAction<ITemplateItem>) => {
+      state.templates = state.templates.filter(
+        (template) => template._id !== action.payload._id
+      );
+    },
+    updateTemplate: (
+      state,
+      { payload }: PayloadAction<{ id: string; template: ITemplateItem }>
+    ) => {
+      state.templates = state.templates.map((template) => {
+        if (template._id === payload.template._id) {
+          return payload.template;
+        }
+
+        return template;
+      });
+    },
+
     updateQueryString: (
       state,
       { payload }: PayloadAction<{ key: string; value: string }>
@@ -54,10 +92,16 @@ export const templateSlice = createSlice({
 });
 
 export const {
-  fetchTemplatesRequest,
-  fetchTemplatesSuccess,
-  fetchTemplatesFailure,
+  setIsError,
+  setIsLoading,
+  addTemplate,
+  deleteTemplate,
+  updateTemplate,
+  initializeTemplates,
+  initializeTemplate,
   updateQueryString,
+  setIsTemplateEditing,
+  setIsTemplateDeleting,
 } = templateSlice.actions;
 
 export default templateSlice.reducer;

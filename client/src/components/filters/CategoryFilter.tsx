@@ -1,19 +1,18 @@
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { updateQueryString } from "../../store/reducers/templatesSlice";
 import { Stack, Button, Box, Typography } from "@mui/material";
-
-import { useFetchCategoriesQuery } from "../../store/api/categoryApi";
+import useCategoriesServices from "../../services/useCategoriesServices";
 
 const TemplateCategoryFilter = () => {
+  const { getAllCategories, categoriesList } = useCategoriesServices();
+
   const [activeCategory, setActiveCategory] = useState("");
   const dispatch = useDispatch();
 
-  const {
-    data: categories,
-    isLoading,
-    isSuccess,
-  } = useFetchCategoriesQuery("5");
+  useEffect(() => {
+    getAllCategories();
+  }, []);
 
   const onChangeCategory = (id: string) => {
     setActiveCategory(id);
@@ -29,38 +28,34 @@ const TemplateCategoryFilter = () => {
         Categories:
       </Typography>
 
-      {isLoading && <p>Loading...</p>}
-      {isSuccess && (
-        <Stack flexWrap="wrap" direction="row" spacing={1}>
+      <Stack flexWrap="wrap" direction="row" spacing={1}>
+        <Button
+          onClick={() => onChangeCategory("")}
+          size="small"
+          variant="contained"
+          sx={{
+            background: activeCategory === "" ? "palette.primary.dark" : "#bbb",
+          }}
+        >
+          All
+        </Button>
+        {categoriesList.map((category: any) => (
           <Button
-            onClick={() => onChangeCategory("")}
+            onClick={() => onChangeCategory(category._id)}
             size="small"
             variant="contained"
+            key={category._id}
             sx={{
               background:
-                activeCategory === "" ? "palette.primary.dark" : "#bbb",
+                activeCategory === category._id
+                  ? "palette.primary.dark"
+                  : "#bbb",
             }}
           >
-            All
+            {category.title}
           </Button>
-          {categories.map((category: any) => (
-            <Button
-              onClick={() => onChangeCategory(category._id)}
-              size="small"
-              variant="contained"
-              key={category._id}
-              sx={{
-                background:
-                  activeCategory === category._id
-                    ? "palette.primary.dark"
-                    : "#bbb",
-              }}
-            >
-              {category.title}
-            </Button>
-          ))}
-        </Stack>
-      )}
+        ))}
+      </Stack>
     </Box>
   );
 };
