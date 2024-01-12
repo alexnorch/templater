@@ -1,26 +1,31 @@
-import { useEffect } from "react";
 import { Grid } from "@mui/material";
 import CategoryItem from "./CategoryItem";
-import useCategoriesServices from "../../services/useCategoriesServices";
+import { useGetCategoriesQuery } from "./categoriesApi";
 
 const CategoriesList = () => {
-  const { categoriesList, getAllCategories } = useCategoriesServices();
+  const { data: categories, isLoading } = useGetCategoriesQuery();
 
-  useEffect(() => {
-    getAllCategories();
-  }, []);
-
-  if (!categoriesList) {
-    return <p>Not found</p>;
+  if (isLoading) {
+    return <p>Loading...</p>;
   }
+
+  const renderCategories = () => {
+    if (!categories) {
+      return <p>Please, create your first category</p>;
+    }
+
+    return categories!.map((item: any) => (
+      <Grid key={item._id} item md={4}>
+        <CategoryItem _id={item._id} title={item.title} />
+      </Grid>
+    ));
+  };
+
+  const categoriesItems = renderCategories();
 
   return (
     <Grid spacing={2} container>
-      {categoriesList.map((item: any) => (
-        <Grid key={item._id} item md={4}>
-          <CategoryItem _id={item._id} title={item.title} />
-        </Grid>
-      ))}
+      {categoriesItems}
     </Grid>
   );
 };

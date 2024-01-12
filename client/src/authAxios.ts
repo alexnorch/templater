@@ -21,11 +21,11 @@ authAxios.interceptors.response.use(
   },
   function (error) {
     if (error.request.status === 401) {
-      localStorage.removeItem("accessToken");
+      // localStorage.removeItem("accessToken");
     }
 
     const errorMsg = error.response.data.message;
-    alert(errorMsg);
+    console.log(errorMsg);
 
     return error;
   }

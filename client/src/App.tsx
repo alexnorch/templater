@@ -7,10 +7,10 @@ import AuthLayout from "./layout/AuthLayout";
 
 // Pages
 import Templates from "./pages/Templates";
-import TemplateDetails from "./pages/TemplateSingle";
 import Settings from "./pages/Settings";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import TemplateView from "./pages/TemplateView";
 
 const AppWithAuth = withAuth(AppLayout);
 
@@ -19,7 +19,7 @@ function App() {
     <Routes>
       <Route element={<AppWithAuth />}>
         <Route path="templates" element={<Templates />}>
-          <Route path=":templateId" element={<TemplateDetails />} />
+          <Route path=":templateId" element={<TemplateView />} />
         </Route>
         <Route path="settings" element={<Settings />} />
       </Route>

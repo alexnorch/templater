@@ -1,30 +1,45 @@
 import { Stack } from "@mui/material";
+import { useGetTemplatesQuery } from "./templateApi";
 
 import Template from "./Template";
-import useTemplateServices from "../../services/useTemplateServices";
 
 const TemplatesList = () => {
-  const { filterTemplates } = useTemplateServices();
+  const { data: templates, isLoading } = useGetTemplatesQuery(undefined);
 
-  const filteredTemplates = filterTemplates();
-
-  if (filteredTemplates.length === 0) {
-    return "Templates no found";
+  if (isLoading) {
+    return <p>Loading...</p>;
   }
 
+  const templatesItems = templates!.map((template: any) => (
+    <Template
+      key={template._id}
+      category={template.category.title}
+      _id={template._id}
+      title={template.title}
+      text={template.text}
+      language={template.language}
+      gender={template.gender}
+    />
+  ));
+
+  const templateContainerStyles = {
+    maxHeight: "60vh",
+    overflowY: "scroll",
+    paddingRight: 2,
+    "&::-webkit-scrollbar": {
+      width: "10px",
+    },
+    "&::-webkit-scrollbar-track": {
+      background: "#gray",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: "#1976d2",
+    },
+  };
+
   return (
-    <Stack spacing={2}>
-      {filteredTemplates.map((template: any) => (
-        <Template
-          key={template._id}
-          category={template.category.title}
-          _id={template._id}
-          title={template.title}
-          text={template.text}
-          language={template.language}
-          gender={template.gender}
-        />
-      ))}
+    <Stack sx={templateContainerStyles} spacing={2}>
+      {templatesItems}
     </Stack>
   );
 };

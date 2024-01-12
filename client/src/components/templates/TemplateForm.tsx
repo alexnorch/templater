@@ -1,7 +1,6 @@
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import useCategoriesServices from "../../services/useCategoriesServices";
 
 import {
   Stack,
@@ -31,11 +30,12 @@ interface ITemplateForm {
 
 const templateSelector = (state: RootState) => state.templates;
 
+import { useGetCategoriesQuery } from "../categories/categoriesApi";
+
 const TemplateForm: React.FC<ITemplateForm> = (props) => {
   const { heading, onSubmit, values } = props;
   const { genderOptions, languageOptions } = useSelector(templateSelector);
-  const { categoriesList } = useCategoriesServices();
-
+  const { data: categories } = useGetCategoriesQuery();
   const {
     control,
     handleSubmit,
@@ -86,7 +86,7 @@ const TemplateForm: React.FC<ITemplateForm> = (props) => {
           <FormControl variant="filled" fullWidth>
             <InputLabel error={invalid}>Category</InputLabel>
             <Select error={invalid} {...field} label="Category">
-              {categoriesList.map((item) => (
+              {categories!.map((item) => (
                 <MenuItem key={item._id} value={item.title}>
                   {item.title}
                 </MenuItem>

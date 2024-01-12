@@ -1,16 +1,17 @@
 import { ICategoryItem } from "../../types";
 
 import CategoryForm from "./CategoryForm";
+import { useAddCategoryMutation } from "./categoriesApi";
 
 const defaultValues = {
   title: "",
 };
 
 const CategoryAdd = () => {
-  // const { createCategory } = useCategoryServices();
+  const [addCategory, state] = useAddCategoryMutation();
 
   const handleCreateCategory = (data: ICategoryItem) => {
-    console.log("Created");
+    addCategory(data);
   };
 
   return (

@@ -10,11 +10,10 @@ import { showAlert } from "../../store/reducers/appSlice";
 // Icons
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-const TemplateItemLite: React.FC<ITemplateItem> = ({ _id, title, text }) => {
+const TemplateItem: React.FC<ITemplateItem> = ({ _id, title, text }) => {
   const { templateId } = useParams();
-
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Copying template text to the clipboard
   const onCopyText = () => {
@@ -59,4 +58,4 @@ const TemplateItemLite: React.FC<ITemplateItem> = ({ _id, title, text }) => {
   );
 };
 
-export default TemplateItemLite;
+export default TemplateItem;

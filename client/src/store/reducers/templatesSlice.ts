@@ -4,6 +4,7 @@ import { ITemplateItem } from "../../types";
 interface TemplatesState {
   templates: ITemplateItem[];
   singleTemplate: any;
+  selectedTemplateId: string | null;
   isTemplateEditing: boolean;
   isTemplateDeleting: boolean;
   isLoadingTemplates: boolean;
@@ -23,6 +24,7 @@ interface TemplatesState {
 const initialState: TemplatesState = {
   templates: [],
   singleTemplate: {},
+  selectedTemplateId: null,
   isTemplateDeleting: false,
   isTemplateEditing: false,
   isLoadingTemplates: false,
@@ -45,6 +47,9 @@ export const templateSlice = createSlice({
   reducers: {
     setIsLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoadingTemplates = action.payload;
+    },
+    setSelectedTemplateId: (state, action: PayloadAction<string>) => {
+      state.selectedTemplateId = action.payload;
     },
     setIsError: (state, action: PayloadAction<boolean>) => {
       state.isErrorTemplates = action.payload;
@@ -92,6 +97,7 @@ export const templateSlice = createSlice({
 });
 
 export const {
+  setSelectedTemplateId,
   setIsError,
   setIsLoading,
   addTemplate,

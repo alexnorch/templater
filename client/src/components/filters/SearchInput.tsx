@@ -6,18 +6,22 @@ import { RootState } from "../../store";
 import { TextField } from "@mui/material";
 
 const SearchInput = () => {
-  const { queryObj } = useSelector((state: RootState) => state.templates);
+  const { title } = useSelector((state: RootState) => state.templates.queryObj);
   const dispatch = useDispatch();
 
-  const [inputValue, setInputValue] = useState(queryObj.title || "");
+  const [inputValue, setInputValue] = useState(title || "");
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(updateQueryString({ key: "title", value: inputValue }));
-    }, 500);
+  // useEffect(() => {
+  //   let timer: any;
 
-    return () => clearTimeout(timer);
-  }, [inputValue]);
+  //   if (inputValue !== "") {
+  //     timer = setTimeout(() => {
+  //       dispatch(updateQueryString({ key: "title", value: inputValue }));
+  //     }, 500);
+  //   }
+
+  //   return () => clearTimeout(timer);
+  // }, [inputValue]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
