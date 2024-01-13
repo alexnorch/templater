@@ -2,6 +2,16 @@ import { RequestHandler } from "../types";
 import Template, { ITemplate } from "../models/templateModel";
 import AppError from "../utils/AppError";
 import TemplateService from "../services/templateService";
+import Category from "../models/categoryModel";
+
+const getCategoryIdByName = async (title: string, user: string) => {
+  const userCategory = await Category.findOne({
+    title,
+    user,
+  });
+
+  if (userCategory) return userCategory._id;
+};
 
 export const getTemplateById: RequestHandler = async (req, res, next) => {
   const { id } = req.params;
@@ -30,7 +40,7 @@ export const getTemplates: RequestHandler = async (req, res, next) => {
     queryObj.language = language;
   }
 
-  if (gender) {
+  if (gender !== "null" && gender !== "") {
     queryObj.gender = gender;
   }
 
@@ -38,9 +48,18 @@ export const getTemplates: RequestHandler = async (req, res, next) => {
     const templates: ITemplate[] | null = await Template.find({
       ...queryObj,
       user: req.userId,
-    }).populate("category");
+    })
+      .populate("category")
+      .lean();
 
-    res.send(templates || []);
+    const templatesWithCategories = templates!.map((template) => {
+      return {
+        ...template,
+        category: template.category.title,
+      };
+    });
+
+    res.send(templatesWithCategories || []);
   } catch (error) {
     next(error);
   }
@@ -71,20 +90,21 @@ export const updateTemplate: RequestHandler = async (req, res, next) => {
     return next(new AppError("Template with that ID wasn't found", 404));
   }
 
-  await template.updateOne(
+  const categoryId = await getCategoryIdByName(category, userId);
+
+  const updatedTemplate = await template.updateOne(
     {
       user: userId,
       title,
       text,
       language,
       gender,
-      category,
+      category: categoryId,
     },
     { runValidators: true }
   );
 
-  const templates = await Template.find({ user: userId });
-  res.send(templates);
+  res.send(updatedTemplate);
 
   try {
   } catch (error) {

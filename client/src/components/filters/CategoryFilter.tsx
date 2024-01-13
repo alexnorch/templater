@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { updateQueryString } from "../../store/reducers/templatesSlice";
 import { Stack, Button, Box, Typography } from "@mui/material";
 import { useGetCategoriesQuery } from "../categories/categoriesApi";
@@ -44,10 +44,6 @@ const TemplateCategoryFilter = () => {
 
   return (
     <Box mt={2}>
-      <Typography mb={1} variant="body1" component="h4">
-        Categories:
-      </Typography>
-
       <Stack flexWrap="wrap" direction="row" spacing={1}>
         <Button
           onClick={() => onChangeCategory("")}

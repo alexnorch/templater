@@ -12,10 +12,12 @@ import {
 
 import { displayGenderIcon } from "../../utils/helpers";
 
+const selectGenders = (state: RootState) => state.templates.genderOptions;
+const selectGenderQuery = (state: RootState) => state.templates.queryObj.gender;
+
 const TemplateGenderFilter = () => {
-  const { genderOptions, queryObj } = useSelector(
-    (state: RootState) => state.templates
-  );
+  const genderOptions = useSelector(selectGenders);
+  const genderQuery = useSelector(selectGenderQuery);
 
   const dispatch = useDispatch();
 
@@ -33,9 +35,9 @@ const TemplateGenderFilter = () => {
       </Typography>
       <ToggleButtonGroup
         onChange={onGenderChange}
-        value={queryObj.gender}
+        value={genderQuery}
         exclusive
-        size="medium"
+        size="small"
       >
         {genderOptions.map((gender, i) => (
           <ToggleButton key={i} value={gender}>

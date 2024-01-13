@@ -2,7 +2,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { ITemplateItem } from "../../types";
-
 import { Box, Typography, IconButton } from "@mui/material";
 
 import { showAlert } from "../../store/reducers/appSlice";
@@ -10,7 +9,7 @@ import { showAlert } from "../../store/reducers/appSlice";
 // Icons
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-const TemplateItem: React.FC<ITemplateItem> = ({ _id, title, text }) => {
+const TemplateLite: React.FC<ITemplateItem> = ({ _id, title, text }) => {
   const { templateId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -58,4 +57,4 @@ const TemplateItem: React.FC<ITemplateItem> = ({ _id, title, text }) => {
   );
 };
 
-export default TemplateItem;
+export default TemplateLite;

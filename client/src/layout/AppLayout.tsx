@@ -8,7 +8,8 @@ import { RootState } from "../store";
 import { hideAlert } from "../store/reducers/appSlice";
 
 const AppLayout = () => {
-  const { isAlert, alertText } = useSelector((state: RootState) => state.app);
+  const isAlert = useSelector((state: RootState) => state.app.isAlert);
+  const alertText = useSelector((state: RootState) => state.app.alertText);
   const dispatch = useDispatch();
 
   const handleCloseAlert = () => {

@@ -30,10 +30,11 @@ const SearchInput = () => {
   return (
     <TextField
       fullWidth
+      size="small"
       value={inputValue}
       onChange={handleInputChange}
       label="Template title"
-      variant="filled"
+      variant="standard"
     />
   );
 };

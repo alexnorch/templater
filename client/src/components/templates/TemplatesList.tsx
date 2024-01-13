@@ -1,29 +1,50 @@
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import { Stack } from "@mui/material";
-import { useGetTemplatesQuery } from "./templateApi";
+import { useGetTemplatesQuery } from "./templateSlice";
 
-import Template from "./Template";
+import TemplateLite from "./TemplateLite";
+
+const selectQueryObj = (state: RootState) => state.templates.queryObj;
 
 const TemplatesList = () => {
-  const { data: templates, isLoading } = useGetTemplatesQuery(undefined);
+  const queryParams = useSelector(selectQueryObj);
+  const {
+    data: templates,
+    isLoading,
+    isSuccess,
+  } = useGetTemplatesQuery(queryParams);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  const getContent = () => {
+    if (isLoading) {
+      return "Loading...";
+    }
 
-  const templatesItems = templates!.map((template: any) => (
-    <Template
-      key={template._id}
-      category={template.category.title}
-      _id={template._id}
-      title={template.title}
-      text={template.text}
-      language={template.language}
-      gender={template.gender}
-    />
-  ));
+    if (isSuccess) {
+      if (templates.length === 0) {
+        return "There is no template";
+      }
 
-  const templateContainerStyles = {
-    maxHeight: "60vh",
+      return templates.map((template: any) => (
+        <TemplateLite
+          key={template._id}
+          category={template.category}
+          _id={template._id}
+          title={template.title}
+          text={template.text}
+          language={template.language}
+          gender={template.gender}
+        />
+      ));
+    }
+
+    return "Error loading templates";
+  };
+
+  const content = getContent();
+
+  const boxStyles = {
+    maxHeight: "65vh",
     overflowY: "scroll",
     paddingRight: 2,
     "&::-webkit-scrollbar": {
@@ -38,8 +59,8 @@ const TemplatesList = () => {
   };
 
   return (
-    <Stack sx={templateContainerStyles} spacing={2}>
-      {templatesItems}
+    <Stack sx={boxStyles} spacing={2}>
+      {content}
     </Stack>
   );
 };

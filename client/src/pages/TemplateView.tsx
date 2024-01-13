@@ -4,8 +4,6 @@ import { useParams, useNavigate } from "react-router-dom";
 // Components
 import { Typography, Stack, Divider, IconButton, Box } from "@mui/material";
 import TemplatePlaceholder from "../components/templates/TemplatePlaceholder";
-import TemplateForm from "../components/templates/TemplateForm";
-import BasicModal from "../components/ui/BasicModal";
 import ConfirmDialog from "../components/ui/ConfirmDialog";
 
 // Icons
@@ -20,20 +18,17 @@ import {
   useGetTemplateQuery,
   useDeleteTemplateMutation,
   useUpdateTemplateMutation,
-} from "../components/templates/templateApi";
+} from "../components/templates/templateSlice";
 
 const TemplateView = () => {
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
 
   const { templateId } = useParams();
   const navigate = useNavigate();
   const { data: template, isLoading } = useGetTemplateQuery(templateId);
   const [deleteTemplate, state] = useDeleteTemplateMutation();
 
-  const startEditing = () => setIsEditing(true);
   const startDeleting = () => setIsDeleting(true);
-  const finishEditing = () => setIsEditing(false);
   const finishDeleting = () => setIsDeleting(false);
 
   const onUpdateTemplate = () => {};
@@ -56,7 +51,7 @@ const TemplateView = () => {
             {template.title}
           </Typography>
           <Box>
-            <IconButton onClick={startEditing} size="small">
+            <IconButton onClick={() => navigate("edit")} size="small">
               <EditIcon />
             </IconButton>
             <IconButton onClick={startDeleting} size="small">
@@ -80,15 +75,6 @@ const TemplateView = () => {
           <Box>{template.language}</Box>
         </Stack>
       </Stack>
-
-      {/* Editing Template */}
-      <BasicModal isOpen={isEditing} handleClose={finishEditing}>
-        <TemplateForm
-          heading="Edit template"
-          onSubmit={() => alert("Updated")}
-          values={template}
-        />
-      </BasicModal>
 
       {/* Deleting Template */}
       <ConfirmDialog

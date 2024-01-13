@@ -4,13 +4,19 @@ import withAuth from "./hocs/withAuth";
 // Layout
 import AppLayout from "./layout/AppLayout";
 import AuthLayout from "./layout/AuthLayout";
+import SettingsLayout from "./layout/SettingsLayout";
 
 // Pages
 import Templates from "./pages/Templates";
-import Settings from "./pages/Settings";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import TemplateView from "./pages/TemplateView";
+import TemplateEdit from "./pages/TemplateEdit";
+
+// Settings Pages
+import TemplateSettings from "./pages/settings/TemplateSettings";
+import CategoriesSettings from "./pages/settings/CategoriesSettings";
+import UserSettings from "./pages/settings/UserSettings";
 
 const AppWithAuth = withAuth(AppLayout);
 
@@ -20,8 +26,13 @@ function App() {
       <Route element={<AppWithAuth />}>
         <Route path="templates" element={<Templates />}>
           <Route path=":templateId" element={<TemplateView />} />
+          <Route path=":templateId/edit" element={<TemplateEdit />} />
         </Route>
-        <Route path="settings" element={<Settings />} />
+        <Route path="settings" element={<SettingsLayout />}>
+          <Route path="categories" element={<CategoriesSettings />} />
+          <Route path="templates" element={<TemplateSettings />} />
+          <Route path="profile" element={<UserSettings />} />
+        </Route>
       </Route>
       <Route element={<AuthLayout />}>
         <Route path="register" element={<Register />} />

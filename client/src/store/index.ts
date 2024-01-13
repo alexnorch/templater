@@ -4,7 +4,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import appSlice from "./reducers/appSlice";
 import userSlice from "./reducers/userSlice";
 import templatesSlice from "./reducers/templatesSlice";
-import categoriesSlice from "./reducers/categoriesSlice";
+import filterSlice from "../components/filters/filterSlice";
 import { baseApi } from "../components/api/apiSlice";
 
 // Sagas
@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
   app: appSlice,
   user: userSlice,
   templates: templatesSlice,
-  categories: categoriesSlice,
+  filter: filterSlice,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 

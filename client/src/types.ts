@@ -1,10 +1,11 @@
 export interface ITemplateItem {
   title: string;
-  category: any;
+  category: string;
   language: string;
   gender: string;
   text: string;
   _id?: string;
+  attributes?: { [key: string]: string };
 }
 
 export interface ICategoryItem {

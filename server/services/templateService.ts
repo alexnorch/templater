@@ -10,8 +10,20 @@ class TemplateService {
       return new AppError("Bad request", 400);
     }
 
-    const template = await Template.findOne({ user: userId, _id: templateId });
-    return template;
+    const template = await Template.findOne({ user: userId, _id: templateId })
+      .populate("category", "title")
+      .lean();
+
+    if (!template) {
+      return {};
+    }
+
+    const { category, ...restTemplate } = template;
+
+    return {
+      ...restTemplate,
+      category: category.title,
+    };
   }
 
   async getTemplates() {}

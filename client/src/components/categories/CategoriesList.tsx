@@ -15,7 +15,7 @@ const CategoriesList = () => {
     }
 
     return categories!.map((item: any) => (
-      <Grid key={item._id} item md={4}>
+      <Grid key={item._id} item md={3}>
         <CategoryItem _id={item._id} title={item.title} />
       </Grid>
     ));

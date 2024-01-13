@@ -10,10 +10,13 @@ import {
   MenuItem,
 } from "@mui/material";
 
+const selectLanguages = (state: RootState) => state.templates.languageOptions;
+const selectLanguageQuery = (state: RootState) =>
+  state.templates.queryObj.language;
+
 const TemplateLangFilter = () => {
-  const { languageOptions, queryObj } = useSelector(
-    (state: RootState) => state.templates
-  );
+  const languageOptions = useSelector(selectLanguages);
+  const languageQuery = useSelector(selectLanguageQuery);
 
   const dispatch = useDispatch();
 
@@ -27,9 +30,10 @@ const TemplateLangFilter = () => {
         Language:
       </Typography>
       <Select
+        size="small"
         onChange={onLangChange}
         variant="standard"
-        value={queryObj.language}
+        value={languageQuery}
         label="Language"
       >
         {languageOptions.map((lang, i) => (

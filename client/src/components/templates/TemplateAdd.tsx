@@ -10,7 +10,7 @@ import TemplateForm from "./TemplateForm";
 // Icons
 import AddIcon from "@mui/icons-material/Add";
 
-import { useAddTemplateMutation } from "./templateApi";
+import { useAddTemplateMutation } from "./templateSlice";
 
 const defaultValues = {
   title: "",
@@ -28,7 +28,7 @@ const TemplateAdd = () => {
 
   const fabStyles = { position: "fixed", bottom: 25, right: 25 };
 
-  const [addTemplate] = useAddTemplateMutation();
+  const [addTemplate, { isLoading }] = useAddTemplateMutation();
 
   const onSubmitForm = (data: ITemplateItem) => {
     addTemplate(data);
@@ -43,9 +43,9 @@ const TemplateAdd = () => {
 
       <BasicModal isOpen={isModalOpen} handleClose={handleClose}>
         <TemplateForm
-          heading="Create template"
           onSubmit={onSubmitForm}
           values={defaultValues}
+          isLoading={isLoading}
         />
       </BasicModal>
     </>
