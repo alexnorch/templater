@@ -136,42 +136,6 @@ const TemplateForm: React.FC<ITemplateForm> = ({
       {/* Additional Template Attributes  */}
       {customAttributes}
 
-      {/* <Stack flexDirection="row" sx={{ gap: 2 }}>
-        <Controller
-          name="language"
-          control={control}
-          rules={{ required }}
-          render={({ field, fieldState: { invalid } }) => (
-            <FormControl size="small" variant="filled" fullWidth>
-              <InputLabel error={invalid}>Language</InputLabel>
-              <Select {...field} error={invalid} name="language">
-                {templateLanguages}
-              </Select>
-              <FormHelperText error={invalid}>
-                {errors?.language?.message}
-              </FormHelperText>
-            </FormControl>
-          )}
-        />
-
-        <Controller
-          name="gender"
-          control={control}
-          rules={{ required }}
-          render={({ field, fieldState: { invalid } }) => (
-            <FormControl size="small" variant="filled" fullWidth>
-              <InputLabel error={invalid}>Gender</InputLabel>
-              <Select {...field} error={invalid} label="Gender">
-                {templateGenders}
-              </Select>
-              <FormHelperText error={invalid}>
-                {errors?.gender?.message}
-              </FormHelperText>
-            </FormControl>
-          )}
-        />
-      </Stack> */}
-
       <Controller
         name="text"
         control={control}

@@ -8,6 +8,7 @@ export interface ITemplate extends mongoose.Document {
   gender: string;
   language: string;
   text: string;
+  attributes: string[];
 }
 
 const TemplateSchema = new mongoose.Schema({
@@ -35,6 +36,12 @@ const TemplateSchema = new mongoose.Schema({
     type: String,
     required: [true, "Text is required"],
   },
+  options: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Option",
+    },
+  ],
 });
 
 export default mongoose.model<ITemplate>("Template", TemplateSchema);

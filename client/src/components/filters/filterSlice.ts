@@ -12,15 +12,11 @@ const tempAttributes = [
 ];
 
 interface AppState {
-  title: string;
-  category: string;
   customAttributes: ICustomAttributes[] | [];
   attributesValues: { [key: string]: string } | {};
 }
 
 const initialState: AppState = {
-  title: "",
-  category: "",
   customAttributes: tempAttributes,
   attributesValues: {},
 };
@@ -33,7 +29,7 @@ export const appSlice = createSlice({
       state,
       action: PayloadAction<{ [key: string]: string }>
     ) => {
-      state.attributesValues = action.payload;
+      state.attributesValues = { ...state.attributesValues, ...action.payload };
     },
   },
 });

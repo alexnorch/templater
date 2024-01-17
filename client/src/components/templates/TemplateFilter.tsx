@@ -1,44 +1,51 @@
-import { useSelector, useDispatch } from "react-redux";
-import { Box, Stack, Grid } from "@mui/material";
-import { SelectChangeEvent } from "@mui/material/Select";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { setAttributesValues } from "../filters/filterSlice";
-import FilterSelect from "../filters/FilterSelect";
+import { Box, Stack, Grid } from "@mui/material";
+
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+} from "@mui/material";
 
 // Filter components
 import CategoryFilter from "../filters/CategoryFilter";
 import SearchInput from "../filters/SearchInput";
 
-const selectCustomAttributes = (state: RootState) =>
-  state.filter.customAttributes;
+import { useGetAttributesQuery } from "../attributes/attributesApi";
+import { setAttributesValues } from "../filters/filterSlice";
 
-const selectAttributeValues = (state: RootState) =>
-  state.filter.attributesValues as { [key: string]: string };
+const selectAttributesValues = (state: RootState) =>
+  state.filter.attributesValues;
 
 const TemplateFilter = () => {
-  const attributesValues = useSelector(selectAttributeValues);
-  const customAttributes = useSelector(selectCustomAttributes);
+  const { data: attributesList, isSuccess } = useGetAttributesQuery();
+  const attributesValues = useSelector(selectAttributesValues);
   const dispatch = useDispatch();
 
-  const handleAttributeChange = (label: string, selectedValue: string) => {
-    dispatch(
-      setAttributesValues({ ...attributesValues, [label]: selectedValue })
-    );
-  };
+  if (!isSuccess) return;
 
-  const customFilterSelects = customAttributes.map(
-    ({ label, options }, index) => (
-      <FilterSelect
-        key={index}
-        label={label}
-        options={options}
+  const customFilterSelects = attributesList.map(({ label, options, _id }) => (
+    <FormControl key={_id} size="small" variant="standard">
+      <InputLabel>{label}</InputLabel>
+      <Select
         onChange={(e: SelectChangeEvent) =>
-          handleAttributeChange(label, e.target.value)
+          dispatch(setAttributesValues({ [label]: e.target.value }))
         }
         value={attributesValues[label] || ""}
-      />
-    )
-  );
+        name={label}
+        label={label}
+      >
+        {options.map((option, index) => (
+          <MenuItem key={index} value={option._id}>
+            {option.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  ));
 
   return (
     <Box mb={2}>

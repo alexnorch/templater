@@ -10,6 +10,7 @@ import AppError from "./utils/AppError";
 import templateRouter from "./routes/templateRouter";
 import userRouter from "./routes/userRouter";
 import categoryRouter from "./routes/categoryRouter";
+import attributeRouter from "./routes/attributeRouter";
 
 // Middlewares
 import authenticate from "./middlewares/authenticate";
@@ -19,6 +20,7 @@ const app = express();
 app.use(express.json());
 app.use("/api/templates", authenticate, templateRouter);
 app.use("/api/categories", authenticate, categoryRouter);
+app.use("/api/attributes", authenticate, attributeRouter);
 app.use("/api/users", userRouter);
 
 // Error handling

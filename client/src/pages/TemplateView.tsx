@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+
+import { useDispatch } from "react-redux";
+import { setTemplateId } from "../store/reducers/templatesSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import { RootState } from "../store";
 
 // Components
 import { Typography, Stack, Divider, IconButton, Box } from "@mui/material";
@@ -20,12 +24,19 @@ import {
   useUpdateTemplateMutation,
 } from "../components/templates/templateSlice";
 
+const selectTemplateId = (state: RootState) =>
+  state.templates.selectedTemplateId;
+
 const TemplateView = () => {
   const [isDeleting, setIsDeleting] = useState(false);
-
   const { templateId } = useParams();
   const navigate = useNavigate();
-  const { data: template, isLoading } = useGetTemplateQuery(templateId);
+  const dispatch = useDispatch();
+  const {
+    data: template,
+    isLoading,
+    isError,
+  } = useGetTemplateQuery(templateId);
   const [deleteTemplate, state] = useDeleteTemplateMutation();
 
   const startDeleting = () => setIsDeleting(true);
@@ -35,12 +46,20 @@ const TemplateView = () => {
 
   const onDeleteTemplate = () => {
     deleteTemplate(templateId);
-    navigate("/templates");
     setIsDeleting(false);
+    dispatch(setTemplateId(null));
   };
 
   if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (!templateId) {
     return <TemplatePlaceholder />;
+  }
+
+  if (isError) {
+    return <p>Error</p>;
   }
 
   return (

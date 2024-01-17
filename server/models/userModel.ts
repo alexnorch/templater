@@ -8,33 +8,34 @@ export interface IUser extends mongoose.Document {
   categories: mongoose.Types.ObjectId[];
   templates: mongoose.Types.ObjectId[];
   createdAt: Date;
+  templateAttributes: [{ [key: string]: string[] }];
   generateToken: (userId: string) => Promise<object>;
   comparePassword: (candidate: string, hashed: string) => Promise<boolean>;
 }
 
-const UserSchema = new mongoose.Schema(
-  {
-    email: {
-      type: String,
-      required: [true, "Email is required"],
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: [true, "Password is required"],
-      minlength: 8,
-      select: false,
-    },
-
-    categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
-    templates: [{ type: mongoose.Schema.Types.ObjectId, ref: "Template" }],
-    createdAt: {
-      type: Date,
-      default: Date.now(),
-    },
+const UserSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: [true, "Email is required"],
+    unique: true,
   },
-  { versionKey: false }
-);
+  password: {
+    type: String,
+    required: [true, "Password is required"],
+    minlength: 8,
+    select: false,
+  },
+
+  categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
+  templates: [{ type: mongoose.Schema.Types.ObjectId, ref: "Template" }],
+  templateAttributes: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Attribute" },
+  ],
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
+});
 
 UserSchema.pre("save", async function () {
   if (!this.isModified("password")) return;

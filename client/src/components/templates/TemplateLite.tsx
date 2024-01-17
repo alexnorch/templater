@@ -1,5 +1,5 @@
-import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { ITemplateItem } from "../../types";
 import { Box, Typography, IconButton } from "@mui/material";
@@ -23,7 +23,8 @@ const TemplateLite: React.FC<ITemplateItem> = ({ _id, title, text }) => {
   };
 
   const onNavigateTemplate = () => {
-    navigate(`/templates/${_id}`);
+    const templatePath = `/templates/${_id}`;
+    navigate(templatePath);
   };
 
   const boxStyles = {

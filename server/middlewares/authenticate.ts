@@ -2,12 +2,6 @@ import jwt from "jsonwebtoken";
 import AppError from "../utils/AppError";
 import { RequestHandler } from "../types";
 
-declare module "express-serve-static-core" {
-  interface Request {
-    userId: string;
-  }
-}
-
 const authenticate: RequestHandler = (req, res, next) => {
   const accessToken = req.headers["authorization"]?.split(" ")[1];
 

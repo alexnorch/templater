@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface TemplatesState {
   genderOptions: string[];
   languageOptions: string[];
+  selectedTemplateId: string | null;
   queryObj: {
     gender: string;
     language: string;
@@ -12,6 +13,7 @@ interface TemplatesState {
 }
 
 const initialState: TemplatesState = {
+  selectedTemplateId: null,
   genderOptions: ["male", "female", "both"],
   languageOptions: ["PL", "EN", "DE", "PT", "ES", "IT"],
   queryObj: {
@@ -26,6 +28,9 @@ export const templateSlice = createSlice({
   name: "Templates",
   initialState,
   reducers: {
+    setTemplateId: (state, action: PayloadAction<string | null>) => {
+      state.selectedTemplateId = action.payload;
+    },
     updateQueryString: (
       state,
       { payload }: PayloadAction<{ key: string; value: string }>
@@ -35,6 +40,6 @@ export const templateSlice = createSlice({
   },
 });
 
-export const { updateQueryString } = templateSlice.actions;
+export const { updateQueryString, setTemplateId } = templateSlice.actions;
 
 export default templateSlice.reducer;

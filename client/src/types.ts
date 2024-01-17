@@ -12,3 +12,15 @@ export interface ICategoryItem {
   title: string;
   _id?: string | undefined;
 }
+
+export interface IAttribute {
+  _id: string;
+  label: string;
+  options: [] | IAttributeOption[];
+}
+
+export interface IAttributeOption {
+  _id: string;
+  name: string;
+  attribute: string;
+}

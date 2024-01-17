@@ -1,16 +1,38 @@
 import User, { IUser } from "../models/userModel";
 import { ICategory } from "../models/categoryModel";
 import Category from "../models/categoryModel";
-import Template from "../models/templateModel";
+import Template, { ITemplate } from "../models/templateModel";
 import AppError from "../utils/AppError";
 
 class TemplateService {
-  async getTemplateById(userId: string, templateId: string) {
-    if (!userId || !templateId) {
-      return new AppError("Bad request", 400);
-    }
+  private userId: string;
 
-    const template = await Template.findOne({ user: userId, _id: templateId })
+  constructor(userId: string) {
+    this.userId = userId;
+  }
+
+  async getTemplates() {
+    const templates: ITemplate[] | null = await Template.find({
+      user: this.userId,
+    })
+      .populate("category")
+      .lean();
+
+    const templatesWithCategories = templates!.map((template) => {
+      return {
+        ...template,
+        category: template.category.title,
+      };
+    });
+
+    return templatesWithCategories;
+  }
+
+  async getTemplateById(templateId: string) {
+    const template = await Template.findOne({
+      user: this.userId,
+      _id: templateId,
+    })
       .populate("category", "title")
       .lean();
 
@@ -26,12 +48,10 @@ class TemplateService {
     };
   }
 
-  async getTemplates() {}
-
   async createTemplate(userId: string, templateFields: any) {
-    const { title, category, language, gender, text } = templateFields;
+    const { title, category, language, gender, text, options } = templateFields;
 
-    if (!title || !category || !language || !gender || !text) {
+    if (!title || !category || !language || !gender || !text || !options) {
       return new AppError("Please provide all values", 400);
     }
 
@@ -54,6 +74,7 @@ class TemplateService {
       language,
       gender,
       user: userId,
+      options,
       text,
     });
 
@@ -70,7 +91,43 @@ class TemplateService {
 
   async deleteTemplate() {}
 
-  async updateTemplate() {}
+  async getCategoryIdByTitle(title: string) {
+    const userCategory = await Category.findOne({
+      title,
+      user: this.userId,
+    });
+
+    if (userCategory) return userCategory._id;
+  }
+
+  async updateTemplate(templateId: string, body: any) {
+    const { gender, language, text, title, category } = body;
+
+    const template = await Template.findOne({
+      user: this.userId,
+      _id: templateId,
+    });
+
+    if (!template) {
+      return new AppError("Template with that ID wasn't found", 404);
+    }
+
+    const categoryId = await this.getCategoryIdByTitle(category);
+
+    const updatedTemplate = await template.updateOne(
+      {
+        user: this.userId,
+        title,
+        text,
+        language,
+        gender,
+        category: categoryId,
+      },
+      { runValidators: true }
+    );
+
+    return updatedTemplate;
+  }
 }
 
-export default new TemplateService();
+export default TemplateService;

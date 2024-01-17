@@ -4,6 +4,7 @@ import AppError from "../utils/AppError";
 
 export const getCategories: RequestHandler = async (req, res, next) => {
   const categoryServices = new CategoryService(req.userId);
+
   try {
     const categories = await categoryServices.getCategories();
     res.send(categories);

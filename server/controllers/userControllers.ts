@@ -54,9 +54,9 @@ export const registerUser: RequestHandler = async (req, res, next) => {
       return next(new AppError("Password do NOT match", 400));
     }
 
-    const alreadyExists = await User.findOne({ email });
+    const isUserFound = await User.findOne({ email });
 
-    if (alreadyExists) {
+    if (isUserFound) {
       return next(new AppError("User already exists", 409));
     }
 

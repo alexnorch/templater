@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import {
   Typography,
   Box,
@@ -8,25 +7,39 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { RootState } from "../../store";
 
-const selectCustomAttributes = (state: RootState) =>
-  state.filter.customAttributes;
+import { useGetAttributesQuery } from "../../components/attributes/attributesApi";
 
 import AddIcon from "@mui/icons-material/Add";
 
 const TemplateSettings = () => {
-  const customAttributes = useSelector(selectCustomAttributes);
+  const {
+    data: attributesList,
+    isLoading,
+    isSuccess,
+  } = useGetAttributesQuery();
 
-  const templateAttributes = customAttributes.map(
-    ({ label, options }, index) => (
-      <Stack my={2}>
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (!isSuccess) {
+    return <p>Attributes wasn't found</p>;
+  }
+
+  const renderedAttributes = attributesList.map(
+    ({ label, _id: attrId, options }) => (
+      <Stack key={attrId} my={2}>
         <Typography mb={1} component="h4" variant="h6">
           {label}
         </Typography>
         <Stack flexDirection="row" gap={2}>
-          {options.map((option) => (
-            <Chip label={option} onDelete={() => alert("Deleted")} />
+          {options.map(({ name, _id: optionId }) => (
+            <Chip
+              key={optionId}
+              label={name}
+              onDelete={() => alert("Deleted")}
+            />
           ))}
           <Chip icon={<AddIcon />} label="Add" onClick={() => alert("Added")} />
         </Stack>
@@ -45,7 +58,7 @@ const TemplateSettings = () => {
 
       <Grid container spacing={2}>
         <Grid item md={6}>
-          {templateAttributes}
+          {renderedAttributes}
         </Grid>
         <Grid item md={6}>
           <Typography component="h4" variant="h5">
