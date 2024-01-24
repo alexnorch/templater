@@ -14,14 +14,15 @@ const Logo: React.FC<LogoProps> = ({ variant, component }) => {
       href="#app-bar-with-responsive-menu"
       sx={{
         mr: 2,
-        fontFamily: "monospace",
-        fontWeight: 700,
-        letterSpacing: ".3rem",
+        fontFamily: "Sans-Serif",
+        fontWeight: 400,
+        letterSpacing: ".2rem",
         color: "inherit",
         textDecoration: "none",
+        fontSize: 18,
       }}
     >
-      TemplateCraft
+      Templater
     </Typography>
   );
 };

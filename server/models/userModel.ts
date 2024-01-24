@@ -7,6 +7,7 @@ export interface IUser extends mongoose.Document {
   password: string | undefined;
   categories: mongoose.Types.ObjectId[];
   templates: mongoose.Types.ObjectId[];
+  attributes: mongoose.Types.ObjectId[];
   createdAt: Date;
   templateAttributes: [{ [key: string]: string[] }];
   generateToken: (userId: string) => Promise<object>;
@@ -28,9 +29,7 @@ const UserSchema = new mongoose.Schema({
 
   categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
   templates: [{ type: mongoose.Schema.Types.ObjectId, ref: "Template" }],
-  templateAttributes: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "Attribute" },
-  ],
+  attributes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Attribute" }],
   createdAt: {
     type: Date,
     default: Date.now(),

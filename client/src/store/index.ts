@@ -3,7 +3,6 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 // Slices
 import appSlice from "./reducers/appSlice";
 import userSlice from "./reducers/userSlice";
-import templatesSlice from "./reducers/templatesSlice";
 import filterSlice from "../components/filters/filterSlice";
 import { baseApi } from "../components/api/apiSlice";
 
@@ -12,7 +11,6 @@ import { baseApi } from "../components/api/apiSlice";
 const rootReducer = combineReducers({
   app: appSlice,
   user: userSlice,
-  templates: templatesSlice,
   filter: filterSlice,
   [baseApi.reducerPath]: baseApi.reducer,
 });

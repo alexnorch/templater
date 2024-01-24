@@ -1,13 +1,14 @@
 import { RequestHandler } from "../types";
 import Attribute from "../models/attributeModel";
 import User, { IUser } from "../models/userModel";
-import Option from "../models/optionModel";
+import AttributeValue from "../models/attributeValueModel";
 import AppError from "../utils/AppError";
 
 export const getAllAttributes: RequestHandler = async (req, res, next) => {
   const attributes = await Attribute.find({ user: req.userId }).populate(
-    "options"
+    "values"
   );
+
   res.send(attributes);
 };
 
@@ -28,10 +29,10 @@ export const createAttribute: RequestHandler = async (req, res, next) => {
   }
 
   const user = (await User.findById(userId)) as IUser;
-  const attributeDoc = new Attribute({ options: [], user: userId, label });
+  const attributeDoc = new Attribute({ values: [], user: userId, label });
   const createdAttribute = await attributeDoc.save();
 
-  user.templateAttributes.push(createdAttribute._id);
+  user.attributes.push(createdAttribute._id);
 
   res.send(createdAttribute);
 };
@@ -55,57 +56,70 @@ export const updateAttribute: RequestHandler = async (req, res, next) => {
 };
 
 export const deleteAttribute: RequestHandler = async (req, res, next) => {
-  const attributeId = req.params.attrId;
-  const user = req.userId;
+  try {
+    const attributeId = req.params.attrId;
+    const user = req.userId;
 
-  const deletedAttribute = await Attribute.findOneAndDelete({
-    _id: attributeId,
-    user,
-  });
+    const deletedAttribute = await Attribute.findOneAndDelete({
+      _id: attributeId,
+      user,
+    });
 
-  if (!deletedAttribute) {
-    return next(new AppError("Attribute with that ID wasn't found", 400));
+    if (!deletedAttribute) {
+      return next(new AppError("Attribute with that ID wasn't found", 400));
+    }
+
+    await AttributeValue.deleteMany({ attribute: deletedAttribute._id });
+
+    res.send(deletedAttribute);
+  } catch (error) {
+    next(error);
   }
-
-  res.send(deletedAttribute);
 };
 
 export const createAttributeOption: RequestHandler = async (req, res, next) => {
-  const attributeId = req.params.attrId;
-  const optionName = req.body.name;
-  const attribute = await Attribute.findById(attributeId);
+  try {
+    const attributeId = req.params.attrId;
+    const attributeValue = req.body.value;
+    const attribute = await Attribute.findById(attributeId);
 
-  if (!optionName) {
-    return next(new AppError("Option name is required", 400));
+    if (!attributeValue) {
+      return next(new AppError("Option name is required", 400));
+    }
+
+    if (!attribute) {
+      return next(new AppError("Invalid attribute ID", 400));
+    }
+
+    const isAlreadyExists = await AttributeValue.findOne({
+      value: attributeValue,
+      attribute: attributeId,
+    });
+
+    if (isAlreadyExists) {
+      return next(new AppError("Option with this name is already exists", 400));
+    }
+
+    const optionDoc = new AttributeValue({
+      value: attributeValue,
+      attribute: attribute._id,
+    });
+
+    const createdOption = await optionDoc.save();
+
+    attribute.values.push(createdOption._id);
+    attribute.save();
+
+    res.send(createdOption);
+  } catch (error) {
+    next(error);
   }
-
-  if (!attribute) {
-    return next(new AppError("Invalid attribute ID", 400));
-  }
-
-  const isAlreadyExists = await Option.findOne({
-    name: optionName,
-    attribute: attributeId,
-  });
-
-  if (isAlreadyExists) {
-    return next(new AppError("Option with this name is already exists", 400));
-  }
-
-  const optionDoc = new Option({ name: optionName, attribute: attribute._id });
-  const createdOption = await optionDoc.save();
-
-  attribute.options.push(createdOption._id);
-  attribute.save();
-
-  res.send(createdOption);
 };
 
-export const updateAttributeOption: RequestHandler = (req, res, next) => {};
 export const deleteAttributeOption: RequestHandler = async (req, res, next) => {
   const { attrId, optionId } = req.params;
 
-  const deletedAttributeOption = await Option.findOneAndDelete({
+  const deletedAttributeOption = await AttributeValue.findOneAndDelete({
     attribute: attrId,
     _id: optionId,
   });
@@ -117,6 +131,6 @@ export const deleteAttributeOption: RequestHandler = async (req, res, next) => {
   }
 
   res.send(deletedAttributeOption);
-
-  res.send({ attrId, optionId });
 };
+
+export const updateAttributeOption: RequestHandler = (req, res, next) => {};

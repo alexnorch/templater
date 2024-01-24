@@ -2,9 +2,8 @@ import { Stack, Button } from "@mui/material";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const pages = [
-  { title: "Profile", path: "profile" },
   { title: "Categories", path: "categories" },
-  { title: "Templates", path: "templates" },
+  { title: "Attributes", path: "attributes" },
 ];
 
 const Settings = () => {

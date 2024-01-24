@@ -1,13 +1,13 @@
 import mongoose, { Document } from "mongoose";
 
-export interface IOption extends Document {
+export interface IAttributeValue extends Document {
   name: string;
 }
 
 const OptionSchema = new mongoose.Schema({
-  name: {
+  value: {
     type: String,
-    required: [true, "Option name is required"],
+    required: [true, "Attribute value is required"],
   },
   attribute: {
     type: mongoose.Schema.Types.ObjectId,
@@ -15,4 +15,4 @@ const OptionSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model<IOption>("Option", OptionSchema);
+export default mongoose.model<IAttributeValue>("AttributeValue", OptionSchema);

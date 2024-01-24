@@ -1,12 +1,15 @@
 import { useState } from "react";
-
-import { useDispatch } from "react-redux";
-import { setTemplateId } from "../store/reducers/templatesSlice";
 import { useNavigate, useParams } from "react-router-dom";
-import { RootState } from "../store";
 
 // Components
-import { Typography, Stack, Divider, IconButton, Box } from "@mui/material";
+import {
+  Typography,
+  Stack,
+  Divider,
+  IconButton,
+  Box,
+  Chip,
+} from "@mui/material";
 import TemplatePlaceholder from "../components/templates/TemplatePlaceholder";
 import ConfirmDialog from "../components/ui/ConfirmDialog";
 
@@ -14,40 +17,32 @@ import ConfirmDialog from "../components/ui/ConfirmDialog";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-// Utils
-import { displayGenderIcon } from "../utils/helpers";
-
 // API
 import {
   useGetTemplateQuery,
   useDeleteTemplateMutation,
-  useUpdateTemplateMutation,
 } from "../components/templates/templateSlice";
-
-const selectTemplateId = (state: RootState) =>
-  state.templates.selectedTemplateId;
 
 const TemplateView = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const { templateId } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const {
     data: template,
     isLoading,
     isError,
+    isSuccess,
   } = useGetTemplateQuery(templateId);
-  const [deleteTemplate, state] = useDeleteTemplateMutation();
+
+  const [deleteTemplate] = useDeleteTemplateMutation();
 
   const startDeleting = () => setIsDeleting(true);
   const finishDeleting = () => setIsDeleting(false);
 
-  const onUpdateTemplate = () => {};
-
   const onDeleteTemplate = () => {
     deleteTemplate(templateId);
     setIsDeleting(false);
-    dispatch(setTemplateId(null));
+    navigate("/templates");
   };
 
   if (isLoading) {
@@ -62,12 +57,20 @@ const TemplateView = () => {
     return <p>Error</p>;
   }
 
+  if (!isSuccess) {
+    return;
+  }
+
+  const renderedAttributes = template.attributeValues.map(({ value, _id }) => (
+    <Chip key={_id} label={value} />
+  ));
+
   return (
     <>
       <Stack>
         <Stack direction="row" justifyContent="space-between">
           <Typography variant="h5" component="h4">
-            {template.title}
+            {template!.title}
           </Typography>
           <Box>
             <IconButton onClick={() => navigate("edit")} size="small">
@@ -80,18 +83,12 @@ const TemplateView = () => {
         </Stack>
         <Box my={1}>
           <Typography sx={{ lineHeight: "25px" }} pr={5} variant="body2">
-            {template.text}
+            {template!.text}
           </Typography>
         </Box>
-        <Divider />
-        <Stack
-          p={1}
-          flexDirection="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Box>{displayGenderIcon(template.gender)}</Box>
-          <Box>{template.language}</Box>
+        <Divider sx={{ marginY: 1 }} />
+        <Stack gap={2} p={1} flexDirection="row" alignItems="center">
+          {renderedAttributes}
         </Stack>
       </Stack>
 

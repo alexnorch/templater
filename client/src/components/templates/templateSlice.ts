@@ -11,7 +11,12 @@ export const templateApi = baseApi
         query: (params) => ({
           url: "/templates",
           method: "GET",
-          params,
+          params: {
+            ...params,
+            attributes: params.attributes
+              ? Object.values(params.attributes)
+              : null,
+          },
         }),
         providesTags: (result, error, arg) =>
           result
@@ -24,7 +29,7 @@ export const templateApi = baseApi
               ]
             : ["Template"],
       }),
-      getTemplate: build.query({
+      getTemplate: build.query<ITemplateItem, any>({
         query: (templateId) => `/templates/${templateId}`,
         providesTags: (result, error, arg) => [{ type: "Template", _id: arg }],
       }),

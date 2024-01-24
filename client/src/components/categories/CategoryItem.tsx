@@ -93,8 +93,12 @@ const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
       />
 
       {/* Editing category */}
-      <BasicModal isOpen={isEditing} handleClose={handleFinishActions}>
-        <CategoryForm values={{ title, _id }} onSubmit={onEditCategory} />
+      <BasicModal
+        title="Editing Template"
+        isOpen={isEditing}
+        handleClose={handleFinishActions}
+      >
+        <CategoryForm values={{ title }} onSubmit={onEditCategory} />
       </BasicModal>
     </>
   );

@@ -2,7 +2,7 @@ import mongoose, { Document, Types } from "mongoose";
 
 export interface IAttribute extends Document {
   label: string;
-  options: string[];
+  values: Types.ObjectId[];
   templates: Types.ObjectId[];
 }
 
@@ -11,10 +11,10 @@ const AttributeSchema = new mongoose.Schema({
     type: String,
     required: [true, "Title is required"],
   },
-  options: [
+  values: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Option",
+      ref: "AttributeValue",
     },
   ],
   user: {

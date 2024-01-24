@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Fab } from "@mui/material";
 import { ICategoryItem } from "../../types";
 
 import CategoryForm from "./CategoryForm";
@@ -11,31 +10,28 @@ const defaultValues = {
 
 // Internal components
 import BasicModal from "../ui/BasicModal";
-
-// Icons
-import AddIcon from "@mui/icons-material/Add";
+import AddButton from "../ui/AddButton";
 
 const CategoryAdd = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [addCategory, state] = useAddCategoryMutation();
+  const [addCategory] = useAddCategoryMutation();
 
-  const handleOpen = () => setIsModalOpen(true);
-  const handleClose = () => setIsModalOpen(false);
-
-  const fabStyles = { position: "fixed", bottom: 25, right: 25 };
+  const handleToggleModal = () => setIsModalOpen((prev) => !prev);
 
   const onSubmitForm = (data: ICategoryItem) => {
     addCategory(data);
-    handleClose();
+    handleToggleModal();
   };
 
   return (
     <>
-      <Fab onClick={handleOpen} sx={fabStyles} color="primary">
-        <AddIcon />
-      </Fab>
+      <AddButton onClick={handleToggleModal} />
 
-      <BasicModal isOpen={isModalOpen} handleClose={handleClose}>
+      <BasicModal
+        title="Create Category"
+        isOpen={isModalOpen}
+        handleClose={handleToggleModal}
+      >
         <CategoryForm onSubmit={onSubmitForm} values={defaultValues} />
       </BasicModal>
     </>

@@ -1,5 +1,5 @@
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { Stack, Box, TextField, Button, Typography } from "@mui/material";
+import { Stack, Box, TextField, Button } from "@mui/material";
 
 import { ICategoryItem } from "../../types";
 
@@ -23,9 +23,6 @@ const CategoryForm: React.FC<ICategoryForm> = ({ values, onSubmit }) => {
 
   return (
     <Box onSubmit={handleSubmit(onSubmitForm)} component="form">
-      <Typography mb={2} component="h4" variant="h5">
-        Create new category
-      </Typography>
       <Controller
         name="title"
         control={control}

@@ -37,11 +37,13 @@ const TemplateEdit = () => {
     navigate(`/templates/${templateId}`);
   };
 
+  console.log(data);
+
   return (
     <>
       <TemplateForm
         isLoading={isUpdateLoading}
-        values={data}
+        values={data!}
         onSubmit={onUpdateTemplate}
       />
       <Box mb={2}>

@@ -1,39 +1,40 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-interface ICustomAttributes {
-  label: string;
-  options: string[];
+interface FilterState {
+  title: string | null;
+  category: string | null;
+  attributes: { [key: string]: string };
 }
 
-const tempAttributes = [
-  { label: "Language", options: ["PL", "EN", "DE"] },
-  { label: "Project", options: ["Cosmolot", "FavBet", "AlexBet"] },
-  { label: "Gender", options: [] },
-];
-
-interface AppState {
-  customAttributes: ICustomAttributes[] | [];
-  attributesValues: { [key: string]: string } | {};
-}
-
-const initialState: AppState = {
-  customAttributes: tempAttributes,
-  attributesValues: {},
+const initialState: FilterState = {
+  title: null,
+  category: null,
+  attributes: {},
 };
 
-export const appSlice = createSlice({
-  name: "App",
+export const filterSlice = createSlice({
+  name: "Filter",
   initialState,
   reducers: {
     setAttributesValues: (
       state,
       action: PayloadAction<{ [key: string]: string }>
     ) => {
-      state.attributesValues = { ...state.attributesValues, ...action.payload };
+      state.attributes = {
+        ...state.attributes,
+        ...action.payload,
+      };
+    },
+    setTitle: (state, action: PayloadAction<string>) => {
+      state.title = action.payload;
+    },
+    setCategory: (state, action: PayloadAction<string>) => {
+      state.category = action.payload;
     },
   },
 });
 
-export const { setAttributesValues } = appSlice.actions;
+export const { setAttributesValues, setTitle, setCategory } =
+  filterSlice.actions;
 
-export default appSlice.reducer;
+export default filterSlice.reducer;

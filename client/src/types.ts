@@ -1,11 +1,9 @@
 export interface ITemplateItem {
+  _id?: string;
   title: string;
   category: string;
-  language: string;
-  gender: string;
   text: string;
-  _id?: string;
-  attributes?: { [key: string]: string };
+  attributeValues: IAttributeValue[] | { [key: string]: string };
 }
 
 export interface ICategoryItem {
@@ -16,11 +14,11 @@ export interface ICategoryItem {
 export interface IAttribute {
   _id: string;
   label: string;
-  options: [] | IAttributeOption[];
+  values: [] | IAttributeValue[];
 }
 
-export interface IAttributeOption {
+export interface IAttributeValue {
   _id: string;
-  name: string;
+  value: string;
   attribute: string;
 }

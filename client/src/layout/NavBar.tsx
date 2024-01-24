@@ -12,7 +12,7 @@ import { logoutUser } from "../store/reducers/userSlice";
 
 const pages = [
   { title: "Templates", path: "/templates" },
-  { title: "Settings", path: "/settings/profile" },
+  { title: "Settings", path: "/settings/categories" },
 ];
 
 const NavBar = () => {

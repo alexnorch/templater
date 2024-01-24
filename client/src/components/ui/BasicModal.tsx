@@ -1,18 +1,17 @@
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
+import { Modal, Box, Typography } from "@mui/material";
 
-interface BasicModalProps {
-  label?: string;
-  description?: string;
+interface IBasicModal {
+  title: string;
   isOpen: boolean;
   handleClose: () => void;
   children: React.ReactNode;
 }
 
-const BasicModal: React.FC<BasicModalProps> = ({
+const BasicModal: React.FC<IBasicModal> = ({
   children,
   isOpen,
   handleClose,
+  title,
 }) => {
   const style = {
     position: "absolute" as "absolute",
@@ -27,13 +26,11 @@ const BasicModal: React.FC<BasicModalProps> = ({
   };
 
   return (
-    <Modal
-      open={isOpen}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={style}>{children}</Box>
+    <Modal open={isOpen} onClose={handleClose}>
+      <Box sx={style}>
+        <Typography mb={2}>{title}</Typography>
+        {children}
+      </Box>
     </Modal>
   );
 };

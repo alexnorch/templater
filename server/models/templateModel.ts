@@ -5,10 +5,8 @@ export interface ITemplate extends mongoose.Document {
   title: string;
   category: ICategory;
   user: string;
-  gender: string;
-  language: string;
   text: string;
-  attributes: string[];
+  attributeValues: string[];
 }
 
 const TemplateSchema = new mongoose.Schema({
@@ -24,22 +22,14 @@ const TemplateSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  language: {
-    type: String,
-    required: [true, "Language is required"],
-  },
-  gender: {
-    type: String,
-    required: [true, "Gender is required"],
-  },
   text: {
     type: String,
     required: [true, "Text is required"],
   },
-  options: [
+  attributeValues: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Option",
+      ref: "AttributeValue",
     },
   ],
 });

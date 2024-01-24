@@ -1,8 +1,8 @@
-import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { updateQueryString } from "../../store/reducers/templatesSlice";
-import { Stack, Button, Box, Typography } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { Stack, Button, Box } from "@mui/material";
 import { useGetCategoriesQuery } from "../categories/categoriesApi";
+import { setCategory } from "./filterSlice";
 
 const TemplateCategoryFilter = () => {
   const [activeCategory, setActiveCategory] = useState("");
@@ -13,7 +13,7 @@ const TemplateCategoryFilter = () => {
     setActiveCategory(id);
 
     if (id !== activeCategory) {
-      dispatch(updateQueryString({ key: "category", value: id }));
+      dispatch(setCategory(id));
     }
   };
 
@@ -36,11 +36,11 @@ const TemplateCategoryFilter = () => {
     }
   };
 
+  const renderedCategories = renderCategoryItems();
+
   const buttonStyles = {
     background: activeCategory === "" ? "palette.primary.dark" : "#bbb",
   };
-
-  const renderedCategories = renderCategoryItems();
 
   return (
     <Box mt={2}>

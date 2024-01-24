@@ -14,9 +14,8 @@ import TemplateView from "./pages/TemplateView";
 import TemplateEdit from "./pages/TemplateEdit";
 
 // Settings Pages
-import TemplateSettings from "./pages/settings/TemplateSettings";
 import CategoriesSettings from "./pages/settings/CategoriesSettings";
-import UserSettings from "./pages/settings/UserSettings";
+import AttributesSettings from "./pages/settings/AttributesSettings";
 
 const AppWithAuth = withAuth(AppLayout);
 
@@ -30,8 +29,7 @@ function App() {
         </Route>
         <Route path="settings" element={<SettingsLayout />}>
           <Route path="categories" element={<CategoriesSettings />} />
-          <Route path="templates" element={<TemplateSettings />} />
-          <Route path="profile" element={<UserSettings />} />
+          <Route path="attributes" element={<AttributesSettings />} />
         </Route>
       </Route>
       <Route element={<AuthLayout />}>

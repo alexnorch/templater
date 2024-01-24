@@ -5,15 +5,15 @@ import { useGetTemplatesQuery } from "./templateSlice";
 
 import TemplateLite from "./TemplateLite";
 
-const selectQueryObj = (state: RootState) => state.templates.queryObj;
+const selectFilterParams = (state: RootState) => state.filter;
 
 const TemplatesList = () => {
-  const queryParams = useSelector(selectQueryObj);
+  const filterParams = useSelector(selectFilterParams);
   const {
     data: templates,
     isLoading,
     isSuccess,
-  } = useGetTemplatesQuery(queryParams);
+  } = useGetTemplatesQuery(filterParams);
 
   const getContent = () => {
     if (isLoading) {
@@ -28,12 +28,9 @@ const TemplatesList = () => {
       return templates.map((template: any) => (
         <TemplateLite
           key={template._id}
-          category={template.category}
           _id={template._id}
           title={template.title}
           text={template.text}
-          language={template.language}
-          gender={template.gender}
         />
       ));
     }

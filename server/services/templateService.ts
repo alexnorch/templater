@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import User, { IUser } from "../models/userModel";
 import { ICategory } from "../models/categoryModel";
 import Category from "../models/categoryModel";
@@ -11,17 +12,40 @@ class TemplateService {
     this.userId = userId;
   }
 
-  async getTemplates() {
-    const templates: ITemplate[] | null = await Template.find({
-      user: this.userId,
-    })
+  async getTemplates(params: any) {
+    const { attributes, category, title } = params;
+    let queryObj: { [key: string]: any } = { user: this.userId };
+
+    if (title !== "null" && title !== "") {
+      queryObj.title = title;
+    }
+
+    if (category !== "null" && category !== "") {
+      queryObj.category = category;
+    }
+
+    if (attributes) {
+      const attrArray = attributes.split(",").filter((attr: string) => attr);
+      const attributeValues = attrArray.map(
+        (attributeId: string) => new mongoose.Types.ObjectId(attributeId)
+      );
+
+      if (attributeValues.length > 0) {
+        queryObj.attributeValues = { $in: attributeValues };
+      }
+    }
+
+    const templates: ITemplate[] | null = await Template.find(queryObj)
       .populate("category")
+      .populate("attributeValues")
       .lean();
 
     const templatesWithCategories = templates!.map((template) => {
+      const category = template.category ? template.category.title : "";
+
       return {
         ...template,
-        category: template.category.title,
+        category,
       };
     });
 
@@ -34,6 +58,7 @@ class TemplateService {
       _id: templateId,
     })
       .populate("category", "title")
+      .populate("attributeValues")
       .lean();
 
     if (!template) {
@@ -48,10 +73,11 @@ class TemplateService {
     };
   }
 
-  async createTemplate(userId: string, templateFields: any) {
-    const { title, category, language, gender, text, options } = templateFields;
+  async createTemplate(templateFields: any) {
+    const { title, category, text, attributeValues } = templateFields;
+    // const isAttributesExists = await Attribute.find({ user: this.userId });
 
-    if (!title || !category || !language || !gender || !text || !options) {
+    if (!title || !category || !text) {
       return new AppError("Please provide all values", 400);
     }
 
@@ -59,7 +85,7 @@ class TemplateService {
       title: category,
     })) as ICategory;
 
-    const user = (await User.findById(userId)) as IUser;
+    const user = (await User.findById(this.userId)) as IUser;
     const userCategory = await Category.findById(foundCategory._id).select(
       "+templates"
     );
@@ -71,10 +97,8 @@ class TemplateService {
     const templateDoc = new Template({
       title,
       category: foundCategory._id,
-      language,
-      gender,
-      user: userId,
-      options,
+      user: this.userId,
+      attributeValues: attributeValues ? Object.values(attributeValues) : [],
       text,
     });
 

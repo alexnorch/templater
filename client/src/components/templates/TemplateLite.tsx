@@ -9,7 +9,13 @@ import { showAlert } from "../../store/reducers/appSlice";
 // Icons
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-const TemplateLite: React.FC<ITemplateItem> = ({ _id, title, text }) => {
+interface ITemplateLite {
+  _id: string;
+  title: string;
+  text: string;
+}
+
+const TemplateLite: React.FC<ITemplateLite> = ({ _id, title, text }) => {
   const { templateId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
