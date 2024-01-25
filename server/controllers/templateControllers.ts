@@ -1,5 +1,4 @@
 import { RequestHandler } from "../types";
-import Template from "../models/templateModel";
 import AppError from "../utils/AppError";
 import TemplateService from "../services/templateService";
 
@@ -51,10 +50,12 @@ export const updateTemplate: RequestHandler = async (req, res, next) => {
     return next(new AppError("Please provide all values", 400));
   }
 
-  const updatedTemplate = templateService.updateTemplate(templateId, req.body);
-  res.send(updatedTemplate);
-
   try {
+    const updatedTemplate = templateService.updateTemplate(
+      templateId,
+      req.body
+    );
+    res.send(updatedTemplate);
   } catch (error) {
     next(error);
   }

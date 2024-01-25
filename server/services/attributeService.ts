@@ -65,8 +65,47 @@ class AttributeService {
     return deletedAttribute;
   }
 
-  async createAttributeValue() {}
-  async deleteAttributeValue() {}
+  async createAttributeValue(attrId: string, attrValue: string) {
+    const attribute = await Attribute.findById(attrId);
+
+    if (!attribute) {
+      return new AppError("Invalid attribute ID", 400);
+    }
+
+    const isAlreadyExists = await AttributeValue.findOne({
+      value: attrValue,
+      attribute: attrId,
+    });
+
+    if (isAlreadyExists) {
+      return new AppError("Option with this name is already exists", 400);
+    }
+
+    const attributeValueDoc = new AttributeValue({
+      value: attrValue,
+      attribute: attrId,
+    });
+
+    const createAttributeValue = await attributeValueDoc.save();
+
+    attribute.values.push(createAttributeValue._id);
+    attribute.save();
+
+    return createAttributeValue;
+  }
+
+  async deleteAttributeValue(attrId: string, valueId: string) {
+    const deletedAttributeOption = await AttributeValue.findOneAndDelete({
+      attribute: attrId,
+      _id: valueId,
+    });
+
+    if (!deletedAttributeOption) {
+      return new AppError("Attribute Option with that ID wasn't found", 404);
+    }
+
+    return deletedAttributeOption;
+  }
 }
 
 export default AttributeService;
