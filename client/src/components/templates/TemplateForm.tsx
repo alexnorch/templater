@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import {
+  Grid,
   Stack,
   TextField,
   FormControl,
@@ -10,43 +12,53 @@ import {
   Button,
 } from "@mui/material";
 
-import { useGetCategoriesQuery } from "../categories/categoriesApi";
-import { ITemplateItem } from "../../types";
+import { useGetAttributesQuery } from "../attributes/attributeSlice";
+import { useGetCategoriesQuery } from "../categories/categoriesSlice";
+import { ITemplateItem, IAttributeValue, ICategoryItem } from "../../types";
+
+import { formatTemplateData } from "../../utils/helpers";
 
 interface ITemplateForm {
+  mode: "edit" | "create";
   values: ITemplateItem;
   onSubmit: (data: ITemplateItem) => void;
   isLoading: boolean;
 }
 
-import { useGetAttributesQuery } from "../attributes/attributeSlice";
-
 // Rules
 const required = "The field is required";
 
 const TemplateForm: React.FC<ITemplateForm> = ({
+  mode,
   values,
   isLoading,
   onSubmit,
 }) => {
-  const { data: categories } = useGetCategoriesQuery();
+  const { data: categories, isSuccess: isCategoriesSuccess } =
+    useGetCategoriesQuery();
   const { data: attributesList } = useGetAttributesQuery();
 
   const {
     control,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues: values });
 
-  const submitForm: SubmitHandler<ITemplateItem> = (data) => {
-    onSubmit(data);
-  };
+  useEffect(() => {
+    if (mode === "edit") {
+      if (Array.isArray(values.attributeValues)) {
+        values.attributeValues.forEach((item: IAttributeValue) => {
+          const lowerLabel = item.attribute.toLowerCase();
+          setValue(`attributeValues.${lowerLabel}`, item._id);
+        });
+      }
+    }
+  }, []);
 
-  const renderedCategories = categories?.map((item) => (
-    <MenuItem key={item._id} value={item.title}>
-      {item.title}
-    </MenuItem>
-  ));
+  const submitForm: SubmitHandler<ITemplateItem> = (data) => {
+    onSubmit(formatTemplateData(data));
+  };
 
   const renderedAttributes = attributesList?.map(({ label, values, _id }) => {
     const errorsTyped = errors as {
@@ -58,42 +70,38 @@ const TemplateForm: React.FC<ITemplateForm> = ({
       errorsTyped?.attributeValues?.[labelLowerCase]?.message;
 
     return (
-      <Controller
-        key={_id}
-        name={`attributeValues.${labelLowerCase}`}
-        control={control}
-        rules={{ required }}
-        render={({ field, fieldState: { invalid } }) => {
-          return (
-            <FormControl size="small" variant="filled" fullWidth>
-              <InputLabel>{label}</InputLabel>
-              <Select
-                {...field}
-                value={field.value || ""}
-                error={invalid}
-                label={label}
-              >
-                {values.map(({ value, _id }) => (
-                  <MenuItem key={_id} value={_id}>
-                    {value}
-                  </MenuItem>
-                ))}
-              </Select>
-              <FormHelperText error={invalid}>{errorMessage}</FormHelperText>
-            </FormControl>
-          );
-        }}
-      />
+      <Grid item md={3} key={_id}>
+        <Controller
+          name={`attributeValues.${labelLowerCase}`}
+          control={control}
+          rules={{ required }}
+          render={({ field, fieldState: { invalid } }) => {
+            return (
+              <FormControl size="small" variant="filled" fullWidth>
+                <InputLabel>{label}</InputLabel>
+                <Select
+                  {...field}
+                  value={field.value || ""}
+                  error={invalid}
+                  label={label}
+                >
+                  {values.map(({ value, _id }) => (
+                    <MenuItem key={_id} value={_id}>
+                      {value}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText error={invalid}>{errorMessage}</FormHelperText>
+              </FormControl>
+            );
+          }}
+        />
+      </Grid>
     );
   });
 
   return (
-    <Stack
-      width="100%"
-      onSubmit={handleSubmit(submitForm)}
-      spacing={2}
-      component="form"
-    >
+    <Stack onSubmit={handleSubmit(submitForm)} spacing={2} component="form">
       <Controller
         name="title"
         control={control}
@@ -111,24 +119,40 @@ const TemplateForm: React.FC<ITemplateForm> = ({
         )}
       />
 
-      <Controller
-        name="category"
-        control={control}
-        rules={{ required }}
-        render={({ field, fieldState: { invalid } }) => {
-          return (
-            <FormControl size="small" variant="filled" fullWidth>
-              <InputLabel error={invalid}>Category</InputLabel>
-              <Select {...field} error={invalid} label="Category">
-                {renderedCategories}
-              </Select>
-              <FormHelperText error={invalid}>
-                {errors?.category?.message}
-              </FormHelperText>
-            </FormControl>
-          );
-        }}
-      />
+      {isCategoriesSuccess && (
+        <Controller
+          name="category"
+          control={control}
+          rules={{ required }}
+          render={({ field, fieldState: { invalid } }) => {
+            const value =
+              typeof field.value === "object"
+                ? field.value._id || ""
+                : field.value || "";
+
+            return (
+              <FormControl size="small" variant="filled" fullWidth>
+                <InputLabel error={invalid}>Category</InputLabel>
+                <Select
+                  {...field}
+                  value={value}
+                  error={invalid}
+                  label="Category"
+                >
+                  {categories?.map((item: ICategoryItem) => (
+                    <MenuItem key={item._id} value={item._id}>
+                      {item.title}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText error={invalid}>
+                  {errors?.category?.message}
+                </FormHelperText>
+              </FormControl>
+            );
+          }}
+        />
+      )}
 
       <Controller
         name="text"
@@ -146,9 +170,9 @@ const TemplateForm: React.FC<ITemplateForm> = ({
           />
         )}
       />
-
-      {/* Additional Template Attributes  */}
-      {renderedAttributes}
+      <Grid container flexDirection="row" flexWrap="wrap" gap={2}>
+        {renderedAttributes}
+      </Grid>
 
       <Stack alignItems="flex-end">
         <Button disabled={isLoading} type="submit" variant="contained">

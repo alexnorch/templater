@@ -49,6 +49,10 @@ export const updateCategory: RequestHandler = async (req, res, next) => {
   const categoryServices = new CategoryService(req.userId);
   const { title } = req.body;
 
+  // if (!title) {
+  //   return next(new AppError("Please provide all values", 400));
+  // }
+
   try {
     const category = await categoryServices.updateCategory(
       req.params.id,

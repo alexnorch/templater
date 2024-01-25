@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ICategoryItem } from "../../types";
 
 import CategoryForm from "./CategoryForm";
-import { useAddCategoryMutation } from "./categoriesApi";
+import { useAddCategoryMutation } from "./categoriesSlice";
 
 const defaultValues = {
   title: "",

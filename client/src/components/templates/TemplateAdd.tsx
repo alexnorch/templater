@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Box } from "@mui/material";
 
 import { ITemplateItem } from "../../types";
 
@@ -37,11 +38,14 @@ const TemplateAdd = () => {
         isOpen={isModalOpen}
         handleClose={handleToggleModal}
       >
-        <TemplateForm
-          onSubmit={onSubmitForm}
-          values={defaultValues}
-          isLoading={isLoading}
-        />
+        <Box minWidth={600}>
+          <TemplateForm
+            mode="create"
+            onSubmit={onSubmitForm}
+            values={defaultValues}
+            isLoading={isLoading}
+          />
+        </Box>
       </BasicModal>
     </>
   );

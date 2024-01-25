@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 import { ICategory } from "./categoryModel";
+import { IAttributeValue } from "./attributeValueModel";
 
 export interface ITemplate extends mongoose.Document {
   title: string;
   category: ICategory;
   user: string;
   text: string;
-  attributeValues: string[];
+  attributeValues: string[] | IAttributeValue[];
 }
 
 const TemplateSchema = new mongoose.Schema({

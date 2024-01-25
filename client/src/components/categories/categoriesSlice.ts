@@ -35,15 +35,24 @@ const categoryApi = baseApi
           { type: "Category", id: arg.categoryId },
         ],
       }),
+      updateCategory: build.mutation({
+        query: (category) => {
+          return {
+            url: `/categories/${category._id}`,
+            method: "PATCH",
+            body: category,
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Category", _id: arg._id },
+        ],
+      }),
     }),
-    //   getCategory: build.query({}),
-    //   updateCategory: build.mutation({}),
   });
 
 export const {
   useGetCategoriesQuery,
   useDeleteCategoryMutation,
   useAddCategoryMutation,
-  //   useGetCategoryQuery,
-  //   useUpdateCategoryMutation,
+  useUpdateCategoryMutation,
 } = categoryApi;

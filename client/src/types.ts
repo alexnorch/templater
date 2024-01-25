@@ -1,7 +1,7 @@
 export interface ITemplateItem {
   _id?: string;
   title: string;
-  category: string;
+  category: string | ICategoryItem;
   text: string;
   attributeValues: IAttributeValue[] | { [key: string]: string };
 }

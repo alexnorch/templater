@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Stack, Button, Box } from "@mui/material";
-import { useGetCategoriesQuery } from "../categories/categoriesApi";
+import { useGetCategoriesQuery } from "../categories/categoriesSlice";
 import { setCategory } from "./filterSlice";
 
 const TemplateCategoryFilter = () => {

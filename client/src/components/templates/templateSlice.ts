@@ -34,11 +34,14 @@ export const templateApi = baseApi
         providesTags: (result, error, arg) => [{ type: "Template", _id: arg }],
       }),
       updateTemplate: build.mutation({
-        query: (template) => ({
-          url: `/templates/${template._id}`,
-          method: "PATCH",
-          body: template,
-        }),
+        query: (template) => {
+          console.log(template._id);
+          return {
+            url: `/templates/${template._id}`,
+            method: "PATCH",
+            body: template,
+          };
+        },
         invalidatesTags: (result, error, arg) => [
           { type: "Template", _id: arg },
         ],

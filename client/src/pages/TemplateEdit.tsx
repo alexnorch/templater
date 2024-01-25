@@ -16,7 +16,7 @@ import {
 
 const TemplateEdit = () => {
   const { templateId } = useParams();
-  const { data, isLoading } = useGetTemplateQuery(templateId);
+  const { data, isLoading, isSuccess } = useGetTemplateQuery(templateId);
   const { showSuccessAlert } = useAlert();
   const [updateTemplate, { isLoading: isUpdateLoading }] =
     useUpdateTemplateMutation();
@@ -37,15 +37,17 @@ const TemplateEdit = () => {
     navigate(`/templates/${templateId}`);
   };
 
-  console.log(data);
-
   return (
     <>
-      <TemplateForm
-        isLoading={isUpdateLoading}
-        values={data!}
-        onSubmit={onUpdateTemplate}
-      />
+      {isSuccess && (
+        <TemplateForm
+          mode="edit"
+          values={data}
+          isLoading={isUpdateLoading}
+          onSubmit={onUpdateTemplate}
+        />
+      )}
+
       <Box mb={2}>
         <Button
           size="small"

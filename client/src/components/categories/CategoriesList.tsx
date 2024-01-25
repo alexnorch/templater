@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 import CategoryItem from "./CategoryItem";
-import { useGetCategoriesQuery } from "./categoriesApi";
+import { useGetCategoriesQuery } from "./categoriesSlice";
 
 const CategoriesList = () => {
   const { data: categories, isLoading } = useGetCategoriesQuery();

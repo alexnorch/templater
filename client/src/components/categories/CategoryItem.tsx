@@ -22,24 +22,29 @@ import { ICategoryItem } from "../../types";
 import { capitalizeFirstLetter } from "../../utils/helpers";
 
 // API
-import { useDeleteCategoryMutation } from "./categoriesApi";
+import {
+  useDeleteCategoryMutation,
+  useUpdateCategoryMutation,
+} from "./categoriesSlice";
 
-const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
+const CategoryItem: React.FC<ICategoryItem> = (props) => {
+  const { title, _id } = props;
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
 
-  const [deleteCategory, state] = useDeleteCategoryMutation();
+  const [deleteCategory] = useDeleteCategoryMutation();
+  const [updateCategory] = useUpdateCategoryMutation();
 
   const onDeleteCategory = () => {
     handleFinishActions();
     deleteCategory(_id);
   };
 
-  const onEditCategory = (data: ICategoryItem) => {
-    alert("Updated");
-
+  const onEditCategory = async (data: ICategoryItem) => {
+    console.log(data);
+    await updateCategory(data).unwrap();
     handleFinishActions();
   };
 
@@ -98,7 +103,7 @@ const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
         isOpen={isEditing}
         handleClose={handleFinishActions}
       >
-        <CategoryForm values={{ title }} onSubmit={onEditCategory} />
+        <CategoryForm values={props} onSubmit={onEditCategory} />
       </BasicModal>
     </>
   );

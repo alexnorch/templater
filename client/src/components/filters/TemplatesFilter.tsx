@@ -38,9 +38,8 @@ const TemplateFilter = () => {
     };
 
     return (
-      <Stack flexDirection="row" alignItems="flex-start">
+      <Stack key={_id} flexDirection="row" alignItems="flex-start">
         <AttributeSelect
-          key={_id}
           _id={_id}
           onChange={onSelectAttribute}
           value={attributesValues[label] || ""}
@@ -55,7 +54,7 @@ const TemplateFilter = () => {
   });
 
   return (
-    <Box mb={2}>
+    <Box mb={4}>
       <Grid container mb={2} justifyContent="space-between">
         <Grid item md={4}>
           <TextField

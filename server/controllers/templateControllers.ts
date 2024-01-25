@@ -45,9 +45,9 @@ export const createTemplate: RequestHandler = async (req, res, next) => {
 export const updateTemplate: RequestHandler = async (req, res, next) => {
   const templateService = new TemplateService(req.userId);
   const templateId = req.params.id;
-  const { title, text, language, gender, category } = req.body;
+  const { title, text, category } = req.body;
 
-  if (!title || !text || !language || !gender || !category) {
+  if (!title || !text || !category) {
     return next(new AppError("Please provide all values", 400));
   }
 
@@ -61,14 +61,10 @@ export const updateTemplate: RequestHandler = async (req, res, next) => {
 };
 
 export const deleteTemplate: RequestHandler = async (req, res, next) => {
-  const user = req.userId;
+  const templateService = new TemplateService(req.userId);
 
   try {
-    const deletedTemplate = await Template.findOneAndDelete({
-      user,
-      _id: req.params.id,
-    });
-
+    const deletedTemplate = await templateService.deleteTemplate(req.params.id);
     res.send(deletedTemplate);
   } catch (error) {
     next(error);

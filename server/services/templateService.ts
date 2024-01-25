@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import User, { IUser } from "../models/userModel";
-import { ICategory } from "../models/categoryModel";
 import Category from "../models/categoryModel";
 import Template, { ITemplate } from "../models/templateModel";
 import AppError from "../utils/AppError";
@@ -31,7 +30,7 @@ class TemplateService {
       );
 
       if (attributeValues.length > 0) {
-        queryObj.attributeValues = { $in: attributeValues };
+        queryObj.attributeValues = { $all: attributeValues };
       }
     }
 
@@ -57,38 +56,36 @@ class TemplateService {
       user: this.userId,
       _id: templateId,
     })
-      .populate("category", "title")
-      .populate("attributeValues")
+      .populate("category")
+      .populate({
+        path: "attributeValues",
+        populate: {
+          path: "attribute",
+          select: "label",
+        },
+      })
       .lean();
 
-    if (!template) {
-      return {};
+    if (template && template.attributeValues) {
+      template.attributeValues.forEach((attrValue: any) => {
+        if (attrValue.attribute && attrValue.attribute.label) {
+          attrValue.attribute = attrValue.attribute.label;
+        }
+      });
     }
 
-    const { category, ...restTemplate } = template;
-
-    return {
-      ...restTemplate,
-      category: category.title,
-    };
+    return template;
   }
 
   async createTemplate(templateFields: any) {
     const { title, category, text, attributeValues } = templateFields;
-    // const isAttributesExists = await Attribute.find({ user: this.userId });
 
     if (!title || !category || !text) {
       return new AppError("Please provide all values", 400);
     }
 
-    const foundCategory = (await Category.findOne({
-      title: category,
-    })) as ICategory;
-
     const user = (await User.findById(this.userId)) as IUser;
-    const userCategory = await Category.findById(foundCategory._id).select(
-      "+templates"
-    );
+    const userCategory = await Category.findById(category).select("+templates");
 
     if (!userCategory) {
       return new AppError("Invalid category", 400);
@@ -96,9 +93,9 @@ class TemplateService {
 
     const templateDoc = new Template({
       title,
-      category: foundCategory._id,
+      category,
       user: this.userId,
-      attributeValues: attributeValues ? Object.values(attributeValues) : [],
+      attributeValues: attributeValues ? attributeValues : [],
       text,
     });
 
@@ -113,39 +110,36 @@ class TemplateService {
     return createdTemplate;
   }
 
-  async deleteTemplate() {}
-
-  async getCategoryIdByTitle(title: string) {
-    const userCategory = await Category.findOne({
-      title,
+  async deleteTemplate(templateId: string) {
+    const deletedTemplate = await Template.findOneAndDelete({
+      _id: templateId,
       user: this.userId,
     });
 
-    if (userCategory) return userCategory._id;
+    return deletedTemplate;
   }
 
   async updateTemplate(templateId: string, body: any) {
-    const { gender, language, text, title, category } = body;
+    const { text, title, category, attributeValues } = body;
 
     const template = await Template.findOne({
       user: this.userId,
       _id: templateId,
     });
 
+    console.log(attributeValues);
+
     if (!template) {
       return new AppError("Template with that ID wasn't found", 404);
     }
-
-    const categoryId = await this.getCategoryIdByTitle(category);
 
     const updatedTemplate = await template.updateOne(
       {
         user: this.userId,
         title,
         text,
-        language,
-        gender,
-        category: categoryId,
+        category,
+        attributeValues,
       },
       { runValidators: true }
     );

@@ -1,76 +1,65 @@
 import { RequestHandler } from "../types";
 import Attribute from "../models/attributeModel";
-import User, { IUser } from "../models/userModel";
 import AttributeValue from "../models/attributeValueModel";
 import AppError from "../utils/AppError";
+import AttributeService from "../services/attributeService";
 
 export const getAllAttributes: RequestHandler = async (req, res, next) => {
-  const attributes = await Attribute.find({ user: req.userId }).populate(
-    "values"
-  );
+  const attributeService = new AttributeService(req.userId);
 
-  res.send(attributes);
+  try {
+    const attributes = await attributeService.getAllAttributes();
+    res.send(attributes);
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const createAttribute: RequestHandler = async (req, res, next) => {
-  const userId = req.userId;
-  const label = req.body.label;
+  const attributeService = new AttributeService(req.userId);
 
-  if (!label) {
+  if (!req.body.label) {
     return next(new AppError("Attribute label is required", 400));
   }
 
-  const isAlreadyExists = await Attribute.findOne({ label, user: userId });
-
-  if (isAlreadyExists) {
-    return next(
-      new AppError("Attribute with this label is already exists", 400)
+  try {
+    const createdAttribute = await attributeService.createAttribute(
+      req.body.label
     );
+
+    res.send(createdAttribute);
+  } catch (error) {
+    next(error);
   }
-
-  const user = (await User.findById(userId)) as IUser;
-  const attributeDoc = new Attribute({ values: [], user: userId, label });
-  const createdAttribute = await attributeDoc.save();
-
-  user.attributes.push(createdAttribute._id);
-
-  res.send(createdAttribute);
 };
 
 export const updateAttribute: RequestHandler = async (req, res, next) => {
-  const attributeId = req.params.attrId;
-  const user = req.userId;
+  const attributeService = new AttributeService(req.userId);
+  const attrId = req.params.attrId;
   const newLabel = req.body.label;
 
-  const updatedAttribute = await Attribute.findOneAndUpdate(
-    { _id: attributeId, user },
-    { $set: { label: newLabel } },
-    { returnDocument: "after" }
-  );
-
-  if (!updatedAttribute) {
-    return next(new AppError("Attribute with that ID wasn't found", 400));
+  if (!newLabel) {
+    return next(new AppError("Please provide all values", 400));
   }
 
-  res.send(updatedAttribute);
+  try {
+    const updatedAttribute = await attributeService.updateAttribute(
+      attrId,
+      newLabel
+    );
+
+    res.send(updatedAttribute);
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const deleteAttribute: RequestHandler = async (req, res, next) => {
+  const attributeService = new AttributeService(req.userId);
+  const attrId = req.params.attrId;
+
   try {
-    const attributeId = req.params.attrId;
-    const user = req.userId;
-
-    const deletedAttribute = await Attribute.findOneAndDelete({
-      _id: attributeId,
-      user,
-    });
-
-    if (!deletedAttribute) {
-      return next(new AppError("Attribute with that ID wasn't found", 400));
-    }
-
-    await AttributeValue.deleteMany({ attribute: deletedAttribute._id });
-
+    const deletedAttribute = await attributeService.deleteAttribute(attrId);
     res.send(deletedAttribute);
   } catch (error) {
     next(error);
