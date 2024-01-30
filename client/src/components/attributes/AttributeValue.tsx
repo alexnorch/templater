@@ -10,8 +10,11 @@ interface AttributeValueProps {
   optionId: string;
 }
 
-const AttributeValue: React.FC<AttributeValueProps> = (props) => {
-  const { value, attrId, optionId } = props;
+const AttributeValue: React.FC<AttributeValueProps> = ({
+  value,
+  attrId,
+  optionId,
+}) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteAttributeOption] = useDeleteAttributeOptionMutation();
 
@@ -24,6 +27,8 @@ const AttributeValue: React.FC<AttributeValueProps> = (props) => {
   return (
     <>
       <Chip label={value} onDelete={handleToggleDeleting} />
+
+      {/* Deleting Attribute Value */}
       <ConfirmDialog
         handleSubmit={onDeleteOptionAttribute}
         handleClose={handleToggleDeleting}

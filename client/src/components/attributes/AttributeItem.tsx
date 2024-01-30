@@ -36,8 +36,9 @@ const AttributeItem: React.FC<AttributeItemProps> = (props) => {
           </Typography>
           <Button onClick={handleToggleDeleting}>Delete</Button>
         </Stack>
-        <AttributeValues values={values} />
+        <AttributeValues attrId={attrId} values={values} />
       </Stack>
+
       {/* Attribute Deleting */}
       <ConfirmDialog
         isOpen={isDeleting}

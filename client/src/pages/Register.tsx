@@ -16,6 +16,12 @@ const defaultValues = {
   confirmPassword: "",
 };
 
+const boxStyles = {
+  display: "flex",
+  alignItems: "flex-end",
+  width: "100%",
+};
+
 const Register = () => {
   const {
     control,
@@ -25,12 +31,6 @@ const Register = () => {
 
   const onSubmitForm: SubmitHandler<IFormInput> = (data) => {
     console.log("Submited", data);
-  };
-
-  const boxStyles = {
-    display: "flex",
-    alignItems: "flex-end",
-    width: "100%",
   };
 
   const iconStyles = { color: "action.active", mr: 1, my: 0.5 };

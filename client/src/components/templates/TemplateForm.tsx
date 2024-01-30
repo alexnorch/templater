@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import {
   Grid,
@@ -13,12 +14,13 @@ import {
 } from "@mui/material";
 
 import { useGetAttributesQuery } from "../attributes/attributeSlice";
-import { useGetCategoriesQuery } from "../categories/categoriesSlice";
 import { ITemplateItem, IAttributeValue, ICategoryItem } from "../../types";
+import { useGetCategoriesQuery } from "../categories/categoriesSlice";
+import NoCategoriesMessage from "../categories/NoCategoriesMessage";
 
-import { formatTemplateData } from "../../utils/helpers";
+import { formatTemplateData, capitalizeFirstLetter } from "../../utils/helpers";
 
-interface ITemplateForm {
+interface TemplateFormProps {
   mode: "edit" | "create";
   values: ITemplateItem;
   onSubmit: (data: ITemplateItem) => void;
@@ -28,12 +30,8 @@ interface ITemplateForm {
 // Rules
 const required = "The field is required";
 
-const TemplateForm: React.FC<ITemplateForm> = ({
-  mode,
-  values,
-  isLoading,
-  onSubmit,
-}) => {
+const TemplateForm: React.FC<TemplateFormProps> = (props) => {
+  const { mode, values, isLoading, onSubmit } = props;
   const { data: categories, isSuccess: isCategoriesSuccess } =
     useGetCategoriesQuery();
   const { data: attributesList } = useGetAttributesQuery();
@@ -102,6 +100,7 @@ const TemplateForm: React.FC<ITemplateForm> = ({
 
   return (
     <Stack onSubmit={handleSubmit(submitForm)} spacing={2} component="form">
+      {categories && categories.length === 0 && <NoCategoriesMessage />}
       <Controller
         name="title"
         control={control}
@@ -139,9 +138,9 @@ const TemplateForm: React.FC<ITemplateForm> = ({
                   error={invalid}
                   label="Category"
                 >
-                  {categories?.map((item: ICategoryItem) => (
-                    <MenuItem key={item._id} value={item._id}>
-                      {item.title}
+                  {categories?.map(({ _id, title }: ICategoryItem) => (
+                    <MenuItem key={_id} value={_id}>
+                      {title && capitalizeFirstLetter(title)}
                     </MenuItem>
                   ))}
                 </Select>
@@ -175,7 +174,11 @@ const TemplateForm: React.FC<ITemplateForm> = ({
       </Grid>
 
       <Stack alignItems="flex-end">
-        <Button disabled={isLoading} type="submit" variant="contained">
+        <Button
+          disabled={categories!.length === 0 || isLoading}
+          type="submit"
+          variant="contained"
+        >
           Save
         </Button>
       </Stack>

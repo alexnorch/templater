@@ -16,7 +16,8 @@ class TemplateService {
     let queryObj: { [key: string]: any } = { user: this.userId };
 
     if (title !== "null" && title !== "") {
-      queryObj.title = title;
+      const regex = new RegExp(title, "i");
+      queryObj.title = { $regex: regex };
     }
 
     if (category !== "null" && category !== "") {

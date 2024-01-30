@@ -10,18 +10,14 @@ const Settings = () => {
   const navigate = useNavigate();
 
   const navLinks = pages.map(({ title, path }) => (
-    <Button
-      key={title}
-      onClick={() => navigate(path)}
-      sx={{ my: 2, display: "block" }}
-    >
+    <Button key={title} onClick={() => navigate(path)} sx={{ my: 1 }}>
       {title}
     </Button>
   ));
 
   return (
     <>
-      <Stack flexDirection="row" alignItems="center">
+      <Stack flexDirection="row" gap={2} alignItems="center">
         {navLinks}
       </Stack>
 

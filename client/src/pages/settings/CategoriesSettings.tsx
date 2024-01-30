@@ -5,14 +5,9 @@ import CategoryAdd from "../../components/categories/CategoryAdd";
 const CategoriesSettings = () => {
   return (
     <Box component="section">
-      <Box mb={2}>
-        <Typography component="h2" variant="h4">
-          Categories
-        </Typography>
-        <Typography component="p" variant="subtitle1">
-          Here you can adjust your categories
-        </Typography>
-      </Box>
+      <Typography component="h2" variant="h4">
+        Categories
+      </Typography>
       <CategoriesList />
       <CategoryAdd />
     </Box>

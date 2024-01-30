@@ -20,7 +20,6 @@ const TemplateLite: React.FC<ITemplateLite> = ({ _id, title, text }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Copying template text to the clipboard
   const onCopyText = () => {
     if (text) {
       navigator.clipboard.writeText(text);
@@ -39,7 +38,7 @@ const TemplateLite: React.FC<ITemplateLite> = ({ _id, title, text }) => {
     alignItems: "center",
     justifyContent: "space-between",
     borderRadius: 1,
-    backgroundColor: _id === templateId ? "#1976d2" : "#bbb",
+    backgroundColor: _id === templateId ? "#1976d2" : "#ccc",
     color: _id === templateId ? "#fff" : "#333",
     padding: 2,
     cursor: "pointer",

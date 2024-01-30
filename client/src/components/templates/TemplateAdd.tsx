@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
 
 import { ITemplateItem } from "../../types";
 
@@ -9,6 +9,7 @@ import AddButton from "../ui/AddButton";
 import TemplateForm from "./TemplateForm";
 
 import { useAddTemplateMutation } from "./templateSlice";
+import { useGetCategoriesQuery } from "../categories/categoriesSlice";
 
 const defaultValues = {
   title: "",
@@ -31,7 +32,9 @@ const TemplateAdd = () => {
 
   return (
     <>
-      <AddButton onClick={handleToggleModal} />
+      <Tooltip title="Firstly you need to create category">
+        <AddButton onClick={handleToggleModal} />
+      </Tooltip>
 
       <BasicModal
         title="Create Template"

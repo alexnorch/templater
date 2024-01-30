@@ -1,31 +1,31 @@
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import CategoryItem from "./CategoryItem";
 import { useGetCategoriesQuery } from "./categoriesSlice";
 
 const CategoriesList = () => {
-  const { data: categories, isLoading } = useGetCategoriesQuery();
+  const { data: categories, isLoading, isSuccess } = useGetCategoriesQuery();
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Typography>Loading...</Typography>;
   }
 
-  const renderCategories = () => {
-    if (!categories) {
-      return <p>Please, create your first category</p>;
-    }
+  if (isSuccess && categories.length === 0) {
+    return (
+      <Typography>
+        You don't have any category yet. Please create your first category
+      </Typography>
+    );
+  }
 
-    return categories!.map((item: any) => (
-      <Grid key={item._id} item md={3}>
-        <CategoryItem _id={item._id} title={item.title} />
-      </Grid>
-    ));
-  };
-
-  const categoriesItems = renderCategories();
+  const categoryElements = categories?.map((category: any) => (
+    <Grid item md={3} key={category._id}>
+      <CategoryItem _id={category._id} title={category.title} />
+    </Grid>
+  ));
 
   return (
-    <Grid spacing={2} container>
-      {categoriesItems}
+    <Grid container spacing={2} mt={1}>
+      {categoryElements}
     </Grid>
   );
 };

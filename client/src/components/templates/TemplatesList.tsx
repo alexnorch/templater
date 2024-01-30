@@ -1,9 +1,24 @@
 import { useSelector } from "react-redux";
+import { Stack, Typography } from "@mui/material";
 import { RootState } from "../../store";
-import { Stack } from "@mui/material";
 import { useGetTemplatesQuery } from "./templateSlice";
 
 import TemplateLite from "./TemplateLite";
+
+const boxStyles = {
+  maxHeight: "65vh",
+  overflowY: "scroll",
+  paddingRight: 2,
+  "&::-webkit-scrollbar": {
+    width: "10px",
+  },
+  "&::-webkit-scrollbar-track": {
+    background: "#gray",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    background: "#1976d2",
+  },
+};
 
 const selectFilterParams = (state: RootState) => state.filter;
 
@@ -15,49 +30,26 @@ const TemplatesList = () => {
     isSuccess,
   } = useGetTemplatesQuery(filterParams);
 
-  const getContent = () => {
-    if (isLoading) {
-      return "Loading...";
-    }
+  if (isLoading) {
+    return <Typography>Loading...</Typography>;
+  }
 
-    if (isSuccess) {
-      if (templates.length === 0) {
-        return "There is no template";
-      }
+  if (isSuccess && templates.length === 0) {
+    return <Typography>No template was identified or found</Typography>;
+  }
 
-      return templates.map((template: any) => (
-        <TemplateLite
-          key={template._id}
-          _id={template._id}
-          title={template.title}
-          text={template.text}
-        />
-      ));
-    }
-
-    return "Error loading templates";
-  };
-
-  const content = getContent();
-
-  const boxStyles = {
-    maxHeight: "65vh",
-    overflowY: "scroll",
-    paddingRight: 2,
-    "&::-webkit-scrollbar": {
-      width: "10px",
-    },
-    "&::-webkit-scrollbar-track": {
-      background: "#gray",
-    },
-    "&::-webkit-scrollbar-thumb": {
-      background: "#1976d2",
-    },
-  };
+  const templateItems = templates?.map((template: any) => (
+    <TemplateLite
+      key={template._id}
+      _id={template._id}
+      title={template.title}
+      text={template.text}
+    />
+  ));
 
   return (
     <Stack sx={boxStyles} spacing={2}>
-      {content}
+      {templateItems}
     </Stack>
   );
 };

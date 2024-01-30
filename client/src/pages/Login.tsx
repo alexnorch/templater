@@ -21,6 +21,12 @@ const defaultValues = {
   password: "",
 };
 
+const boxStyles = {
+  display: "flex",
+  alignItems: "flex-end",
+  width: "100%",
+};
+
 const Login = () => {
   const {
     control,
@@ -36,17 +42,11 @@ const Login = () => {
     handleLoginUser(data);
   };
 
-  const boxStyles = {
-    display: "flex",
-    alignItems: "flex-end",
-    width: "100%",
-  };
-
   const handleLoginUser = async (credentials: IFormInput) => {
     try {
       const response = await axios.post("/api/users/login", credentials);
 
-      const { token, data } = response.data;
+      const { token } = response.data;
 
       localStorage.setItem("accessToken", token);
 

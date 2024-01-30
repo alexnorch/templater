@@ -24,7 +24,6 @@ const AppLayout = () => {
           <Outlet />
         </Container>
       </Box>
-
       <Snackbar
         open={isAlert}
         autoHideDuration={1500}

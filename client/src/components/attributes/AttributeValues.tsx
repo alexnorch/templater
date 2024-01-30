@@ -6,9 +6,13 @@ import { IAttributeValue } from "../../types";
 
 interface AttributeValuesProps {
   values: IAttributeValue[];
+  attrId: string;
 }
 
-const AttributeValues: React.FC<AttributeValuesProps> = ({ values }) => {
+const AttributeValues: React.FC<AttributeValuesProps> = ({
+  values,
+  attrId,
+}) => {
   const renderedItems = values.map((item) => (
     <AttributeValue
       key={item._id}
@@ -21,7 +25,7 @@ const AttributeValues: React.FC<AttributeValuesProps> = ({ values }) => {
   return (
     <Stack flexDirection="row" gap={2} flexWrap="wrap">
       {renderedItems}
-      <AttributeValueAdd />
+      <AttributeValueAdd attrId={attrId} />
     </Stack>
   );
 };

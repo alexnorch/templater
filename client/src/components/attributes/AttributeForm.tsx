@@ -33,13 +33,13 @@ const AttributeForm: React.FC<IAttributeForm> = ({ values, onSubmit }) => {
             {...field}
             fullWidth
             error={invalid}
+            size="small"
+            placeholder="Attribute Label"
             helperText={errors?.label?.message?.toString()}
-            label="Attribute Label"
-            variant="filled"
           />
         )}
       />
-      <Button type="submit" variant="contained">
+      <Button fullWidth type="submit" variant="contained">
         Submit
       </Button>
     </Stack>
