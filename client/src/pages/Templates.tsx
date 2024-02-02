@@ -1,10 +1,12 @@
 import { useParams, Outlet } from "react-router-dom";
 import { Grid } from "@mui/material";
-import TemplatesList from "../components/templates/TemplatesList";
-import TemplateAdd from "../components/templates/TemplateAdd";
-import TemplatePlaceholder from "../components/templates/TemplatePlaceholder";
 
-import TemplateFilter from "../components/templates/TemplateFilter";
+import {
+  TemplateAdd,
+  TemplatesList,
+  TemplatePlaceholder,
+  TemplateFilter,
+} from "../components/templates";
 
 const Templates = () => {
   const { templateId } = useParams();

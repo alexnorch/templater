@@ -1,6 +1,5 @@
 import { Typography, Box } from "@mui/material";
-import CategoriesList from "../../components/categories/CategoriesList";
-import CategoryAdd from "../../components/categories/CategoryAdd";
+import { CategoriesList, CategoryAdd } from "../../components/categories";
 
 const CategoriesSettings = () => {
   return (

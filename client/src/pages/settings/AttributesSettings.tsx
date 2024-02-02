@@ -1,6 +1,5 @@
 import { Typography, Box } from "@mui/material";
-import AttributeAdd from "../../components/attributes/AttributeAdd";
-import AttributesList from "../../components/attributes/AttributesList";
+import { AttributeAdd, AttributesList } from "../../components/attributes";
 
 const AttributesSettings = () => {
   return (

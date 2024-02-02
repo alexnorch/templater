@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
-import useAlert from "../hooks/useAlert";
 
-import TemplateForm from "../components/templates/TemplateForm";
+import { TemplateForm } from "../components/templates";
 
 import { ITemplateItem } from "../types";
 
@@ -17,25 +16,23 @@ import {
 const TemplateEdit = () => {
   const { templateId } = useParams();
   const { data, isLoading, isSuccess } = useGetTemplateQuery(templateId);
-  const { showSuccessAlert } = useAlert();
   const [updateTemplate, { isLoading: isUpdateLoading }] =
     useUpdateTemplateMutation();
 
   const navigate = useNavigate();
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
   const onUpdateTemplate = async (data: ITemplateItem) => {
     await updateTemplate(data).unwrap();
     onNavigate();
-    showSuccessAlert("Successfully Updated");
   };
 
   const onNavigate = () => {
     navigate(`/templates/${templateId}`);
   };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>

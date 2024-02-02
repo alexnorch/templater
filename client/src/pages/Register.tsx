@@ -30,7 +30,7 @@ const Register = () => {
   } = useForm({ defaultValues });
 
   const onSubmitForm: SubmitHandler<IFormInput> = (data) => {
-    console.log("Submited", data);
+    console.log("Submitted", data);
   };
 
   const iconStyles = { color: "action.active", mr: 1, my: 0.5 };

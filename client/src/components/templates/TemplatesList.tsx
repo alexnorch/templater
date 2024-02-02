@@ -3,7 +3,7 @@ import { Stack, Typography } from "@mui/material";
 import { RootState } from "../../store";
 import { useGetTemplatesQuery } from "./templateSlice";
 
-import TemplateLite from "./TemplateLite";
+import TemplateLite from "./TemplateItem";
 
 const boxStyles = {
   maxHeight: "65vh",

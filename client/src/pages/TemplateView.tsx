@@ -10,7 +10,6 @@ import {
   Box,
   Chip,
 } from "@mui/material";
-import TemplatePlaceholder from "../components/templates/TemplatePlaceholder";
 import ConfirmDialog from "../components/ui/ConfirmDialog";
 
 // Icons
@@ -24,7 +23,7 @@ import {
 } from "../components/templates/templateSlice";
 
 const TemplateView = () => {
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [shouldDelete, setShouldDelete] = useState(false);
   const { templateId } = useParams();
   const navigate = useNavigate();
   const {
@@ -36,21 +35,17 @@ const TemplateView = () => {
 
   const [deleteTemplate] = useDeleteTemplateMutation();
 
-  const startDeleting = () => setIsDeleting(true);
-  const finishDeleting = () => setIsDeleting(false);
+  const startDeleting = () => setShouldDelete(true);
+  const finishDeleting = () => setShouldDelete(false);
 
   const onDeleteTemplate = () => {
     deleteTemplate(templateId);
-    setIsDeleting(false);
+    setShouldDelete(false);
     navigate("/templates");
   };
 
   if (isLoading) {
     return <p>Loading...</p>;
-  }
-
-  if (!templateId) {
-    return <TemplatePlaceholder />;
   }
 
   if (isError) {
@@ -96,7 +91,7 @@ const TemplateView = () => {
       <ConfirmDialog
         title="Template deleting"
         text="Are you sure you want to delete this template?"
-        isOpen={isDeleting}
+        isOpen={shouldDelete}
         handleClose={finishDeleting}
         handleSubmit={onDeleteTemplate}
       />

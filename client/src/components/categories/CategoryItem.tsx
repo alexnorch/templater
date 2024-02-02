@@ -27,64 +27,61 @@ import {
   useUpdateCategoryMutation,
 } from "./categoriesSlice";
 
-const CategoryItem: React.FC<ICategoryItem> = (props) => {
-  const { title, _id } = props;
-  const [isDeleting, setIsDeleting] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
+  const [shouldDelete, setShouldDelete] = useState<boolean>(false);
+  const [shouldEdit, setShouldEdit] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
+
+  const categoryTitle = capitalizeFirstLetter(title);
+  const categoryAvatar = title?.charAt(0).toUpperCase();
 
   const [deleteCategory] = useDeleteCategoryMutation();
   const [updateCategory] = useUpdateCategoryMutation();
 
-  const onDeleteCategory = () => {
-    handleFinishActions();
-    deleteCategory(_id);
+  const onDeleteCategory = async () => {
+    await deleteCategory(_id).unwrap();
+    handleFinishDeleting();
   };
 
   const onEditCategory = async (data: ICategoryItem) => {
-    console.log(data);
     await updateCategory(data).unwrap();
-    handleFinishActions();
+    handleFinishEditing();
   };
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(e.currentTarget);
   };
 
   const handleMenuClose = () => setAnchorEl(null);
+  const handleFinishEditing = () => setShouldEdit(false);
+  const handleFinishDeleting = () => setShouldDelete(false);
 
-  // Finishing editing or deleting
-  const handleFinishActions = () => {
-    setIsDeleting(false);
-    setIsEditing(false);
+  const handleStartEditing = () => {
+    handleMenuClose();
+    setShouldEdit(true);
   };
 
-  // Starting editing or deleting
-  const handleStartAction = (action: string) => {
+  const handleStartDeleting = () => {
     handleMenuClose();
-
-    if (action === "deleting") setIsDeleting(true);
-    if (action === "editing") setIsEditing(true);
+    setShouldDelete(true);
   };
 
   return (
     <>
       <Card>
         <CardHeader
-          avatar={<Avatar>{title.charAt(0).toUpperCase()}</Avatar>}
+          avatar={<Avatar>{categoryAvatar}</Avatar>}
           action={
             <IconButton onClick={handleMenuOpen} aria-label="settings">
               <MoreVertIcon />
             </IconButton>
           }
-          title={title && capitalizeFirstLetter(title)}
+          title={categoryTitle}
         />
         <Menu anchorEl={anchorEl} open={isOpen} onClose={handleMenuClose}>
-          <MenuItem onClick={() => handleStartAction("deleting")}>
-            Delete
-          </MenuItem>
-          <MenuItem onClick={() => handleStartAction("editing")}>Edit</MenuItem>
+          <MenuItem onClick={handleStartDeleting}>Delete</MenuItem>
+          <MenuItem onClick={handleStartEditing}>Edit</MenuItem>
         </Menu>
       </Card>
 
@@ -92,18 +89,18 @@ const CategoryItem: React.FC<ICategoryItem> = (props) => {
       <ConfirmDialog
         title="Deleting category"
         text="Are you sure you want to delete this category?"
-        isOpen={isDeleting}
-        handleClose={handleFinishActions}
+        isOpen={shouldDelete}
+        handleClose={handleFinishDeleting}
         handleSubmit={onDeleteCategory}
       />
 
       {/* Editing category */}
       <BasicModal
         title="Editing Template"
-        isOpen={isEditing}
-        handleClose={handleFinishActions}
+        isOpen={shouldEdit}
+        handleClose={handleFinishEditing}
       >
-        <CategoryForm values={props} onSubmit={onEditCategory} />
+        <CategoryForm values={{ _id, title }} onSubmit={onEditCategory} />
       </BasicModal>
     </>
   );

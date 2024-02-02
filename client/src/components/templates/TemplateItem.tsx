@@ -15,7 +15,7 @@ interface ITemplateLite {
   text: string;
 }
 
-const TemplateLite: React.FC<ITemplateLite> = ({ _id, title, text }) => {
+const TemplateItem: React.FC<ITemplateLite> = ({ _id, title, text }) => {
   const { templateId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,17 +50,15 @@ const TemplateLite: React.FC<ITemplateLite> = ({ _id, title, text }) => {
   };
 
   return (
-    <>
-      <Box onClick={onNavigateTemplate} sx={boxStyles}>
-        <Typography variant="body1" component="h5">
-          {title}
-        </Typography>
-        <IconButton onClick={onCopyText}>
-          <ContentCopyIcon fontSize="inherit" />
-        </IconButton>
-      </Box>
-    </>
+    <Box onClick={onNavigateTemplate} sx={boxStyles}>
+      <Typography variant="body1" component="h5">
+        {title}
+      </Typography>
+      <IconButton onClick={onCopyText}>
+        <ContentCopyIcon fontSize="inherit" />
+      </IconButton>
+    </Box>
   );
 };
 
-export default TemplateLite;
+export default TemplateItem;

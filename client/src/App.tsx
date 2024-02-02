@@ -17,24 +17,32 @@ import TemplateEdit from "./pages/TemplateEdit";
 import CategoriesSettings from "./pages/settings/CategoriesSettings";
 import AttributesSettings from "./pages/settings/AttributesSettings";
 
+import { Paths } from "./pages/paths";
+
 const AppWithAuth = withAuth(AppLayout);
 
 function App() {
   return (
     <Routes>
       <Route element={<AppWithAuth />}>
-        <Route path="templates" element={<Templates />}>
-          <Route path=":templateId" element={<TemplateView />} />
-          <Route path=":templateId/edit" element={<TemplateEdit />} />
+        <Route path={Paths.templates} element={<Templates />}>
+          <Route path={Paths.templateView} element={<TemplateView />} />
+          <Route path={Paths.templateEdit} element={<TemplateEdit />} />
         </Route>
-        <Route path="settings" element={<SettingsLayout />}>
-          <Route path="categories" element={<CategoriesSettings />} />
-          <Route path="attributes" element={<AttributesSettings />} />
+        <Route path={Paths.settings} element={<SettingsLayout />}>
+          <Route
+            path={Paths.settingsCategories}
+            element={<CategoriesSettings />}
+          />
+          <Route
+            path={Paths.settingsAttribute}
+            element={<AttributesSettings />}
+          />
         </Route>
       </Route>
       <Route element={<AuthLayout />}>
-        <Route path="register" element={<Register />} />
-        <Route path="login" element={<Login />} />
+        <Route path={Paths.register} element={<Register />} />
+        <Route path={Paths.login} element={<Login />} />
       </Route>
     </Routes>
   );
