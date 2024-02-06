@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
 import { Stack, SelectChangeEvent, IconButton } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
+import { RootState } from "../../store";
 
-import AttributeSelect from "../attributes/AttributeSelect";
+import { AttributeSelect } from "../attributes";
 import { useGetAttributesQuery } from "../attributes/attributeSlice";
 import { setAttributesValues } from "./filterSlice";
 
@@ -11,10 +11,10 @@ const selectAttributesValues = (state: RootState) => state.filter.attributes;
 
 const FilterByAttribute = () => {
   const attributesValues = useSelector(selectAttributesValues);
-  const { data: attributesList } = useGetAttributesQuery();
+  const { data: attributesList = [] } = useGetAttributesQuery();
   const dispatch = useDispatch();
 
-  const renderedAttributes = attributesList?.map(({ label, values, _id }) => {
+  const renderedAttributes = attributesList.map(({ label, values, _id }) => {
     const onSelectAttribute = (e: SelectChangeEvent) => {
       dispatch(setAttributesValues({ [label]: e.target.value }));
     };

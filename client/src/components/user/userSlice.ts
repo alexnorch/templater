@@ -1,4 +1,4 @@
-import { baseApi } from "../api/apiSlice";
+import { baseApi } from "../../api/apiSlice";
 
 const categoryApi = baseApi
   .enhanceEndpoints({ addTagTypes: ["User"] })

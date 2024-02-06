@@ -1,49 +1,50 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Button, Stack, IconButton } from "@mui/material";
-import { useGetCategoriesQuery } from "../categories/categoriesSlice";
+import { Button, Stack } from "@mui/material";
+import { useGetCategoriesQuery } from "../categories/categoryApi";
 import { setCategory } from "./filterSlice";
 import { ICategoryItem } from "../../types";
-import ClearIcon from "@mui/icons-material/Clear";
 
 const FilterByCategory = () => {
   const [activeCategory, setActiveCategory] = useState("");
-  const { data: categories } = useGetCategoriesQuery();
+  const { data: categories = [] } = useGetCategoriesQuery();
   const dispatch = useDispatch();
 
-  const onChangeCategory = (id: string) => {
-    setActiveCategory(id);
-
+  const handleChangeCategory = (id: string) => {
     if (id !== activeCategory) {
       dispatch(setCategory(id));
+      setActiveCategory(id);
+    } else {
+      dispatch(setCategory(""));
+      setActiveCategory("");
     }
   };
 
-  const filterCategoriesItems = categories?.map((category: ICategoryItem) => {
-    const handleClick = () => onChangeCategory(category._id!);
-    const buttonStyles = {
-      background:
-        activeCategory === category._id ? "palette.primary.dark" : "#bbb",
-    };
-    return (
-      <Button
-        onClick={handleClick}
-        size="small"
-        variant="contained"
-        key={category._id}
-        sx={buttonStyles}
-      >
-        {category.title}
-      </Button>
-    );
-  });
+  const filterCategoriesItems = categories.map(
+    ({ _id, title }: ICategoryItem) => {
+      const handleChange = () => handleChangeCategory(_id!);
+
+      const btnStyles = {
+        background: activeCategory === _id ? "palette.primary.dark" : "#bbb",
+      };
+
+      return (
+        <Button
+          onClick={handleChange}
+          size="small"
+          variant="contained"
+          key={_id}
+          sx={btnStyles}
+        >
+          {title}
+        </Button>
+      );
+    }
+  );
 
   return (
     <Stack flexDirection="row" gap={2} flexWrap="wrap">
       {filterCategoriesItems}
-      <IconButton onClick={() => onChangeCategory("")} size="small">
-        <ClearIcon />
-      </IconButton>
     </Stack>
   );
 };

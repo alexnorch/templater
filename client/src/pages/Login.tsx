@@ -1,31 +1,22 @@
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-
-import { Box, TextField, Button, Stack } from "@mui/material";
-import { loginUser } from "../store/reducers/userSlice";
-import useAlert from "../hooks/useAlert";
-
-// Icons
+import { TextField, Button, Stack } from "@mui/material";
+// import { loginUser } from "../store/reducers/userSlice";
 import { AccountCircle } from "@mui/icons-material";
 import LockIcon from "@mui/icons-material/Lock";
+import { authValidationRules } from "../utils/authValidationRules";
+
+import { useLoginUserMutation } from "../components/auth/authApiSlice";
+import { setCredentials } from "../components/auth/authSlice";
 
 interface IFormInput {
   email: string;
   password: string;
 }
 
-const defaultValues = {
-  email: "",
-  password: "",
-};
-
-const boxStyles = {
-  display: "flex",
-  alignItems: "flex-end",
-  width: "100%",
-};
+const iconStyles = { color: "action.active", mr: 1, my: 0.5 };
+const defaultValues = { email: "", password: "" };
 
 const Login = () => {
   const {
@@ -34,7 +25,6 @@ const Login = () => {
     formState: { errors },
   } = useForm({ defaultValues });
 
-  const { showErrorAlert } = useAlert();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -42,20 +32,15 @@ const Login = () => {
     handleLoginUser(data);
   };
 
+  const [loginUser] = useLoginUserMutation();
+
   const handleLoginUser = async (credentials: IFormInput) => {
     try {
-      const response = await axios.post("/api/users/login", credentials);
-
-      const { token } = response.data;
-
-      localStorage.setItem("accessToken", token);
-
-      dispatch(loginUser(token));
-
+      const userData = await loginUser(credentials).unwrap();
+      dispatch(setCredentials({ ...userData }));
       navigate("/templates");
     } catch (error: any) {
       const errorMsg = error.response.data.message;
-      showErrorAlert(errorMsg);
     }
   };
 
@@ -66,42 +51,29 @@ const Login = () => {
       component="form"
       spacing={2}
     >
-      {/* Login Field */}
-      <Box sx={boxStyles}>
-        <AccountCircle sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+      <Stack flexDirection="row" alignItems="center" gap={1}>
+        <AccountCircle sx={iconStyles} />
         <Controller
           name="email"
           control={control}
-          rules={{
-            required: "Email is required",
-            minLength: {
-              value: 6,
-              message: "Must be greater than 6 characters",
-            },
-          }}
+          rules={authValidationRules.email}
           render={({ field, fieldState: { invalid } }) => (
             <TextField
               {...field}
               fullWidth
               error={invalid}
               helperText={errors?.email?.message}
-              label="Your e-mail"
               variant="standard"
+              placeholder="E-mail address"
             />
           )}
         />
-      </Box>
-      {/* Password Field */}
-      <Box sx={boxStyles}>
-        <LockIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+      </Stack>
+
+      <Stack flexDirection="row" alignItems="center" gap={1}>
+        <LockIcon sx={iconStyles} />
         <Controller
-          rules={{
-            required: "Password is required",
-            minLength: {
-              value: 6,
-              message: "Must be greater than 6 characters",
-            },
-          }}
+          rules={authValidationRules.loginPassword}
           name="password"
           control={control}
           render={({ field, fieldState: { invalid } }) => (
@@ -110,13 +82,14 @@ const Login = () => {
               fullWidth
               type="password"
               error={invalid}
-              label="Your password"
               helperText={errors?.password?.message}
+              placeholder="Password"
               variant="standard"
             />
           )}
         />
-      </Box>
+      </Stack>
+
       <Stack alignItems="flex-end">
         <Button type="submit" variant="contained">
           Submit

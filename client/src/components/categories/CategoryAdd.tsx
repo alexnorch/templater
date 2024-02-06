@@ -1,16 +1,10 @@
 import { useState } from "react";
-import { ICategoryItem } from "../../types";
-
 import CategoryForm from "./CategoryForm";
-import { useAddCategoryMutation } from "./categoriesSlice";
+import { useAddCategoryMutation } from "./categoryApi";
+import { ICategoryItem } from "../../types";
+import { BasicModal, AddButton } from "../ui";
 
-const defaultValues = {
-  title: "",
-};
-
-// Internal components
-import BasicModal from "../ui/BasicModal";
-import AddButton from "../ui/AddButton";
+const defaultValues = { title: "" };
 
 const CategoryAdd = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

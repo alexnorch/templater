@@ -29,12 +29,12 @@ const CategoryForm: React.FC<ICategoryForm> = ({ values, onSubmit }) => {
         rules={{ required: "The field is required" }}
         render={({ field, fieldState: { invalid } }) => (
           <TextField
+            size="small"
             {...field}
             fullWidth
             error={invalid}
             helperText={errors?.title?.message}
             label="Category title"
-            variant="filled"
           />
         )}
       />

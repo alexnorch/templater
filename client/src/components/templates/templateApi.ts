@@ -1,4 +1,4 @@
-import { baseApi } from "../api/apiSlice";
+import { baseApi } from "../../api/apiSlice";
 import { ITemplateItem } from "../../types";
 
 export const templateApi = baseApi

@@ -1,10 +1,10 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import withAuth from "./hocs/withAuth";
 
-// Layout
-import AppLayout from "./layout/AppLayout";
-import AuthLayout from "./layout/AuthLayout";
-import SettingsLayout from "./layout/SettingsLayout";
+// Wrappers
+import AppWrapper from "./wrappers/AppWrapper";
+import AuthWrapper from "./wrappers/AuthWrapper";
+import SettingsWrapper from "./wrappers/SettingsWrapper";
 
 // Pages
 import Templates from "./pages/Templates";
@@ -19,7 +19,7 @@ import AttributesSettings from "./pages/settings/AttributesSettings";
 
 import { Paths } from "./pages/paths";
 
-const AppWithAuth = withAuth(AppLayout);
+const AppWithAuth = withAuth(AppWrapper);
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
           <Route path={Paths.templateView} element={<TemplateView />} />
           <Route path={Paths.templateEdit} element={<TemplateEdit />} />
         </Route>
-        <Route path={Paths.settings} element={<SettingsLayout />}>
+        <Route path={Paths.settings} element={<SettingsWrapper />}>
           <Route
             path={Paths.settingsCategories}
             element={<CategoriesSettings />}
@@ -40,10 +40,11 @@ function App() {
           />
         </Route>
       </Route>
-      <Route element={<AuthLayout />}>
+      <Route element={<AuthWrapper />}>
         <Route path={Paths.register} element={<Register />} />
         <Route path={Paths.login} element={<Login />} />
       </Route>
+      <Route path="*" element={<Navigate to="/templates" />} />
     </Routes>
   );
 }

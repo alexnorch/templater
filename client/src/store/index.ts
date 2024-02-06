@@ -1,17 +1,17 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 // Slices
-import appSlice from "./reducers/appSlice";
+import authSlice from "../components/auth/authSlice";
 import userSlice from "./reducers/userSlice";
 import filterSlice from "../components/filters/filterSlice";
-import { baseApi } from "../components/api/apiSlice";
 
-// Sagas
+// Api
+import { baseApi } from "../api/apiSlice";
 
 const rootReducer = combineReducers({
-  app: appSlice,
   user: userSlice,
   filter: filterSlice,
+  auth: authSlice,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 

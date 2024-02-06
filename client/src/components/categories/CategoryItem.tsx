@@ -1,6 +1,4 @@
 import { useState } from "react";
-
-// External components
 import {
   IconButton,
   Menu,
@@ -9,23 +7,18 @@ import {
   CardHeader,
   Avatar,
 } from "@mui/material";
-
-// Internal components
-import ConfirmDialog from "../ui/ConfirmDialog";
-import CategoryForm from "./CategoryForm";
-import BasicModal from "../ui/BasicModal";
-
-// Icons
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+
+import { ConfirmDialog, BasicModal } from "../ui";
+import CategoryForm from "./CategoryForm";
 
 import { ICategoryItem } from "../../types";
 import { capitalizeFirstLetter } from "../../utils/helpers";
 
-// API
 import {
   useDeleteCategoryMutation,
   useUpdateCategoryMutation,
-} from "./categoriesSlice";
+} from "./categoryApi";
 
 const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
   const [shouldDelete, setShouldDelete] = useState<boolean>(false);
@@ -39,6 +32,12 @@ const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
   const [deleteCategory] = useDeleteCategoryMutation();
   const [updateCategory] = useUpdateCategoryMutation();
 
+  const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleMenuClose = () => setAnchorEl(null);
+
   const onDeleteCategory = async () => {
     await deleteCategory(_id).unwrap();
     handleFinishDeleting();
@@ -49,11 +48,6 @@ const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
     handleFinishEditing();
   };
 
-  const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(e.currentTarget);
-  };
-
-  const handleMenuClose = () => setAnchorEl(null);
   const handleFinishEditing = () => setShouldEdit(false);
   const handleFinishDeleting = () => setShouldDelete(false);
 
@@ -69,15 +63,16 @@ const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
 
   return (
     <>
+      {/* Category Content */}
       <Card>
         <CardHeader
           avatar={<Avatar>{categoryAvatar}</Avatar>}
+          title={categoryTitle}
           action={
             <IconButton onClick={handleMenuOpen} aria-label="settings">
               <MoreVertIcon />
             </IconButton>
           }
-          title={categoryTitle}
         />
         <Menu anchorEl={anchorEl} open={isOpen} onClose={handleMenuClose}>
           <MenuItem onClick={handleStartDeleting}>Delete</MenuItem>
@@ -87,16 +82,17 @@ const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
 
       {/* Deleting category */}
       <ConfirmDialog
-        title="Deleting category"
-        text="Are you sure you want to delete this category?"
         isOpen={shouldDelete}
         handleClose={handleFinishDeleting}
         handleSubmit={onDeleteCategory}
+        title="Deleting category"
+        text="Are you sure you want to delete this category? 
+        After deleting this category you will lose all templates that refers to this category"
       />
 
       {/* Editing category */}
       <BasicModal
-        title="Editing Template"
+        title="Edit Template"
         isOpen={shouldEdit}
         handleClose={handleFinishEditing}
       >

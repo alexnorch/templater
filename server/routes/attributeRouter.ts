@@ -8,8 +8,11 @@ import {
   deleteAttributeOption,
   updateAttributeOption,
 } from "../controllers/attributeControllers";
+import verifyJWT from "../middlewares/verifyJWT";
 
 const router = express.Router();
+
+router.use(verifyJWT);
 
 router.route("/").get(getAllAttributes).post(createAttribute);
 router.route("/:attrId").delete(deleteAttribute).patch(updateAttribute);

@@ -27,14 +27,10 @@ export const loginUser: RequestHandler = async (req, res, next) => {
 
     user.password = undefined;
 
-    await user.populate("templates");
-    await user.populate("categories");
-
     const token = user.generateToken(user._id);
 
     res.json({
       user: { id: user._id, email: user.email },
-      data: { templates: user.templates, categories: user.categories },
       token,
     });
   } catch (error) {

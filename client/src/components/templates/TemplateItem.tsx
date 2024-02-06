@@ -1,10 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { ITemplateItem } from "../../types";
 import { Box, Typography, IconButton } from "@mui/material";
-
-import { showAlert } from "../../store/reducers/appSlice";
 
 // Icons
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -15,15 +11,30 @@ interface ITemplateLite {
   text: string;
 }
 
+const templateStyles = {
+  display: "flex",
+  maxHeight: 50,
+  alignItems: "center",
+  justifyContent: "space-between",
+  borderRadius: 1,
+  backgroundColor: "#ccc",
+  color: "#333",
+  padding: 2,
+  cursor: "pointer",
+  border: "1px solid transparent",
+  "&:hover": {
+    backgroundColor: "#75ACE4",
+    color: "#fff",
+  },
+};
+
 const TemplateItem: React.FC<ITemplateLite> = ({ _id, title, text }) => {
   const { templateId } = useParams();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onCopyText = () => {
     if (text) {
       navigator.clipboard.writeText(text);
-      dispatch(showAlert({ type: "success", text: "Copied to the clipboard" }));
     }
   };
 
@@ -32,25 +43,11 @@ const TemplateItem: React.FC<ITemplateLite> = ({ _id, title, text }) => {
     navigate(templatePath);
   };
 
-  const boxStyles = {
-    display: "flex",
-    maxHeight: 50,
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderRadius: 1,
-    backgroundColor: _id === templateId ? "#1976d2" : "#ccc",
-    color: _id === templateId ? "#fff" : "#333",
-    padding: 2,
-    cursor: "pointer",
-    border: "1px solid transparent",
-    "&:hover": {
-      backgroundColor: "#75ACE4",
-      color: "#fff",
-    },
-  };
+  templateStyles.backgroundColor = _id === templateId ? "#1976d2" : "#ccc";
+  templateStyles.color = _id === templateId ? "#fff" : "#333";
 
   return (
-    <Box onClick={onNavigateTemplate} sx={boxStyles}>
+    <Box onClick={onNavigateTemplate} sx={templateStyles}>
       <Typography variant="body1" component="h5">
         {title}
       </Typography>

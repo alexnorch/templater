@@ -28,7 +28,7 @@ const AttributesList = () => {
   ));
 
   return (
-    <Grid container spacing={2} mt={1}>
+    <Grid container spacing={2}>
       {attributeElements}
     </Grid>
   );

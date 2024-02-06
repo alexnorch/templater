@@ -6,8 +6,11 @@ import {
   updateTemplate,
   getTemplateById,
 } from "../controllers/templateControllers";
+import verifyJWT from "../middlewares/verifyJWT";
 
 const router = express.Router();
+
+router.use(verifyJWT);
 
 router.route("/").get(getTemplates).post(createTemplate);
 

@@ -28,7 +28,9 @@ const BasicModal: React.FC<IBasicModal> = ({
   return (
     <Modal open={isOpen} onClose={handleClose}>
       <Box sx={style}>
-        <Typography mb={2}>{title}</Typography>
+        <Typography component="h4" variant="h6" mb={2}>
+          {title}
+        </Typography>
         {children}
       </Box>
     </Modal>

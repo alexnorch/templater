@@ -20,7 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {
   useGetTemplateQuery,
   useDeleteTemplateMutation,
-} from "../components/templates/templateSlice";
+} from "../components/templates/templateApi";
 
 const TemplateView = () => {
   const [shouldDelete, setShouldDelete] = useState(false);

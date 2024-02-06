@@ -5,13 +5,15 @@ import { AccountCircle } from "@mui/icons-material";
 import LockIcon from "@mui/icons-material/Lock";
 
 interface IFormInput {
-  login: string;
+  email: string;
   password: string;
   confirmPassword: string;
 }
 
+import { authValidationRules } from "../utils/authValidationRules";
+
 const defaultValues = {
-  login: "",
+  email: "",
   password: "",
   confirmPassword: "",
 };
@@ -42,74 +44,46 @@ const Register = () => {
       component="form"
       spacing={2}
     >
-      {/* Login Field */}
-      <Box sx={boxStyles}>
+      <Stack flexDirection="row" alignItems="center" gap={1}>
         <AccountCircle sx={iconStyles} />
         <Controller
-          name="login"
+          name="email"
           control={control}
-          rules={{
-            required: "Password Is Required",
-            minLength: {
-              value: 6,
-              message: "Must be greater than 6 characters",
-            },
-          }}
+          rules={authValidationRules.email}
           render={({ field, fieldState: { invalid } }) => (
             <TextField
               {...field}
               fullWidth
               error={invalid}
-              helperText={errors?.login?.message}
-              label="Your Login"
+              helperText={errors?.email?.message}
               variant="standard"
+              placeholder="E-mail address"
             />
           )}
         />
-      </Box>
-      {/* Password Field */}
-      <Box sx={boxStyles}>
+      </Stack>
+      <Stack flexDirection="row" alignItems="center" gap={1}>
         <LockIcon sx={iconStyles} />
         <Controller
-          rules={{
-            required: "Password is required",
-            pattern: {
-              value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-              message:
-                "Minimum 8 characters, at least one letter and one number",
-            },
-            minLength: {
-              value: 6,
-              message: "Must be greater than 6 characters",
-            },
-          }}
           name="password"
           control={control}
+          rules={authValidationRules.registerPassword}
           render={({ field, fieldState: { invalid } }) => (
             <TextField
               {...field}
               fullWidth
               error={invalid}
-              label="Your password"
               helperText={errors?.password?.message}
               variant="standard"
+              placeholder="Password"
             />
           )}
         />
-      </Box>
-      {/* Confirm Password Field */}
-      <Box sx={boxStyles}>
+      </Stack>
+      <Stack flexDirection="row" alignItems="center" gap={1}>
         <LockIcon sx={iconStyles} />
         <Controller
-          rules={{
-            required: "Confirm Password Is Required",
-            minLength: {
-              value: 6,
-              message: "Must be greater than 6 characters",
-            },
-            validate: (value, formValues) =>
-              value === formValues.password || "Passwords do not match",
-          }}
+          rules={authValidationRules.confirmPassword}
           name="confirmPassword"
           control={control}
           render={({ field, fieldState: { invalid } }) => (
@@ -117,13 +91,13 @@ const Register = () => {
               {...field}
               fullWidth
               error={invalid}
-              label="Your password"
               helperText={errors?.confirmPassword?.message}
               variant="standard"
+              placeholder="Confirm Password"
             />
           )}
         />
-      </Box>
+      </Stack>
       <Stack alignItems="flex-end">
         <Button type="submit" variant="contained">
           Submit

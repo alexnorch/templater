@@ -1,28 +1,32 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Container from "@mui/material/Container";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import Logo from "../components/ui/Logo";
+import { AppBar, Toolbar, Container, Stack, Button } from "@mui/material";
+import Logo from "./Logo";
 
-import { logoutUser } from "../store/reducers/userSlice";
+import { logOut } from "../auth/authSlice";
 
 const pages = [
   { title: "Templates", path: "/templates" },
   { title: "Settings", path: "/settings/categories" },
 ];
 
+const btnStyles = { my: 2, color: "white", display: "block" };
+
 const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    localStorage.clear();
-    dispatch(logoutUser());
+    localStorage.removeItem("accessToken");
+    dispatch(logOut());
   };
+
+  const renderedLinks = pages.map(({ title, path }) => (
+    <Button key={title} onClick={() => navigate(path)} sx={btnStyles}>
+      {title}
+    </Button>
+  ));
 
   return (
     <AppBar position="static">
@@ -36,20 +40,9 @@ const NavBar = () => {
           >
             <Logo />
             <Stack flexDirection="row" alignItems="center">
-              {pages.map(({ title, path }) => (
-                <Button
-                  key={title}
-                  onClick={() => navigate(path)}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {title}
-                </Button>
-              ))}
+              {renderedLinks}
             </Stack>
-            <Button
-              onClick={handleLogout}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
+            <Button onClick={handleLogout} sx={btnStyles}>
               Log Out
             </Button>
           </Stack>

@@ -1,29 +1,28 @@
 import { Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 interface LogoProps {
   component?: any;
   variant?: any;
 }
 
+const linkStyles = {
+  color: "inherit",
+  textDecoration: "none",
+};
+
 const Logo: React.FC<LogoProps> = ({ variant, component }) => {
   return (
-    <Typography
-      variant={variant}
-      noWrap
-      component={component}
-      href="#app-bar-with-responsive-menu"
-      sx={{
-        mr: 2,
-        fontFamily: "Sans-Serif",
-        fontWeight: 400,
-        letterSpacing: ".2rem",
-        color: "inherit",
-        textDecoration: "none",
-        fontSize: 18,
-      }}
-    >
-      Templater
-    </Typography>
+    <Link style={linkStyles} to="/templates">
+      <Typography
+        variant={variant}
+        noWrap
+        component={component}
+        sx={{ letterSpacing: ".2rem" }}
+      >
+        Templater
+      </Typography>
+    </Link>
   );
 };
 

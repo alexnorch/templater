@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Stack, Typography } from "@mui/material";
 import { RootState } from "../../store";
-import { useGetTemplatesQuery } from "./templateSlice";
+import { useGetTemplatesQuery } from "./templateApi";
 
 import TemplateLite from "./TemplateItem";
 

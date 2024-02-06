@@ -3,9 +3,4 @@ import BasicModal from "./BasicModal";
 import ConfirmDialog from "./ConfirmDialog";
 import Logo from "./Logo";
 
-export default {
-  AddButton,
-  BasicModal,
-  ConfirmDialog,
-  Logo,
-};
+export { AddButton, BasicModal, ConfirmDialog, Logo };

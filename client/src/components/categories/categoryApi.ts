@@ -1,5 +1,5 @@
 import { ICategoryItem } from "../../types";
-import { baseApi } from "../api/apiSlice";
+import { baseApi } from "../../api/apiSlice";
 
 const categoryApi = baseApi
   .enhanceEndpoints({ addTagTypes: ["Category"] })

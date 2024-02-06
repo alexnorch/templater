@@ -11,7 +11,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import {
   useGetTemplateQuery,
   useUpdateTemplateMutation,
-} from "../components/templates/templateSlice";
+} from "../components/templates/templateApi";
 
 const TemplateEdit = () => {
   const { templateId } = useParams();

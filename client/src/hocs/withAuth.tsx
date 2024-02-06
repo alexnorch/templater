@@ -1,13 +1,12 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
 import { jwtDecode } from "jwt-decode";
 import { Navigate } from "react-router-dom";
 
+import { selectCurrentToken } from "../components/auth/authSlice";
+
 const withAuth = (WrappedComponent: any) => {
   return (props: any) => {
-    const accessToken = useSelector(
-      (state: RootState) => state.user.accessToken
-    );
+    const accessToken = useSelector(selectCurrentToken);
 
     if (!accessToken) return <Navigate replace to="/login" />;
 

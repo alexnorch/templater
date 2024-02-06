@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Tooltip } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { ITemplateItem } from "../../types";
 
@@ -8,8 +8,7 @@ import BasicModal from "../ui/BasicModal";
 import AddButton from "../ui/AddButton";
 import TemplateForm from "./TemplateForm";
 
-import { useAddTemplateMutation } from "./templateSlice";
-import { useGetCategoriesQuery } from "../categories/categoriesSlice";
+import { useAddTemplateMutation } from "./templateApi";
 
 const defaultValues = {
   title: "",
@@ -20,21 +19,17 @@ const defaultValues = {
 
 const TemplateAdd = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [addTemplate, { isLoading }] = useAddTemplateMutation();
   const handleToggleModal = () => setIsModalOpen((prev) => !prev);
 
-  const [addTemplate, { isLoading }] = useAddTemplateMutation();
-
-  const onSubmitForm = async (data: ITemplateItem) => {
+  const handleSubmitForm = async (data: ITemplateItem) => {
     await addTemplate(data).unwrap();
     handleToggleModal();
   };
 
   return (
     <>
-      <Tooltip title="Firstly you need to create category">
-        <AddButton onClick={handleToggleModal} />
-      </Tooltip>
+      <AddButton onClick={handleToggleModal} />
 
       <BasicModal
         title="Create Template"
@@ -44,7 +39,7 @@ const TemplateAdd = () => {
         <Box minWidth={600}>
           <TemplateForm
             mode="create"
-            onSubmit={onSubmitForm}
+            onSubmit={handleSubmitForm}
             values={defaultValues}
             isLoading={isLoading}
           />

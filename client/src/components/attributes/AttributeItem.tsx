@@ -27,7 +27,7 @@ const AttributeItem: React.FC<AttributeItemProps> = (props) => {
   return (
     <>
       <Stack
-        sx={{ backgroundColor: "white", padding: 2, borderRadius: 3 }}
+        sx={{ backgroundColor: "white", padding: 2, borderRadius: 1 }}
         key={attrId}
       >
         <Stack flexDirection="row" justifyContent="space-between">

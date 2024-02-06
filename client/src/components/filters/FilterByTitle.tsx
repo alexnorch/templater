@@ -22,6 +22,7 @@ const FilterByTitle = () => {
       onChange={handleChange}
       size="small"
       value={value}
+      variant="standard"
       placeholder="Search template by title"
     />
   );
