@@ -30,20 +30,18 @@ const baseQueryWithReauth: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result?.error?.status === 403) {
-    const refreshResult = await baseQuery("/refresh", api, extraOptions);
+  if (result?.error?.status === 401) {
+    const refreshResult = await baseQuery("/users/refresh", api, extraOptions);
+
+    console.log("data", refreshResult);
 
     if (refreshResult?.data) {
-      const user = (api.getState() as RootState).auth.user;
-      api.dispatch(setCredentials({ ...refreshResult.data, user }));
+      api.dispatch(setCredentials({ ...refreshResult.data }));
+
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(logOut());
     }
-  }
-
-  if (result?.error?.status === 401) {
-    api.dispatch(logOut());
   }
 
   return result;

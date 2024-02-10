@@ -6,18 +6,16 @@ import { setCategory } from "./filterSlice";
 import { ICategoryItem } from "../../types";
 
 const FilterByCategory = () => {
-  const [activeCategory, setActiveCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { data: categories = [] } = useGetCategoriesQuery();
+
   const dispatch = useDispatch();
 
-  const handleChangeCategory = (id: string) => {
-    if (id !== activeCategory) {
-      dispatch(setCategory(id));
-      setActiveCategory(id);
-    } else {
-      dispatch(setCategory(""));
-      setActiveCategory("");
-    }
+  const handleChangeCategory = (categoryId: string | null) => {
+    const newCategory = selectedCategory === categoryId ? null : categoryId;
+
+    setSelectedCategory(newCategory);
+    dispatch(setCategory(newCategory));
   };
 
   const filterCategoriesItems = categories.map(
@@ -25,7 +23,7 @@ const FilterByCategory = () => {
       const handleChange = () => handleChangeCategory(_id!);
 
       const btnStyles = {
-        background: activeCategory === _id ? "palette.primary.dark" : "#bbb",
+        background: selectedCategory === _id ? "palette.primary.dark" : "#bbb",
       };
 
       return (

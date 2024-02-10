@@ -6,7 +6,7 @@ import { Box, Typography, IconButton } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 interface ITemplateLite {
-  _id: string;
+  _id: string | undefined;
   title: string;
   text: string;
 }
@@ -33,9 +33,7 @@ const TemplateItem: React.FC<ITemplateLite> = ({ _id, title, text }) => {
   const navigate = useNavigate();
 
   const onCopyText = () => {
-    if (text) {
-      navigator.clipboard.writeText(text);
-    }
+    if (text) navigator.clipboard.writeText(text);
   };
 
   const onNavigateTemplate = () => {

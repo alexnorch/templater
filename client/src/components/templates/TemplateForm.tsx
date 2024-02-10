@@ -38,13 +38,14 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
   const { data: categories = [], isSuccess: isCategoriesSuccess } =
     useGetCategoriesQuery();
   const { data: attributesList = [] } = useGetAttributesQuery();
+  const methods = useForm({ defaultValues: values });
 
   const {
     control,
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues: values });
+  } = methods;
 
   useEffect(() => {
     if (mode === "edit") {
@@ -109,9 +110,9 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
         rules={{ required }}
         render={({ field, fieldState: { invalid } }) => (
           <TextField
+            {...field}
             fullWidth
             size="small"
-            {...field}
             error={invalid}
             helperText={errors?.title?.message}
             label="Template title"

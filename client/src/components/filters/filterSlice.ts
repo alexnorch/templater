@@ -28,7 +28,7 @@ export const filterSlice = createSlice({
     setTitle: (state, action: PayloadAction<string>) => {
       state.title = action.payload;
     },
-    setCategory: (state, action: PayloadAction<string>) => {
+    setCategory: (state, action: PayloadAction<string | null>) => {
       state.category = action.payload;
     },
   },

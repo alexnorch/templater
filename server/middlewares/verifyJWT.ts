@@ -1,6 +1,6 @@
-import jwt from "jsonwebtoken";
-import AppError from "../utils/AppError";
 import { RequestHandler } from "../types";
+import ApiError from "../exceptions/ApiError";
+import tokenService from "../services/tokenService";
 
 const verifyJWT: RequestHandler = (req, res, next) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;
@@ -9,17 +9,20 @@ const verifyJWT: RequestHandler = (req, res, next) => {
     !authHeader ||
     !(typeof authHeader === "string" && authHeader.startsWith("Bearer "))
   ) {
-    return next(new AppError("Unauthorized", 401));
+    throw ApiError.UnauthorizedError();
   }
 
   const token = authHeader.split(" ")[1];
 
-  jwt.verify(token, process.env.JWT_SECRET || "", (err, decoded) => {
-    if (err) return next(new AppError("Forbidden", 403));
+  const decodedPayload = tokenService.verifyAccessToken(token);
 
-    req.userId = (decoded as { userId: string }).userId;
-    next();
-  });
+  if (!decodedPayload || typeof decodedPayload === "string") {
+    throw ApiError.UnauthorizedError();
+  }
+
+  req.userId = decodedPayload.userId!;
+
+  next();
 };
 
 export default verifyJWT;

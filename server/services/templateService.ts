@@ -82,14 +82,14 @@ class TemplateService {
     const { title, category, text, attributeValues } = templateFields;
 
     if (!title || !category || !text) {
-      return new AppError("Please provide all values", 400);
+      throw new AppError("Please provide all values", 400);
     }
 
     const user = (await User.findById(this.userId)) as IUser;
     const userCategory = await Category.findById(category).select("+templates");
 
     if (!userCategory) {
-      return new AppError("Invalid category", 400);
+      throw new AppError("Invalid category", 400);
     }
 
     const templateDoc = new Template({
@@ -131,7 +131,7 @@ class TemplateService {
     console.log(attributeValues);
 
     if (!template) {
-      return new AppError("Template with that ID wasn't found", 404);
+      throw new AppError("Template with that ID wasn't found", 404);
     }
 
     const updatedTemplate = await template.updateOne(

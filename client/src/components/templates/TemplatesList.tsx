@@ -4,6 +4,7 @@ import { RootState } from "../../store";
 import { useGetTemplatesQuery } from "./templateApi";
 
 import TemplateLite from "./TemplateItem";
+import { ITemplateItem } from "../../types";
 
 const boxStyles = {
   maxHeight: "65vh",
@@ -25,26 +26,19 @@ const selectFilterParams = (state: RootState) => state.filter;
 const TemplatesList = () => {
   const filterParams = useSelector(selectFilterParams);
   const {
-    data: templates,
+    data: templates = [],
     isLoading,
     isSuccess,
   } = useGetTemplatesQuery(filterParams);
 
-  if (isLoading) {
-    return <Typography>Loading...</Typography>;
-  }
+  if (isLoading) return <Typography>Loading...</Typography>;
 
   if (isSuccess && templates.length === 0) {
     return <Typography>No template was identified or found</Typography>;
   }
 
-  const templateItems = templates?.map((template: any) => (
-    <TemplateLite
-      key={template._id}
-      _id={template._id}
-      title={template.title}
-      text={template.text}
-    />
+  const templateItems = templates.map(({ _id, title, text }: ITemplateItem) => (
+    <TemplateLite key={_id} _id={_id} title={title} text={text} />
   ));
 
   return (

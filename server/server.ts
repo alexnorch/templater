@@ -1,10 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 import "dotenv/config";
 import { Request, Response, NextFunction } from "express";
 
 // Utils
-import AppError from "./utils/AppError";
+import ApiError from "./exceptions/ApiError";
 
 // Routes
 import templateRouter from "./routes/templateRouter";
@@ -14,7 +15,9 @@ import attributeRouter from "./routes/attributeRouter";
 
 const app = express();
 
+app.use(cookieParser());
 app.use(express.json());
+
 app.use("/api/templates", templateRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/attributes", attributeRouter);
@@ -23,12 +26,12 @@ app.use("/api/users", userRouter);
 // Error handling
 
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
-  return next(new AppError("There is no such route", 404));
+  throw ApiError.NotFound("Page wasn't found");
 });
 
 app.use(
-  (err: AppError, req: Request, res: Response, next: NextFunction): void => {
-    const statusCode = err.statusCode || 500;
+  (err: ApiError, req: Request, res: Response, next: NextFunction): void => {
+    const statusCode = err.status || 500;
     const message =
       err.message || "Something went wrong, please try again later";
 

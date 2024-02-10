@@ -10,8 +10,6 @@ export interface IUser extends mongoose.Document {
   attributes: mongoose.Types.ObjectId[];
   createdAt: Date;
   templateAttributes: [{ [key: string]: string[] }];
-  generateToken: (userId: string) => Promise<object>;
-  comparePassword: (candidate: string, hashed: string) => Promise<boolean>;
 }
 
 const UserSchema = new mongoose.Schema({
@@ -35,26 +33,5 @@ const UserSchema = new mongoose.Schema({
     default: Date.now(),
   },
 });
-
-UserSchema.pre("save", async function () {
-  if (!this.isModified("password")) return;
-
-  const password = this.password || "";
-
-  this.password = await bcrypt.hash(password, 10);
-});
-
-UserSchema.methods.comparePassword = async function (
-  candidate: string,
-  hashed: string
-) {
-  return bcrypt.compare(candidate, hashed);
-};
-
-UserSchema.methods.generateToken = function (userId: string) {
-  return jwt.sign({ userId }, process.env.JWT_SECRET || "", {
-    expiresIn: "24h",
-  });
-};
 
 export default mongoose.model<IUser>("User", UserSchema);

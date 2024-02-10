@@ -14,8 +14,6 @@ class CategoryService {
     return await Category.find({ user: this.userId });
   }
 
-  async getCategoryId() {}
-
   async createCategory(title: string) {
     title = title.toLocaleLowerCase();
 
@@ -27,7 +25,7 @@ class CategoryService {
     });
 
     if (isAlreadyExists) {
-      return new AppError("Category is already exists", 400);
+      throw new AppError("Category is already exists", 400);
     }
 
     const category = new Category({ title, user: this.userId });
@@ -46,7 +44,7 @@ class CategoryService {
     });
 
     if (!category) {
-      return new AppError("Category not found", 404);
+      throw new AppError("Category not found", 404);
     }
 
     await Template.deleteMany({
@@ -57,7 +55,7 @@ class CategoryService {
     const deletedCategory = await category.deleteOne();
 
     if (!deletedCategory) {
-      return new AppError("Something went wrong. Please try again later", 500);
+      throw new AppError("Something went wrong. Please try again later", 500);
     }
 
     return deletedCategory;

@@ -1,67 +1,68 @@
 import { RequestHandler } from "../types";
-import AppError from "../utils/AppError";
-import User from "../models/userModel";
+import userService from "../services/userService";
+
+const jwtMaxAge = 30 * 24 * 60 * 60 * 1000; // 30 days
 
 export const loginUser: RequestHandler = async (req, res, next) => {
-  const { email, password } = req.body;
-
   try {
-    if (!email || !password) {
-      return next(new AppError("Please provide all values", 400));
-    }
-
-    const user = await User.findOne({ email }).select("+password");
-
-    if (!user) {
-      return next(new AppError("An e-mail address doesn't exists", 400));
-    }
-
-    const isPasswordCorrect = await user.comparePassword(
-      password,
-      user.password!
+    const { email, password } = req.body;
+    const { user, refreshToken, accessToken } = await userService.login(
+      email,
+      password
     );
 
-    if (!isPasswordCorrect) {
-      return next(new AppError("Bad credentials, try again please", 401));
-    }
-
-    user.password = undefined;
-
-    const token = user.generateToken(user._id);
-
-    res.json({
-      user: { id: user._id, email: user.email },
-      token,
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: jwtMaxAge,
+      httpOnly: true,
     });
+
+    return res.json({ user, accessToken });
   } catch (error) {
     next(error);
   }
 };
 
 export const registerUser: RequestHandler = async (req, res, next) => {
-  const { email, password, confirmPassword } = req.body;
-
   try {
-    if (!email || !password || !confirmPassword) {
-      return next(new AppError("Please provide all values", 400));
-    }
+    const { email, password } = req.body;
 
-    if (password !== confirmPassword) {
-      return next(new AppError("Password do NOT match", 400));
-    }
+    const { user, accessToken, refreshToken } = await userService.register(
+      email,
+      password
+    );
 
-    const isUserFound = await User.findOne({ email });
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: jwtMaxAge,
+      httpOnly: true,
+    });
 
-    if (isUserFound) {
-      return next(new AppError("User already exists", 409));
-    }
-
-    const newUser = new User({ email, password });
-    const user = await newUser.save();
-    const token = user.generateToken(user._id);
-
-    res.json({ user, token });
+    return res.json({ user, accessToken });
   } catch (error) {
     next(error);
+  }
+};
+
+export const logoutUser: RequestHandler = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.cookies;
+    const token = await userService.logout(refreshToken);
+
+    res.clearCookie("refreshToken");
+
+    return res.json(token);
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const refresh: RequestHandler = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.cookies;
+
+    const userData = await userService.refresh(refreshToken);
+
+    return res.json(userData);
+  } catch (e) {
+    next(e);
   }
 };
