@@ -4,6 +4,7 @@ import { Box, Typography, IconButton } from "@mui/material";
 
 // Icons
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { toast, ToastContainer } from "react-toastify";
 
 interface ITemplateLite {
   _id: string | undefined;
@@ -33,7 +34,10 @@ const TemplateItem: React.FC<ITemplateLite> = ({ _id, title, text }) => {
   const navigate = useNavigate();
 
   const onCopyText = () => {
-    if (text) navigator.clipboard.writeText(text);
+    if (text) {
+      navigator.clipboard.writeText(text);
+      toast.success("Successfully copied");
+    }
   };
 
   const onNavigateTemplate = () => {
@@ -45,14 +49,16 @@ const TemplateItem: React.FC<ITemplateLite> = ({ _id, title, text }) => {
   templateStyles.color = _id === templateId ? "#fff" : "#333";
 
   return (
-    <Box onClick={onNavigateTemplate} sx={templateStyles}>
-      <Typography variant="body1" component="h5">
-        {title}
-      </Typography>
-      <IconButton onClick={onCopyText}>
-        <ContentCopyIcon fontSize="inherit" />
-      </IconButton>
-    </Box>
+    <>
+      <Box onClick={onNavigateTemplate} sx={templateStyles}>
+        <Typography variant="body1" component="h5">
+          {title}
+        </Typography>
+        <IconButton onClick={onCopyText}>
+          <ContentCopyIcon fontSize="inherit" />
+        </IconButton>
+      </Box>
+    </>
   );
 };
 

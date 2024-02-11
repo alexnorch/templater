@@ -3,7 +3,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Chip, TextField, Stack, Button } from "@mui/material";
 import BasicModal from "../ui/BasicModal";
 
-import { useAddAttributeOptionMutation } from "./attributeSlice";
+import { useAddAttributeOptionMutation } from "./attributeApi";
 
 interface AttributeValueAddProps {
   attrId: string;

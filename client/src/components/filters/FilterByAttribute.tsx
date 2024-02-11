@@ -4,7 +4,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { RootState } from "../../store";
 
 import { AttributeSelect } from "../attributes";
-import { useGetAttributesQuery } from "../attributes/attributeSlice";
+import { useGetAttributesQuery } from "../attributes/attributeApi";
 import { setAttributesValues } from "./filterSlice";
 
 const selectAttributesValues = (state: RootState) => state.filter.attributes;

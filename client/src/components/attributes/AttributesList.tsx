@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material";
-import { useGetAttributesQuery } from "./attributeSlice";
+import { useGetAttributesQuery } from "./attributeApi";
 import AttributeItem from "./AttributeItem";
 
 const AttributesList = () => {

@@ -33,8 +33,6 @@ const baseQueryWithReauth: BaseQueryFn<
   if (result?.error?.status === 401) {
     const refreshResult = await baseQuery("/users/refresh", api, extraOptions);
 
-    console.log("data", refreshResult);
-
     if (refreshResult?.data) {
       api.dispatch(setCredentials({ ...refreshResult.data }));
 

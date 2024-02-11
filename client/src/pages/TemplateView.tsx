@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // Components
 import {
@@ -30,6 +31,7 @@ const TemplateView = () => {
     data: template,
     isLoading,
     isError,
+    error,
     isSuccess,
   } = useGetTemplateQuery(templateId);
 
@@ -42,19 +44,13 @@ const TemplateView = () => {
     deleteTemplate(templateId);
     setShouldDelete(false);
     navigate("/templates");
+
+    toast.success("Successfully deleted");
   };
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (isError) {
-    return <p>Error</p>;
-  }
-
-  if (!isSuccess) {
-    return;
-  }
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>{JSON.stringify(error)}</p>;
+  if (!isSuccess) return;
 
   const renderedAttributes = template.attributeValues.map(({ value, _id }) => (
     <Chip key={_id} label={value} />

@@ -2,7 +2,7 @@ import { useState } from "react";
 import AddButton from "../ui/AddButton";
 import BasicModal from "../ui/BasicModal";
 import AttributeForm from "./AttributeForm";
-import { useAddAttributeMutation } from "./attributeSlice";
+import { useAddAttributeMutation } from "./attributeApi";
 
 const defaultValues = {
   label: "",

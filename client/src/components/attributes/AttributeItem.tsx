@@ -4,7 +4,7 @@ import { IAttributeValue } from "../../types";
 import AttributeValues from "./AttributeValues";
 import ConfirmDialog from "../ui/ConfirmDialog";
 
-import { useDeleteAttributeMutation } from "../../components/attributes/attributeSlice";
+import { useDeleteAttributeMutation } from "./attributeApi";
 
 interface AttributeItemProps {
   label: string;

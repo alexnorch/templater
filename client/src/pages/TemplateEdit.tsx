@@ -12,6 +12,7 @@ import {
   useGetTemplateQuery,
   useUpdateTemplateMutation,
 } from "../components/templates/templateApi";
+import { toast } from "react-toastify";
 
 const TemplateEdit = () => {
   const { templateId } = useParams();
@@ -23,6 +24,7 @@ const TemplateEdit = () => {
 
   const onUpdateTemplate = async (data: ITemplateItem) => {
     await updateTemplate(data).unwrap();
+    toast.success("Successfully Updated");
     onNavigate();
   };
 
@@ -30,9 +32,7 @@ const TemplateEdit = () => {
     navigate(`/templates/${templateId}`);
   };
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <>

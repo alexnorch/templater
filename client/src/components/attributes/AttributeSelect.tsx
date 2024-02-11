@@ -12,9 +12,12 @@ interface IAttributeSelect extends IAttribute {
   value: string;
 }
 
-const AttributeSelect: React.FC<IAttributeSelect> = (props) => {
-  const { label, onChange, value, values } = props;
-
+const AttributeSelect: React.FC<IAttributeSelect> = ({
+  label,
+  onChange,
+  value,
+  values,
+}) => {
   const renderedOptions = values.map(({ value, _id }) => (
     <MenuItem key={_id} value={_id}>
       {value}
