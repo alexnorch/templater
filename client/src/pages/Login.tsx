@@ -38,8 +38,6 @@ const Login = () => {
     try {
       const userData = await loginUser(credentials).unwrap();
       dispatch(setCredentials({ ...userData }));
-
-      console.log(userData);
       navigate("/templates");
     } catch (error: any) {
       const errorMsg = error.response.data.message;

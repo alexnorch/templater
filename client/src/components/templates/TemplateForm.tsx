@@ -11,7 +11,7 @@ import FormTextField from "../ui/FormTextField";
 
 import { formatTemplateData } from "../../utils/helpers";
 
-import TextEditor from "../ui/TextEditor";
+import TextEditor from "../ui/TextEditor/TextEditor";
 
 interface TemplateFormProps {
   mode: "edit" | "create";
@@ -84,7 +84,12 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
   });
 
   return (
-    <Stack onSubmit={handleSubmit(submitForm)} spacing={2} component="form">
+    <Stack
+      maxWidth={600}
+      onSubmit={handleSubmit(submitForm)}
+      spacing={2}
+      component="form"
+    >
       {categories.length === 0 && <NoCategoriesMessage />}
 
       {/* Title */}
