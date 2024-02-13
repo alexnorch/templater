@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { Chip, TextField, Stack, Button } from "@mui/material";
-import BasicModal from "../ui/BasicModal";
+import BasicModal from "../ui/CustomModal";
 
 import { useAddAttributeOptionMutation } from "./attributeApi";
 

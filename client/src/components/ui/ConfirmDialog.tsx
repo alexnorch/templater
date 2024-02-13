@@ -1,9 +1,11 @@
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 
 interface ConfirmDialogProps {
   title: string;
@@ -21,15 +23,10 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   handleSubmit,
 }) => {
   return (
-    <Dialog
-      open={isOpen}
-      onClose={handleClose}
-      aria-labelledby="confirm-dialog-title"
-      aria-describedby="confirm-dialog-descr"
-    >
-      <DialogTitle id="confirm-dialog-title">{title}</DialogTitle>
+    <Dialog open={isOpen} onClose={handleClose}>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="confirm-dialog-descr">{text}</DialogContentText>
+        <DialogContentText>{text}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>

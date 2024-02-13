@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
 import { Grid, Stack, FormHelperText, Button } from "@mui/material";
 
@@ -10,6 +10,8 @@ import FormSelectField from "../ui/FormSelectField";
 import FormTextField from "../ui/FormTextField";
 
 import { formatTemplateData } from "../../utils/helpers";
+
+import TextEditor from "../ui/TextEditor";
 
 interface TemplateFormProps {
   mode: "edit" | "create";
@@ -31,6 +33,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
 }) => {
   const { data: categories = [] } = useGetCategoriesQuery();
   const { data: attributesList = [] } = useGetAttributesQuery();
+
   const methods = useForm({ defaultValues: values });
 
   const {
@@ -96,7 +99,9 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
       />
 
       {/* Text */}
-      <FormTextField control={control} name="text" label="Text" />
+
+      <TextEditor />
+      {/* <FormTextField control={control} name="text" label="Text" /> */}
 
       <Grid container flexDirection="row" flexWrap="wrap" gap={2}>
         {renderedAttributes}

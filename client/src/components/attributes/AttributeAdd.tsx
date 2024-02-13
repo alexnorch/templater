@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AddButton from "../ui/AddButton";
-import BasicModal from "../ui/BasicModal";
+import BasicModal from "../ui/CustomModal";
 import AttributeForm from "./AttributeForm";
 import { useAddAttributeMutation } from "./attributeApi";
 

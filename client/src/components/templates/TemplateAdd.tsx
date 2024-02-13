@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import { ITemplateItem } from "../../types";
 
 // Internal components
-import BasicModal from "../ui/BasicModal";
+import BasicModal from "../ui/CustomModal";
 import AddButton from "../ui/AddButton";
 import TemplateForm from "./TemplateForm";
 

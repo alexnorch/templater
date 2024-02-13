@@ -1,30 +1,30 @@
 import { Modal, Box, Typography } from "@mui/material";
 
-interface IBasicModal {
+interface CustomModalProps {
   title: string;
   isOpen: boolean;
   handleClose: () => void;
   children: React.ReactNode;
 }
 
-const BasicModal: React.FC<IBasicModal> = ({
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  minWidth: 400,
+  bgcolor: "background.paper",
+  borderRadius: "10px",
+  boxShadow: 24,
+  p: 4,
+};
+
+const CustomModal: React.FC<CustomModalProps> = ({
   children,
   isOpen,
   handleClose,
   title,
 }) => {
-  const style = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    minWidth: 400,
-    bgcolor: "background.paper",
-    borderRadius: "10px",
-    boxShadow: 24,
-    p: 4,
-  };
-
   return (
     <Modal open={isOpen} onClose={handleClose}>
       <Box sx={style}>
@@ -37,4 +37,4 @@ const BasicModal: React.FC<IBasicModal> = ({
   );
 };
 
-export default BasicModal;
+export default CustomModal;

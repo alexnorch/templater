@@ -1,5 +1,5 @@
 import AddButton from "./AddButton";
-import BasicModal from "./BasicModal";
+import BasicModal from "./CustomModal";
 import ConfirmDialog from "./ConfirmDialog";
 import Logo from "./Logo";
 

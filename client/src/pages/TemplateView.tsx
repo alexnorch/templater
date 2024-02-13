@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-
 // Components
 import {
   Typography,
@@ -22,6 +21,7 @@ import {
   useGetTemplateQuery,
   useDeleteTemplateMutation,
 } from "../components/templates/templateApi";
+import { IAttributeValue } from "../types";
 
 const TemplateView = () => {
   const [shouldDelete, setShouldDelete] = useState(false);
@@ -52,16 +52,16 @@ const TemplateView = () => {
   if (isError) return <p>{JSON.stringify(error)}</p>;
   if (!isSuccess) return;
 
-  const renderedAttributes = template.attributeValues.map(({ value, _id }) => (
-    <Chip key={_id} label={value} />
-  ));
+  const templateAttributes = (
+    template.attributeValues as IAttributeValue[]
+  ).map(({ value, _id }) => <Chip key={_id} label={value} />);
 
   return (
     <>
       <Stack>
         <Stack direction="row" justifyContent="space-between">
           <Typography variant="h5" component="h4">
-            {template!.title}
+            {template.title}
           </Typography>
           <Box>
             <IconButton onClick={() => navigate("edit")} size="small">
@@ -74,12 +74,12 @@ const TemplateView = () => {
         </Stack>
         <Box my={1}>
           <Typography sx={{ lineHeight: "25px" }} pr={5} variant="body2">
-            {template!.text}
+            {template.text}
           </Typography>
         </Box>
         <Divider sx={{ marginY: 1 }} />
         <Stack gap={2} p={1} flexDirection="row" alignItems="center">
-          {renderedAttributes}
+          {templateAttributes}
         </Stack>
       </Stack>
 

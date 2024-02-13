@@ -4,13 +4,8 @@ import { Box, Typography, IconButton } from "@mui/material";
 
 // Icons
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { toast, ToastContainer } from "react-toastify";
 
-interface ITemplateLite {
-  _id: string | undefined;
-  title: string;
-  text: string;
-}
+import { ITemplateItem } from "../../types";
 
 const templateStyles = {
   display: "flex",
@@ -29,14 +24,13 @@ const templateStyles = {
   },
 };
 
-const TemplateItem: React.FC<ITemplateLite> = ({ _id, title, text }) => {
+const TemplateItem: React.FC<ITemplateItem> = ({ _id, title, text }) => {
   const { templateId } = useParams();
   const navigate = useNavigate();
 
   const onCopyText = () => {
     if (text) {
       navigator.clipboard.writeText(text);
-      toast.success("Successfully copied");
     }
   };
 

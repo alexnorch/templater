@@ -33,17 +33,16 @@ const TemplateEdit = () => {
   };
 
   if (isLoading) return <p>Loading...</p>;
+  if (!isSuccess) return;
 
   return (
     <>
-      {isSuccess && (
-        <TemplateForm
-          mode="edit"
-          values={data}
-          isLoading={isUpdateLoading}
-          onSubmit={onUpdateTemplate}
-        />
-      )}
+      <TemplateForm
+        mode="edit"
+        values={data}
+        isLoading={isUpdateLoading}
+        onSubmit={onUpdateTemplate}
+      />
 
       <Box mb={2}>
         <Button
