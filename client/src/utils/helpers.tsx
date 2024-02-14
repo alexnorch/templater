@@ -6,6 +6,7 @@ export const formatTemplateData = (data: any) => {
   return {
     ...data,
     category: data.category._id || data.category,
+    text: typeof data.text === "string" ? data.text : JSON.stringify(data.text),
     attributeValues,
   };
 };

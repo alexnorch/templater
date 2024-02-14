@@ -28,12 +28,6 @@ const TemplateItem: React.FC<ITemplateItem> = ({ _id, title, text }) => {
   const { templateId } = useParams();
   const navigate = useNavigate();
 
-  const onCopyText = () => {
-    if (text) {
-      navigator.clipboard.writeText(text);
-    }
-  };
-
   const onNavigateTemplate = () => {
     const templatePath = `/templates/${_id}`;
     navigate(templatePath);
@@ -48,9 +42,9 @@ const TemplateItem: React.FC<ITemplateItem> = ({ _id, title, text }) => {
         <Typography variant="body1" component="h5">
           {title}
         </Typography>
-        <IconButton onClick={onCopyText}>
+        {/* <IconButton onClick={onCopyText}>
           <ContentCopyIcon fontSize="inherit" />
-        </IconButton>
+        </IconButton> */}
       </Box>
     </>
   );

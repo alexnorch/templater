@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
-import { Grid, Stack, FormHelperText, Button } from "@mui/material";
+import { Grid, Stack, FormHelperText, Button, Box } from "@mui/material";
 
 import { useGetAttributesQuery } from "../attributes/attributeApi";
 import { ITemplateItem, IAttributeValue } from "../../types";
@@ -11,7 +11,7 @@ import FormTextField from "../ui/FormTextField";
 
 import { formatTemplateData } from "../../utils/helpers";
 
-import TextEditor from "../ui/TextEditor/TextEditor";
+import FormTextEditor from "../ui/FormTextEditor";
 
 interface TemplateFormProps {
   mode: "edit" | "create";
@@ -104,10 +104,9 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
       />
 
       {/* Text */}
+      <FormTextEditor control={control} name="text" />
 
-      <TextEditor />
-      {/* <FormTextField control={control} name="text" label="Text" /> */}
-
+      {/* Custom attributes */}
       <Grid container flexDirection="row" flexWrap="wrap" gap={2}>
         {renderedAttributes}
       </Grid>

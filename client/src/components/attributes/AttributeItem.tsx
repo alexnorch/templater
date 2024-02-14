@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Stack, Typography, Button } from "@mui/material";
+import { Stack, Typography, Button, IconButton } from "@mui/material";
 import { IAttributeValue } from "../../types";
 import AttributeValues from "./AttributeValues";
 import ConfirmDialog from "../ui/ConfirmDialog";
+
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { useDeleteAttributeMutation } from "./attributeApi";
 
@@ -12,17 +14,16 @@ interface AttributeItemProps {
   values: IAttributeValue[];
 }
 
-const AttributeItem: React.FC<AttributeItemProps> = (props) => {
-  const { attrId, label, values } = props;
-
-  const [isDeleting, setIsDeleting] = useState(false);
+const AttributeItem: React.FC<AttributeItemProps> = ({
+  attrId,
+  label,
+  values,
+}) => {
+  const [shouldDelete, setShouldDelete] = useState(false);
   const [deleteAttribute] = useDeleteAttributeMutation();
 
-  const onDeleteAttribute = async () => {
-    await deleteAttribute(attrId);
-  };
-
-  const handleToggleDeleting = () => setIsDeleting((prev) => !prev);
+  const onDeleteAttribute = async () => await deleteAttribute(attrId);
+  const toggleShouldDelete = () => setShouldDelete((prev) => !prev);
 
   return (
     <>
@@ -34,15 +35,17 @@ const AttributeItem: React.FC<AttributeItemProps> = (props) => {
           <Typography mb={1} component="h4" variant="h6">
             {label}
           </Typography>
-          <Button onClick={handleToggleDeleting}>Delete</Button>
+          <IconButton onClick={toggleShouldDelete}>
+            <DeleteIcon />
+          </IconButton>
         </Stack>
         <AttributeValues attrId={attrId} values={values} />
       </Stack>
 
       {/* Attribute Deleting */}
       <ConfirmDialog
-        isOpen={isDeleting}
-        handleClose={handleToggleDeleting}
+        isOpen={shouldDelete}
+        handleClose={toggleShouldDelete}
         handleSubmit={onDeleteAttribute}
         title="Delete Attribute"
         text="Are you sure you want to delete this attribute?"

@@ -4,14 +4,12 @@ import AttributeItem from "./AttributeItem";
 
 const AttributesList = () => {
   const {
-    data: attributesList,
+    data: attributesList = [],
     isLoading,
     isSuccess,
   } = useGetAttributesQuery();
 
-  if (isLoading) {
-    return <Typography>Loading...</Typography>;
-  }
+  if (isLoading) return <Typography>Loading...</Typography>;
 
   if (isSuccess && attributesList.length === 0) {
     return (
@@ -21,7 +19,7 @@ const AttributesList = () => {
     );
   }
 
-  const attributeElements = attributesList?.map(({ _id, label, values }) => (
+  const attributeElements = attributesList.map(({ _id, label, values }) => (
     <Grid item md={4} key={_id}>
       <AttributeItem label={label} attrId={_id} values={values} />
     </Grid>

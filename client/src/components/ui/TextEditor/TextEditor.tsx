@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { Stack } from "@mui/material";
-import { EditorState, Editor, RichUtils } from "draft-js";
+import { Stack, Box } from "@mui/material";
+import { Editor, EditorState, RichUtils } from "draft-js";
 import "draft-js/dist/Draft.css";
 import "./TextEditor.css";
 
@@ -16,43 +15,46 @@ const ControllersContainer = styled(Stack)({
   borderBottom: "1px solid rgba(0,0,0,0.2);",
 });
 
-const TextEditor = () => {
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
+interface TextEditorProps {
+  state: EditorState;
+  onChange: (value: EditorState) => void;
+}
 
+const TextEditor: React.FC<TextEditorProps> = ({ state, onChange }) => {
   const handleChangeText = (value: EditorState) => {
-    const currentSelection = value.getSelection();
-    const stateWithContentAndSelection = EditorState.forceSelection(
-      value,
-      currentSelection
-    );
-    setEditorState(stateWithContentAndSelection);
+    onChange(value);
   };
 
   const handleToggleInlineStyles = (inlineStyle: string) => {
-    const newState = RichUtils.toggleInlineStyle(editorState, inlineStyle);
-    setEditorState(newState);
+    const newState = RichUtils.toggleInlineStyle(state, inlineStyle);
+    onChange(newState);
   };
 
   const handleToggleBlockTypes = (blockType: string) => {
-    const newState = RichUtils.toggleBlockType(editorState, blockType);
-    setEditorState(newState);
+    const newState = RichUtils.toggleBlockType(state, blockType);
+    onChange(newState);
   };
 
   return (
-    <Stack borderRadius={1} sx={{ border: "1px solid rgba(0,0,0,0.2)" }}>
+    <Stack sx={{ border: "1px solid rgba(0,0,0,0.2)" }}>
       <ControllersContainer>
         <InlineStyleControls
           onToggle={handleToggleInlineStyles}
-          editorState={editorState}
+          editorState={state}
         />
         <BlockStyleControls
           onToggle={handleToggleBlockTypes}
-          editorState={editorState}
+          editorState={state}
         />
       </ControllersContainer>
-      <Editor editorState={editorState} onChange={handleChangeText} />
+      <Box
+        sx={{
+          height: 400,
+          overflowY: "auto",
+        }}
+      >
+        <Editor editorState={state} onChange={handleChangeText} />
+      </Box>
     </Stack>
   );
 };

@@ -1,9 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
-
 import { TemplateForm } from "../components/templates";
-
 import { ITemplateItem } from "../types";
-
 import { Box, Button } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
@@ -13,6 +10,7 @@ import {
   useUpdateTemplateMutation,
 } from "../components/templates/templateApi";
 import { toast } from "react-toastify";
+import { formatTemplateData } from "../utils/helpers";
 
 const TemplateEdit = () => {
   const { templateId } = useParams();
@@ -23,7 +21,7 @@ const TemplateEdit = () => {
   const navigate = useNavigate();
 
   const onUpdateTemplate = async (data: ITemplateItem) => {
-    await updateTemplate(data).unwrap();
+    await updateTemplate(formatTemplateData(data)).unwrap();
     toast.success("Successfully Updated");
     onNavigate();
   };

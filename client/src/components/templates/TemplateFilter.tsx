@@ -3,7 +3,7 @@ import { FilterByAttribute, FilterByTitle, FilterByCategory } from "../filters";
 
 const TemplateFilter = () => {
   return (
-    <Box mb={3}>
+    <Box mb={5}>
       <Grid my={1} container justifyContent="space-between" alignItems="center">
         <Grid item md={4}>
           <FilterByTitle />

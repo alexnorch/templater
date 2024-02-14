@@ -26,7 +26,7 @@ const FormSelectField = (props: FormSelectFieldProps) => {
     rules: { required: true },
   });
 
-  const value = field.value || "";
+  const value = field.value?._id || field.value || "";
 
   return (
     <FormControl size="small" fullWidth>

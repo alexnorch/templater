@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-// Components
+import { Editor, EditorState, convertFromRaw } from "draft-js";
+
 import {
   Typography,
   Stack,
@@ -56,11 +57,21 @@ const TemplateView = () => {
     template.attributeValues as IAttributeValue[]
   ).map(({ value, _id }) => <Chip key={_id} label={value} />);
 
+  const editorState = EditorState.createWithContent(
+    convertFromRaw(JSON.parse(template.text))
+  );
+
+  const handleCopyText = () => {
+    const contentState = editorState.getCurrentContent();
+    const text = contentState.getPlainText();
+    navigator.clipboard.writeText(text);
+  };
+
   return (
     <>
       <Stack>
         <Stack direction="row" justifyContent="space-between">
-          <Typography variant="h5" component="h4">
+          <Typography ml={2} variant="h5" component="h4">
             {template.title}
           </Typography>
           <Box>
@@ -72,10 +83,16 @@ const TemplateView = () => {
             </IconButton>
           </Box>
         </Stack>
-        <Box my={1}>
-          <Typography sx={{ lineHeight: "25px" }} pr={5} variant="body2">
-            {template.text}
-          </Typography>
+        <Box
+          sx={{
+            borderRadius: 2,
+            cursor: "pointer",
+            ":hover": { backgroundColor: "#ddd" },
+          }}
+          onClick={handleCopyText}
+          my={1}
+        >
+          <Editor readOnly={true} editorState={editorState} />
         </Box>
         <Divider sx={{ marginY: 1 }} />
         <Stack gap={2} p={1} flexDirection="row" alignItems="center">
