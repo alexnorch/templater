@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
-import { Grid, Stack, FormHelperText, Button, Box } from "@mui/material";
+import { Grid, Stack, FormHelperText, Button, Typography } from "@mui/material";
 
 import { useGetAttributesQuery } from "../attributes/attributeApi";
 import { ITemplateItem, IAttributeValue } from "../../types";
@@ -28,7 +28,6 @@ interface CustomFieldErrors extends FieldErrors<ITemplateItem> {
 const TemplateForm: React.FC<TemplateFormProps> = ({
   mode,
   values,
-  isLoading,
   onSubmit,
 }) => {
   const { data: categories = [] } = useGetCategoriesQuery();
@@ -40,7 +39,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
     control,
     setValue,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = methods;
 
   useEffect(() => {
@@ -90,8 +89,6 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
       spacing={2}
       component="form"
     >
-      {categories.length === 0 && <NoCategoriesMessage />}
-
       {/* Title */}
       <FormTextField control={control} name="title" label="Title" />
 
@@ -107,16 +104,19 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
       <FormTextEditor control={control} name="text" />
 
       {/* Custom attributes */}
-      <Grid container flexDirection="row" flexWrap="wrap" gap={2}>
-        {renderedAttributes}
-      </Grid>
+      <Stack>
+        {renderedAttributes.length > 0 && (
+          <Typography mb={1}>Custom attributes (not required)</Typography>
+        )}
+        <Grid container flexDirection="row" flexWrap="wrap" gap={2}>
+          {renderedAttributes}
+        </Grid>
+      </Stack>
+
+      {categories.length === 0 && <NoCategoriesMessage />}
 
       <Stack alignItems="flex-end">
-        <Button
-          disabled={categories!.length === 0 || isLoading}
-          type="submit"
-          variant="contained"
-        >
+        <Button disabled={!isValid} type="submit" variant="contained">
           Save
         </Button>
       </Stack>

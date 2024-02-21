@@ -53,7 +53,7 @@ class TokenService {
   }
 
   async removeToken(refreshToken: string) {
-    const deletedToken = await Token.deleteOne({ refreshToken });
+    const deletedToken = await Token.findOneAndDelete({ refreshToken });
 
     return deletedToken;
   }

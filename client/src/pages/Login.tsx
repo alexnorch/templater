@@ -1,10 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { TextField, Button, Stack } from "@mui/material";
-// import { loginUser } from "../store/reducers/userSlice";
-import { AccountCircle } from "@mui/icons-material";
-import LockIcon from "@mui/icons-material/Lock";
+import { useNavigate, Link } from "react-router-dom";
+import { TextField, Button, Stack, Typography, Box } from "@mui/material";
 import { authValidationRules } from "../utils/authValidationRules";
 
 import { useLoginUserMutation } from "../components/auth/authApiSlice";
@@ -15,7 +12,6 @@ interface IFormInput {
   password: string;
 }
 
-const iconStyles = { color: "action.active", mr: 1, my: 0.5 };
 const defaultValues = { email: "", password: "" };
 
 const Login = () => {
@@ -39,21 +35,28 @@ const Login = () => {
       const userData = await loginUser(credentials).unwrap();
       dispatch(setCredentials({ ...userData }));
       navigate("/templates");
+      localStorage.setItem("accessToken", userData.accessToken);
     } catch (error: any) {
-      const errorMsg = error.response.data.message;
-      console.log(errorMsg);
+      console.log(error);
     }
   };
 
   return (
-    <Stack
-      onSubmit={handleSubmit(onSubmitForm)}
-      minWidth={400}
-      component="form"
-      spacing={2}
-    >
-      <Stack flexDirection="row" alignItems="center" gap={1}>
-        <AccountCircle sx={iconStyles} />
+    <Stack>
+      <Box mb={2}>
+        <Typography component="h2" variant="h4">
+          Login
+        </Typography>
+        <Typography>
+          Don't have an account yet? <Link to="/register">Register now!</Link>
+        </Typography>
+      </Box>
+      <Stack
+        onSubmit={handleSubmit(onSubmitForm)}
+        minWidth={400}
+        component="form"
+        spacing={3}
+      >
         <Controller
           name="email"
           control={control}
@@ -64,15 +67,13 @@ const Login = () => {
               fullWidth
               error={invalid}
               helperText={errors?.email?.message}
-              variant="standard"
+              variant="filled"
+              size="small"
               placeholder="E-mail address"
             />
           )}
         />
-      </Stack>
 
-      <Stack flexDirection="row" alignItems="center" gap={1}>
-        <LockIcon sx={iconStyles} />
         <Controller
           rules={authValidationRules.loginPassword}
           name="password"
@@ -85,16 +86,17 @@ const Login = () => {
               error={invalid}
               helperText={errors?.password?.message}
               placeholder="Password"
-              variant="standard"
+              variant="filled"
+              size="small"
             />
           )}
         />
-      </Stack>
 
-      <Stack alignItems="flex-end">
-        <Button type="submit" variant="contained">
-          Submit
-        </Button>
+        <Stack alignItems="flex-end">
+          <Button type="submit" variant="contained">
+            Submit
+          </Button>
+        </Stack>
       </Stack>
     </Stack>
   );

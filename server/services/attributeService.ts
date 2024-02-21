@@ -21,16 +21,16 @@ class AttributeService {
     });
 
     if (isAlreadyExists) {
-      return new AppError("Attribute with this label is already exists", 400);
+      throw new AppError("Attribute with this label is already exists", 400);
     }
 
     const user = (await User.findById(this.userId)) as IUser;
-    const attributeDoc = new Attribute({
+
+    const createdAttribute = await Attribute.create({
       values: [],
       user: this.userId,
       label,
     });
-    const createdAttribute = await attributeDoc.save();
 
     user.attributes.push(createdAttribute._id);
 
@@ -45,11 +45,12 @@ class AttributeService {
     );
 
     if (!updatedAttribute) {
-      return new AppError("Attribute with that ID wasn't found", 400);
+      throw new AppError("Attribute with that ID wasn't found", 400);
     }
 
     return updatedAttribute;
   }
+
   async deleteAttribute(attrId: string) {
     const deletedAttribute = await Attribute.findOneAndDelete({
       _id: attrId,
@@ -57,7 +58,7 @@ class AttributeService {
     });
 
     if (!deletedAttribute) {
-      return new AppError("Attribute with that ID wasn't found", 400);
+      throw new AppError("Attribute with that ID wasn't found", 400);
     }
 
     await AttributeValue.deleteMany({ attribute: deletedAttribute._id });
@@ -69,7 +70,7 @@ class AttributeService {
     const attribute = await Attribute.findById(attrId);
 
     if (!attribute) {
-      return new AppError("Invalid attribute ID", 400);
+      throw new AppError("Invalid attribute ID", 400);
     }
 
     const isAlreadyExists = await AttributeValue.findOne({
@@ -78,15 +79,13 @@ class AttributeService {
     });
 
     if (isAlreadyExists) {
-      return new AppError("Option with this name is already exists", 400);
+      throw new AppError("Option with this name is already exists", 400);
     }
 
-    const attributeValueDoc = new AttributeValue({
+    const createAttributeValue = await AttributeValue.create({
       value: attrValue,
       attribute: attrId,
     });
-
-    const createAttributeValue = await attributeValueDoc.save();
 
     attribute.values.push(createAttributeValue._id);
     attribute.save();
@@ -101,7 +100,7 @@ class AttributeService {
     });
 
     if (!deletedAttributeOption) {
-      return new AppError("Attribute Option with that ID wasn't found", 404);
+      throw new AppError("Attribute Option with that ID wasn't found", 404);
     }
 
     return deletedAttributeOption;

@@ -15,12 +15,22 @@ const ControllersContainer = styled(Stack)({
   borderBottom: "1px solid rgba(0,0,0,0.2);",
 });
 
+const EditorContainer = styled(Box)({
+  height: 400,
+  overflowY: "auto",
+});
+
 interface TextEditorProps {
+  isError?: boolean;
   state: EditorState;
   onChange: (value: EditorState) => void;
 }
 
-const TextEditor: React.FC<TextEditorProps> = ({ state, onChange }) => {
+const TextEditor: React.FC<TextEditorProps> = ({
+  state,
+  isError,
+  onChange,
+}) => {
   const handleChangeText = (value: EditorState) => {
     onChange(value);
   };
@@ -35,8 +45,12 @@ const TextEditor: React.FC<TextEditorProps> = ({ state, onChange }) => {
     onChange(newState);
   };
 
+  const borderStyles = isError
+    ? "1px solid #d32f2f"
+    : "1px solid rgba(0,0,0,0.2)";
+
   return (
-    <Stack sx={{ border: "1px solid rgba(0,0,0,0.2)" }}>
+    <Stack sx={{ border: borderStyles, borderRadius: 1 }}>
       <ControllersContainer>
         <InlineStyleControls
           onToggle={handleToggleInlineStyles}
@@ -47,14 +61,9 @@ const TextEditor: React.FC<TextEditorProps> = ({ state, onChange }) => {
           editorState={state}
         />
       </ControllersContainer>
-      <Box
-        sx={{
-          height: 400,
-          overflowY: "auto",
-        }}
-      >
+      <EditorContainer>
         <Editor editorState={state} onChange={handleChangeText} />
-      </Box>
+      </EditorContainer>
     </Stack>
   );
 };

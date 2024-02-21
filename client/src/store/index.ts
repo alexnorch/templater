@@ -6,6 +6,7 @@ import filterSlice from "../components/filters/filterSlice";
 
 // Api
 import { baseApi } from "../api/apiSlice";
+import { rtkQueryErrorLogger } from "./middlewares/rtkQueryErrorLogger";
 
 const rootReducer = combineReducers({
   filter: filterSlice,
@@ -17,7 +18,7 @@ export const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== "production",
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(baseApi.middleware),
+    getDefaultMiddleware().concat([baseApi.middleware, rtkQueryErrorLogger]),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

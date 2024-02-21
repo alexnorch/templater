@@ -1,10 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-
-import { Box, Typography, IconButton } from "@mui/material";
-
-// Icons
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-
+import { Box, Typography } from "@mui/material";
 import { ITemplateItem } from "../../types";
 
 const templateStyles = {
@@ -24,7 +19,7 @@ const templateStyles = {
   },
 };
 
-const TemplateItem: React.FC<ITemplateItem> = ({ _id, title, text }) => {
+const TemplateItem: React.FC<ITemplateItem> = ({ _id, title }) => {
   const { templateId } = useParams();
   const navigate = useNavigate();
 
@@ -37,16 +32,11 @@ const TemplateItem: React.FC<ITemplateItem> = ({ _id, title, text }) => {
   templateStyles.color = _id === templateId ? "#fff" : "#333";
 
   return (
-    <>
-      <Box onClick={onNavigateTemplate} sx={templateStyles}>
-        <Typography variant="body1" component="h5">
-          {title}
-        </Typography>
-        {/* <IconButton onClick={onCopyText}>
-          <ContentCopyIcon fontSize="inherit" />
-        </IconButton> */}
-      </Box>
-    </>
+    <Box onClick={onNavigateTemplate} sx={templateStyles}>
+      <Typography variant="body1" component="h5">
+        {title}
+      </Typography>
+    </Box>
   );
 };
 

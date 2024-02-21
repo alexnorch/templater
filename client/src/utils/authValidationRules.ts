@@ -3,6 +3,12 @@ const registerPasswordPattern = {
   message: "Minimum 8 characters, at least one letter and one number",
 };
 
+const emailPattern = {
+  value:
+    /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
+  message: "Please enter a valid email address",
+};
+
 const getMinLength = (value: number) => {
   return {
     value,
@@ -14,6 +20,7 @@ export const authValidationRules = {
   email: {
     required: "Email is required",
     minLength: getMinLength(6),
+    pattern: emailPattern,
   },
   loginPassword: {
     required: "Password is required",

@@ -5,6 +5,7 @@ import { AppBar, Toolbar, Container, Stack, Button } from "@mui/material";
 import Logo from "./Logo";
 
 import { logOut } from "../auth/authSlice";
+import { useLogoutMutation } from "../auth/authApiSlice";
 
 const pages = [
   { title: "Templates", path: "/templates" },
@@ -16,9 +17,11 @@ const btnStyles = { my: 2, color: "white", display: "block" };
 const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [logoutUser] = useLogoutMutation();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     localStorage.removeItem("accessToken");
+    await logoutUser(null).unwrap();
     dispatch(logOut());
   };
 

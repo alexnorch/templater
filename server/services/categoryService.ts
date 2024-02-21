@@ -68,7 +68,7 @@ class CategoryService {
     });
 
     if (!category) {
-      return new AppError("Category was not found", 404);
+      throw new AppError("Category was not found", 404);
     }
 
     category.title = newTitle;

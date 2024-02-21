@@ -36,6 +36,11 @@ const baseQueryWithReauth: BaseQueryFn<
     if (refreshResult?.data) {
       api.dispatch(setCredentials({ ...refreshResult.data }));
 
+      localStorage.setItem(
+        "accessToken",
+        (refreshResult?.data as { accessToken: string })?.accessToken
+      );
+
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(logOut());

@@ -1,34 +1,16 @@
-import { Outlet, useLocation, Link } from "react-router-dom";
-import { Stack, Typography, Box } from "@mui/material";
-import { Logo } from "../components/ui";
+import { Outlet } from "react-router-dom";
+import { Stack } from "@mui/material";
+import { ToastContainer } from "react-toastify";
+import svgImage from "../assets/programmer.svg";
 
 const AuthWrapper = () => {
-  const location = useLocation();
-  const isLoginPage = location.pathname.includes("login");
-
-  const LoginHeader = (
-    <Typography>
-      Don't have an account? <Link to="/register">Register</Link>
-    </Typography>
-  );
-
-  const RegisterHeader = (
-    <Typography>
-      Already have an account? <Link to="/login">Log in</Link>
-    </Typography>
-  );
-
   return (
-    <Stack
-      height="100vh"
-      component="main"
-      alignItems="center"
-      justifyContent="center"
-      spacing={2}
-    >
-      <Logo component="h1" variant="h4" />
-      <Box>{isLoginPage ? LoginHeader : RegisterHeader}</Box>
-      <Outlet />
+    <Stack height="100vh" justifyContent="center" alignItems="center">
+      <Stack flexDirection="row" alignItems="center" gap={5}>
+        <Outlet />
+        <img width={550} src={svgImage} alt="" />
+      </Stack>
+      <ToastContainer limit={1} hideProgressBar={true} position="top-center" />
     </Stack>
   );
 };

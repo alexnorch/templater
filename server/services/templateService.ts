@@ -92,15 +92,13 @@ class TemplateService {
       throw new AppError("Invalid category", 400);
     }
 
-    const templateDoc = new Template({
+    const createdTemplate = await Template.create({
       title,
       category,
       user: this.userId,
       attributeValues: attributeValues ? attributeValues : [],
       text,
     });
-
-    const createdTemplate = await templateDoc.save();
 
     user.templates.push(createdTemplate._id);
     userCategory.templates.push(createdTemplate._id);
@@ -127,8 +125,6 @@ class TemplateService {
       user: this.userId,
       _id: templateId,
     });
-
-    console.log(attributeValues);
 
     if (!template) {
       throw new AppError("Template with that ID wasn't found", 404);

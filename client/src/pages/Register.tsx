@@ -1,8 +1,8 @@
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { Box, TextField, Button, Stack } from "@mui/material";
-import { AccountCircle } from "@mui/icons-material";
-
-import LockIcon from "@mui/icons-material/Lock";
+import { Box, TextField, Button, Stack, Typography } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../components/auth/authSlice";
 
 interface IFormInput {
   email: string;
@@ -11,17 +11,12 @@ interface IFormInput {
 }
 
 import { authValidationRules } from "../utils/authValidationRules";
+import { useRegisterUserMutation } from "../components/auth/authApiSlice";
 
 const defaultValues = {
   email: "",
   password: "",
   confirmPassword: "",
-};
-
-const boxStyles = {
-  display: "flex",
-  alignItems: "flex-end",
-  width: "100%",
 };
 
 const Register = () => {
@@ -31,21 +26,40 @@ const Register = () => {
     formState: { errors },
   } = useForm({ defaultValues });
 
-  const onSubmitForm: SubmitHandler<IFormInput> = (data) => {
-    console.log("Submitted", data);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [registerUser] = useRegisterUserMutation();
+
+  const onSubmitForm: SubmitHandler<IFormInput> = async (data) => {
+    try {
+      const userData = await registerUser(data).unwrap();
+      dispatch(setCredentials({ ...userData }));
+      navigate("/templates");
+
+      localStorage.setItem("accessToken", userData.accessToken);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const iconStyles = { color: "action.active", mr: 1, my: 0.5 };
-
   return (
-    <Stack
-      onSubmit={handleSubmit(onSubmitForm)}
-      minWidth={400}
-      component="form"
-      spacing={2}
-    >
-      <Stack flexDirection="row" alignItems="center" gap={1}>
-        <AccountCircle sx={iconStyles} />
+    <Stack>
+      <Box mb={2}>
+        <Typography component="h2" variant="h4">
+          Register
+        </Typography>
+        <Typography>
+          Already have an account? <Link to="/login">Log in here</Link>
+        </Typography>
+      </Box>
+
+      <Stack
+        onSubmit={handleSubmit(onSubmitForm)}
+        minWidth={400}
+        component="form"
+        spacing={2}
+      >
         <Controller
           name="email"
           control={control}
@@ -56,14 +70,13 @@ const Register = () => {
               fullWidth
               error={invalid}
               helperText={errors?.email?.message}
-              variant="standard"
+              variant="filled"
+              size="small"
               placeholder="E-mail address"
             />
           )}
         />
-      </Stack>
-      <Stack flexDirection="row" alignItems="center" gap={1}>
-        <LockIcon sx={iconStyles} />
+
         <Controller
           name="password"
           control={control}
@@ -74,14 +87,13 @@ const Register = () => {
               fullWidth
               error={invalid}
               helperText={errors?.password?.message}
-              variant="standard"
+              variant="filled"
+              size="small"
+              type="password"
               placeholder="Password"
             />
           )}
         />
-      </Stack>
-      <Stack flexDirection="row" alignItems="center" gap={1}>
-        <LockIcon sx={iconStyles} />
         <Controller
           rules={authValidationRules.confirmPassword}
           name="confirmPassword"
@@ -92,16 +104,19 @@ const Register = () => {
               fullWidth
               error={invalid}
               helperText={errors?.confirmPassword?.message}
-              variant="standard"
+              variant="filled"
+              size="small"
+              type="password"
               placeholder="Confirm Password"
             />
           )}
         />
-      </Stack>
-      <Stack alignItems="flex-end">
-        <Button type="submit" variant="contained">
-          Submit
-        </Button>
+
+        <Stack alignItems="flex-end">
+          <Button type="submit" variant="contained">
+            Submit
+          </Button>
+        </Stack>
       </Stack>
     </Stack>
   );

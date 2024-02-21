@@ -14,7 +14,10 @@ const FormTextEditor: React.FC<UseControllerProps<ITemplateItem>> = ({
   name,
   control,
 }) => {
-  const { field, fieldState } = useController({
+  const {
+    field,
+    fieldState: { error },
+  } = useController({
     name,
     control,
     rules: { required: true },
@@ -39,7 +42,13 @@ const FormTextEditor: React.FC<UseControllerProps<ITemplateItem>> = ({
     field.onChange(convertedData);
   };
 
-  return <TextEditor onChange={handleChangeText} state={editorState} />;
+  return (
+    <TextEditor
+      isError={Boolean(error)}
+      onChange={handleChangeText}
+      state={editorState}
+    />
+  );
 };
 
 export default FormTextEditor;
