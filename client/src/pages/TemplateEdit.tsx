@@ -1,8 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { TemplateForm } from "../components/templates";
 import { ITemplateItem } from "../types";
-import { Box, Button } from "@mui/material";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 // API
 import {
@@ -34,25 +32,12 @@ const TemplateEdit = () => {
   if (!isSuccess) return;
 
   return (
-    <>
-      <TemplateForm
-        mode="edit"
-        values={data}
-        isLoading={isUpdateLoading}
-        onSubmit={onUpdateTemplate}
-      />
-
-      <Box mb={2}>
-        <Button
-          size="small"
-          onClick={onNavigate}
-          variant="text"
-          startIcon={<ArrowBackIosIcon />}
-        >
-          Back to Template
-        </Button>
-      </Box>
-    </>
+    <TemplateForm
+      mode="edit"
+      values={data}
+      isLoading={isUpdateLoading}
+      onSubmit={onUpdateTemplate}
+    />
   );
 };
 

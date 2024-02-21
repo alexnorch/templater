@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useDebugValue, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
 import { Grid, Stack, FormHelperText, Button, Typography } from "@mui/material";
 
@@ -34,6 +35,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
   const { data: attributesList = [] } = useGetAttributesQuery();
 
   const methods = useForm({ defaultValues: values });
+  const navigate = useNavigate();
 
   const {
     control,
@@ -83,12 +85,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
   });
 
   return (
-    <Stack
-      maxWidth={600}
-      onSubmit={handleSubmit(submitForm)}
-      spacing={2}
-      component="form"
-    >
+    <Stack onSubmit={handleSubmit(submitForm)} spacing={2} component="form">
       {/* Title */}
       <FormTextField control={control} name="title" label="Title" />
 
@@ -115,7 +112,17 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
 
       {categories.length === 0 && <NoCategoriesMessage />}
 
-      <Stack alignItems="flex-end">
+      <Stack
+        gap={2}
+        flexDirection="row"
+        justifyContent="flex-end"
+        alignItems="flex-end"
+      >
+        {mode === "edit" && (
+          <Button onClick={() => navigate(-1)} variant="outlined">
+            Back
+          </Button>
+        )}
         <Button disabled={!isValid} type="submit" variant="contained">
           Save
         </Button>

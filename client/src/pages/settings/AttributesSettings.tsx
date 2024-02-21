@@ -7,6 +7,7 @@ const AttributesSettings = () => {
       <Typography variant="h5" mb={2}>
         My Attributes
       </Typography>
+
       <AttributesList />
       <AttributeAdd />
     </>

@@ -50,7 +50,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
     : "1px solid rgba(0,0,0,0.2)";
 
   return (
-    <Stack sx={{ border: borderStyles, borderRadius: 1 }}>
+    <Stack sx={{ border: borderStyles, borderRadius: 1, maxWidth: "100%" }}>
       <ControllersContainer>
         <InlineStyleControls
           onToggle={handleToggleInlineStyles}

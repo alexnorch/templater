@@ -11,9 +11,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: "/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
-    const token =
-      (getState() as RootState).auth.token ||
-      localStorage.getItem("accessToken");
+    const token = (getState() as RootState).auth.token;
 
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
@@ -35,11 +33,6 @@ const baseQueryWithReauth: BaseQueryFn<
 
     if (refreshResult?.data) {
       api.dispatch(setCredentials({ ...refreshResult.data }));
-
-      localStorage.setItem(
-        "accessToken",
-        (refreshResult?.data as { accessToken: string })?.accessToken
-      );
 
       result = await baseQuery(args, api, extraOptions);
     } else {
