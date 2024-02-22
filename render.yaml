@@ -1,0 +1,24 @@
+services:
+  - name: client
+    type: web
+    buildCommand: cd client && npm install && npm run build
+    startCommand: npm start
+    env:
+      - key: NODE_ENV
+        value: production
+    envFiles:
+      - .env.production
+    healthCheckPath: /
+    directory: client
+
+  - name: server
+    type: web
+    buildCommand: cd server && npm install && npm run build
+    startCommand: npm start
+    env:
+      - key: NODE_ENV
+        value: production
+    envFiles:
+      - .env.production
+    healthCheckPath: /
+    directory: server
