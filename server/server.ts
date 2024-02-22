@@ -24,7 +24,6 @@ app.use("/api/attributes", attributeRouter);
 app.use("/api/users", userRouter);
 
 // Error handling
-
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
   throw ApiError.NotFound("Page wasn't found");
 });
