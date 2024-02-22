@@ -11,7 +11,7 @@ interface IFormInput {
 }
 
 import { authValidationRules } from "../utils/authValidationRules";
-import { useRegisterUserMutation } from "../components/auth/authApiSlice";
+import { useRegisterUserMutation } from "../api/authApi";
 
 const defaultValues = {
   email: "",

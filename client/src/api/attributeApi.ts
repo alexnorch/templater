@@ -1,5 +1,5 @@
-import { IAttribute } from "../../types";
-import { baseApi } from "../../api/apiSlice";
+import { IAttribute } from "../types";
+import { baseApi } from "./apiSlice";
 
 const attributeApi = baseApi
   .enhanceEndpoints({ addTagTypes: ["Attribute"] })

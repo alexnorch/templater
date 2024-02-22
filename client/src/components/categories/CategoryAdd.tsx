@@ -1,6 +1,6 @@
 import { useState } from "react";
 import CategoryForm from "./CategoryForm";
-import { useAddCategoryMutation } from "./categoryApi";
+import { useAddCategoryMutation } from "../../api/categoryApi";
 import { ICategoryItem } from "../../types";
 import { BasicModal, AddButton } from "../ui";
 

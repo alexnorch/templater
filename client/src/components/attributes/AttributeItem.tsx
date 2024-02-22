@@ -6,7 +6,7 @@ import ConfirmDialog from "../ui/ConfirmDialog";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import { useDeleteAttributeMutation } from "./attributeApi";
+import { useDeleteAttributeMutation } from "../../api/attributeApi";
 
 interface AttributeItemProps {
   label: string;

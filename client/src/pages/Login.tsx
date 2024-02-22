@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { TextField, Button, Stack, Typography, Box } from "@mui/material";
 import { authValidationRules } from "../utils/authValidationRules";
 
-import { useLoginUserMutation } from "../components/auth/authApiSlice";
+import { useLoginUserMutation } from "../api/authApi";
 import { setCredentials } from "../components/auth/authSlice";
 
 interface IFormInput {

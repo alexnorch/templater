@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Stack } from "@mui/material";
-import { useGetCategoriesQuery } from "../categories/categoryApi";
+import { useGetCategoriesQuery } from "../../api/categoryApi";
 import { setCategory } from "./filterSlice";
 import { ICategoryItem } from "../../types";
 
@@ -41,7 +41,7 @@ const FilterByCategory = () => {
   );
 
   return (
-    <Stack flexDirection="row" gap={2} flexWrap="wrap">
+    <Stack mt={3} flexDirection="row" gap={2} flexWrap="wrap">
       {filterCategoriesItems}
     </Stack>
   );

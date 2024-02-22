@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
-import { ITemplateItem } from "../../types";
+import { ITemplateLite } from "../../types";
 
 const templateStyles = {
   display: "flex",
@@ -19,7 +19,7 @@ const templateStyles = {
   },
 };
 
-const TemplateItem: React.FC<ITemplateItem> = ({ _id, title }) => {
+const TemplateItem: React.FC<ITemplateLite> = ({ _id, title }) => {
   const { templateId } = useParams();
   const navigate = useNavigate();
 

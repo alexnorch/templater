@@ -15,7 +15,13 @@ const AuthWrapper = () => {
 
   return (
     <Stack height="100vh" justifyContent="center" alignItems="center">
-      <Stack flexDirection="row" alignItems="center" gap={5}>
+      <Stack
+        flexDirection="row"
+        flexWrap="wrap"
+        justifyContent="center"
+        alignItems="center"
+        gap={5}
+      >
         <Outlet />
         <img width={550} src={svgImage} alt="" />
       </Stack>

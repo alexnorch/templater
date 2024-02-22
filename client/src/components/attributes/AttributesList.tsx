@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material";
-import { useGetAttributesQuery } from "./attributeApi";
+import { useGetAttributesQuery } from "../../api/attributeApi";
 import AttributeItem from "./AttributeItem";
 
 const AttributesList = () => {
@@ -20,7 +20,7 @@ const AttributesList = () => {
   }
 
   const attributeElements = attributesList.map(({ _id, label, values }) => (
-    <Grid item md={4} key={_id}>
+    <Grid item md={4} sm={6} xs={12} key={_id}>
       <AttributeItem label={label} attrId={_id} values={values} />
     </Grid>
   ));

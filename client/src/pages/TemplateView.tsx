@@ -21,7 +21,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {
   useGetTemplateQuery,
   useDeleteTemplateMutation,
-} from "../components/templates/templateApi";
+} from "../api/templateApi";
 import { IAttributeValue } from "../types";
 
 const TemplateView = () => {

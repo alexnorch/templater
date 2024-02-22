@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 import CategoryItem from "./CategoryItem";
-import { useGetCategoriesQuery } from "./categoryApi";
+import { useGetCategoriesQuery } from "../../api/categoryApi";
 import { ICategoryItem } from "../../types";
 
 const CategoriesList = () => {
@@ -20,7 +20,7 @@ const CategoriesList = () => {
     );
 
   const categoryElements = categories.map(({ _id, title }: ICategoryItem) => (
-    <Grid item md={3} key={_id}>
+    <Grid item md={3} sm={6} xs={12} key={_id}>
       <CategoryItem _id={_id} title={title} />
     </Grid>
   ));

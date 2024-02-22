@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Chip } from "@mui/material";
 
-import { useDeleteAttributeOptionMutation } from "./attributeApi";
+import { useDeleteAttributeOptionMutation } from "../../api/attributeApi";
 import ConfirmDialog from "../ui/ConfirmDialog";
 
 interface AttributeValueProps {

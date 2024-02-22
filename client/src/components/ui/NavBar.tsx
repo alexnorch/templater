@@ -5,7 +5,7 @@ import { AppBar, Toolbar, Container, Stack, Button } from "@mui/material";
 import Logo from "./Logo";
 
 import { logOut } from "../auth/authSlice";
-import { useLogoutMutation } from "../auth/authApiSlice";
+import { useLogoutMutation } from "../../api/authApi";
 
 const pages = [
   { title: "Templates", path: "/templates" },

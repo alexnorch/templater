@@ -6,7 +6,7 @@ import { ITemplateItem } from "../types";
 import {
   useGetTemplateQuery,
   useUpdateTemplateMutation,
-} from "../components/templates/templateApi";
+} from "../api/templateApi";
 import { toast } from "react-toastify";
 import { formatTemplateData } from "../utils/helpers";
 

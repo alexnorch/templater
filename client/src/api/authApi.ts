@@ -1,5 +1,4 @@
-import { baseApi } from "../../api/apiSlice";
-import { setCredentials } from "./authSlice";
+import { baseApi } from "./apiSlice";
 
 export const authApiSlice = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -23,27 +22,10 @@ export const authApiSlice = baseApi.injectEndpoints({
         method: "POST",
       }),
     }),
-    refresh: builder.mutation({
-      query: () =>
-        <any>{
-          url: "users/refresh",
-          method: "GET",
-        },
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-
-          dispatch(setCredentials({ ...data }));
-        } catch (err) {
-          console.log(err);
-        }
-      },
-    }),
   }),
 });
 
 export const {
-  useRefreshMutation,
   useLoginUserMutation,
   useRegisterUserMutation,
   useLogoutMutation,

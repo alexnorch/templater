@@ -8,7 +8,7 @@ import BasicModal from "../ui/CustomModal";
 import AddButton from "../ui/AddButton";
 import TemplateForm from "./TemplateForm";
 
-import { useAddTemplateMutation } from "./templateApi";
+import { useAddTemplateMutation } from "../../api/templateApi";
 
 const defaultValues = {
   title: "",

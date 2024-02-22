@@ -18,7 +18,7 @@ import { capitalizeFirstLetter } from "../../utils/helpers";
 import {
   useDeleteCategoryMutation,
   useUpdateCategoryMutation,
-} from "./categoryApi";
+} from "../../api/categoryApi";
 
 const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
   const [shouldDelete, setShouldDelete] = useState<boolean>(false);

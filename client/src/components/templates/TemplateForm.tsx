@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
 import { Grid, Stack, FormHelperText, Button, Typography } from "@mui/material";
 
-import { useGetAttributesQuery } from "../attributes/attributeApi";
+import { useGetAttributesQuery } from "../../api/attributeApi";
 import { ITemplateItem, IAttributeValue } from "../../types";
-import { useGetCategoriesQuery } from "../categories/categoryApi";
+import { useGetCategoriesQuery } from "../../api/categoryApi";
 import NoCategoriesMessage from "../categories/NoCategoriesMessage";
 import FormSelectField from "../ui/FormSelectField";
 import FormTextField from "../ui/FormTextField";
@@ -72,7 +72,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
     ]?.message;
 
     return (
-      <Grid item md={2.5} key={_id}>
+      <Grid item xs={3} md={2.5} key={_id}>
         <FormSelectField
           control={control}
           name={name}

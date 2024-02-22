@@ -1,8 +1,8 @@
-import { ICategoryItem } from "../../types";
-import { baseApi } from "../../api/apiSlice";
+import { ICategoryItem } from "../types";
+import { baseApi } from "./apiSlice";
 
 const categoryApi = baseApi
-  .enhanceEndpoints({ addTagTypes: ["Category"] })
+  .enhanceEndpoints({ addTagTypes: ["Category", "Template"] })
   .injectEndpoints({
     endpoints: (build) => ({
       getCategories: build.query<ICategoryItem[], void>({
@@ -32,7 +32,8 @@ const categoryApi = baseApi
           method: "DELETE",
         }),
         invalidatesTags: (result, error, arg) => [
-          { type: "Category", id: arg.categoryId },
+          { type: "Category", _id: arg.categoryId },
+          "Template",
         ],
       }),
       updateCategory: build.mutation({

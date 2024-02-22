@@ -1,12 +1,14 @@
 import { useSelector } from "react-redux";
 import { Stack, Typography } from "@mui/material";
-import { RootState } from "../../store";
-import { useGetTemplatesQuery } from "./templateApi";
+import { useGetTemplatesQuery } from "../../api/templateApi";
 
 import TemplateLite from "./TemplateItem";
-import { ITemplateItem } from "../../types";
+import { ITemplateLite } from "../../types";
 
-const boxStyles = {
+import { styled } from "@mui/system";
+import { selectFilterParams } from "../filters/filterSlice";
+
+const TemplatesContainer = styled(Stack)({
   maxHeight: "65vh",
   overflowY: "scroll",
   paddingRight: 2,
@@ -19,9 +21,7 @@ const boxStyles = {
   "&::-webkit-scrollbar-thumb": {
     background: "#1976d2",
   },
-};
-
-const selectFilterParams = (state: RootState) => state.filter;
+});
 
 const TemplatesList = () => {
   const filterParams = useSelector(selectFilterParams);
@@ -37,15 +37,11 @@ const TemplatesList = () => {
     return <Typography>No template was identified or found</Typography>;
   }
 
-  const templateItems = templates.map(({ _id, title, text }: ITemplateItem) => (
-    <TemplateLite key={_id} _id={_id} title={title} text={text} />
+  const templateItems = templates.map(({ _id, title }: any) => (
+    <TemplateLite key={_id} _id={_id} title={title} />
   ));
 
-  return (
-    <Stack sx={boxStyles} spacing={2}>
-      {templateItems}
-    </Stack>
-  );
+  return <TemplatesContainer spacing={2}>{templateItems}</TemplatesContainer>;
 };
 
 export default TemplatesList;
