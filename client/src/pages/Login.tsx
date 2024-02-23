@@ -1,8 +1,10 @@
 import { useDispatch } from "react-redux";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-import { TextField, Button, Stack, Typography, Box } from "@mui/material";
+import { TextField, Stack, Typography, Box } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { authValidationRules } from "../utils/authValidationRules";
+import { CiLogin } from "react-icons/ci";
 
 import { useLoginUserMutation } from "../api/authApi";
 import { setCredentials } from "../components/auth/authSlice";
@@ -28,7 +30,7 @@ const Login = () => {
     handleLoginUser(data);
   };
 
-  const [loginUser] = useLoginUserMutation();
+  const [loginUser, { isLoading }] = useLoginUserMutation();
 
   const handleLoginUser = async (credentials: IFormInput) => {
     try {
@@ -42,7 +44,7 @@ const Login = () => {
   };
 
   return (
-    <Stack>
+    <Stack p={2} maxWidth={400}>
       <Box mb={2}>
         <Typography component="h2" variant="h4">
           Login
@@ -52,8 +54,8 @@ const Login = () => {
         </Typography>
       </Box>
       <Stack
+        width="100%"
         onSubmit={handleSubmit(onSubmitForm)}
-        minWidth={400}
         component="form"
         spacing={3}
       >
@@ -93,9 +95,16 @@ const Login = () => {
         />
 
         <Stack alignItems="flex-end">
-          <Button type="submit" variant="contained">
-            Submit
-          </Button>
+          <LoadingButton
+            variant="contained"
+            loading={isLoading}
+            color="primary"
+            type="submit"
+            endIcon={<CiLogin />}
+            loadingPosition="end"
+          >
+            Log In
+          </LoadingButton>
         </Stack>
       </Stack>
     </Stack>

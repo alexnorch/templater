@@ -1,10 +1,4 @@
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormHelperText,
-} from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { capitalizeFirstLetter } from "../../utils/helpers";
 import { useController, UseControllerProps } from "react-hook-form";
 import { ITemplateItem } from "../../types";

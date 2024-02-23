@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { Box, TextField, Button, Stack, Typography } from "@mui/material";
+import { Box, TextField, Stack, Typography } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../components/auth/authSlice";
+import { CiLogin } from "react-icons/ci";
 
 interface IFormInput {
   email: string;
@@ -29,7 +31,7 @@ const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [registerUser] = useRegisterUserMutation();
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
 
   const onSubmitForm: SubmitHandler<IFormInput> = async (data) => {
     try {
@@ -44,7 +46,7 @@ const Register = () => {
   };
 
   return (
-    <Stack>
+    <Stack p={2} maxWidth={400}>
       <Box mb={2}>
         <Typography component="h2" variant="h4">
           Register
@@ -55,8 +57,8 @@ const Register = () => {
       </Box>
 
       <Stack
+        width="100%"
         onSubmit={handleSubmit(onSubmitForm)}
-        minWidth={400}
         component="form"
         spacing={2}
       >
@@ -113,9 +115,16 @@ const Register = () => {
         />
 
         <Stack alignItems="flex-end">
-          <Button type="submit" variant="contained">
-            Submit
-          </Button>
+          <LoadingButton
+            variant="contained"
+            loading={isLoading}
+            color="primary"
+            type="submit"
+            endIcon={<CiLogin />}
+            loadingPosition="end"
+          >
+            Register
+          </LoadingButton>
         </Stack>
       </Stack>
     </Stack>

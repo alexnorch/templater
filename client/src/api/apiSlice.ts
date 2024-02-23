@@ -8,7 +8,7 @@ import type {
 } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "/api",
+  baseUrl: "https://templatecraft-api.onrender.com/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -34,6 +34,9 @@ const baseQueryWithReauth: BaseQueryFn<
     if (refreshResult?.data) {
       api.dispatch(setCredentials({ ...refreshResult.data }));
 
+      //@ts-ignore
+      localStorage.setItem("accessToken", refreshResult.data.accessToken);
+
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(logOut());
@@ -46,5 +49,5 @@ const baseQueryWithReauth: BaseQueryFn<
 export const baseApi = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithReauth,
-  endpoints: (builder) => ({}),
+  endpoints: () => ({}),
 });

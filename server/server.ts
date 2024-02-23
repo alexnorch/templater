@@ -1,8 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import "dotenv/config";
 import { Request, Response, NextFunction } from "express";
+
+import { corsOptions } from "./config/corsOptions";
 
 // Utils
 import ApiError from "./exceptions/ApiError";
@@ -15,6 +18,7 @@ import attributeRouter from "./routes/attributeRouter";
 
 const app = express();
 
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 

@@ -2,20 +2,19 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import withAuth from "./hocs/withAuth";
 
 // Wrappers
-import AppWrapper from "./wrappers/AppWrapper";
-import AuthWrapper from "./wrappers/AuthWrapper";
-import SettingsWrapper from "./wrappers/SettingsWrapper";
-
-// Pages
-import Templates from "./pages/Templates";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import TemplateView from "./pages/TemplateView";
-import TemplateEdit from "./pages/TemplateEdit";
+import { SettingsWrapper, AuthWrapper, AppWrapper } from "./wrappers";
 
 // Settings Pages
-import CategoriesSettings from "./pages/settings/CategoriesSettings";
-import AttributesSettings from "./pages/settings/AttributesSettings";
+import { CategoriesSettings, AttributesSettings } from "./pages";
+
+// Pages
+import {
+  Templates,
+  Register,
+  Login,
+  TemplateEdit,
+  TemplateView,
+} from "./pages";
 
 import { Paths } from "./pages/paths";
 

@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
 
 export interface IUser extends mongoose.Document {
   email: string;

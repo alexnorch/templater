@@ -14,9 +14,9 @@ const style = {
   transform: "translate(-50%, -50%)",
   minWidth: 400,
   bgcolor: "background.paper",
-  borderRadius: "10px",
+  borderRadius: 1,
   boxShadow: 24,
-  p: 4,
+  p: 3,
 };
 
 const CustomModal: React.FC<CustomModalProps> = ({

@@ -1,4 +1,4 @@
-import { useDebugValue, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
 import { Grid, Stack, FormHelperText, Button, Typography } from "@mui/material";
@@ -102,9 +102,6 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
 
       {/* Custom attributes */}
       <Stack>
-        {renderedAttributes.length > 0 && (
-          <Typography mb={1}>Custom attributes (not required)</Typography>
-        )}
         <Grid container flexDirection="row" flexWrap="wrap" gap={2}>
           {renderedAttributes}
         </Grid>

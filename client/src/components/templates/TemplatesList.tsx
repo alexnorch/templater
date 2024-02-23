@@ -3,8 +3,6 @@ import { Stack, Typography } from "@mui/material";
 import { useGetTemplatesQuery } from "../../api/templateApi";
 
 import TemplateLite from "./TemplateItem";
-import { ITemplateLite } from "../../types";
-
 import { styled } from "@mui/system";
 import { selectFilterParams } from "../filters/filterSlice";
 

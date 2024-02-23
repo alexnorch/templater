@@ -7,7 +7,7 @@ const categoryApi = baseApi
     endpoints: (build) => ({
       getCategories: build.query<ICategoryItem[], void>({
         query: () => "/categories",
-        providesTags: (result, error, arg) =>
+        providesTags: (result) =>
           result
             ? [
                 ...result.map(({ _id }) => ({
@@ -31,7 +31,7 @@ const categoryApi = baseApi
           url: `/categories/${categoryId}`,
           method: "DELETE",
         }),
-        invalidatesTags: (result, error, arg) => [
+        invalidatesTags: (arg) => [
           { type: "Category", _id: arg.categoryId },
           "Template",
         ],
@@ -44,9 +44,7 @@ const categoryApi = baseApi
             body: category,
           };
         },
-        invalidatesTags: (result, error, arg) => [
-          { type: "Category", _id: arg._id },
-        ],
+        invalidatesTags: (arg) => [{ type: "Category", _id: arg._id }],
       }),
     }),
   });

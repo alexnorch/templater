@@ -18,7 +18,7 @@ export const templateApi = baseApi
               : null,
           },
         }),
-        providesTags: (result, error, arg) =>
+        providesTags: (result) =>
           result
             ? [
                 ...result.map(({ _id }) => ({
@@ -31,7 +31,7 @@ export const templateApi = baseApi
       }),
       getTemplate: build.query<ITemplateItem, any>({
         query: (templateId) => `/templates/${templateId}`,
-        providesTags: (result, error, arg) => [{ type: "Template", _id: arg }],
+        providesTags: (arg) => [{ type: "Template", _id: arg }],
       }),
       updateTemplate: build.mutation({
         query: (template) => {
@@ -42,18 +42,14 @@ export const templateApi = baseApi
             body: template,
           };
         },
-        invalidatesTags: (result, error, arg) => [
-          { type: "Template", _id: arg },
-        ],
+        invalidatesTags: (arg) => [{ type: "Template", _id: arg }],
       }),
       deleteTemplate: build.mutation({
         query: (templateId) => ({
           url: `/templates/${templateId}`,
           method: "DELETE",
         }),
-        invalidatesTags: (result, error, arg) => [
-          { type: "Template", _id: arg.templateId },
-        ],
+        invalidatesTags: (arg) => [{ type: "Template", _id: arg.templateId }],
       }),
       addTemplate: build.mutation({
         query: (template) => ({

@@ -31,6 +31,7 @@ const TemplateView = () => {
   const {
     data: template,
     isLoading,
+    isFetching,
     isError,
     error,
     isSuccess,
@@ -49,7 +50,7 @@ const TemplateView = () => {
     toast.success("Successfully deleted");
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading || isFetching) return <p>Loading...</p>;
   if (isError) return <p>{JSON.stringify(error)}</p>;
   if (!isSuccess) return;
 
@@ -92,7 +93,11 @@ const TemplateView = () => {
           onClick={handleCopyText}
           my={1}
         >
-          <Editor readOnly={true} editorState={editorState} />
+          <Editor
+            onChange={() => null}
+            readOnly={true}
+            editorState={editorState}
+          />
         </Box>
         <Divider sx={{ marginY: 1 }} />
         <Stack gap={2} p={1} flexDirection="row" alignItems="center">

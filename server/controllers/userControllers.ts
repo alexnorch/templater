@@ -14,6 +14,8 @@ export const loginUser: RequestHandler = async (req, res, next) => {
     res.cookie("refreshToken", refreshToken, {
       maxAge: jwtMaxAge,
       httpOnly: true,
+      sameSite: "none",
+      secure: true,
     });
 
     return res.json({ user, accessToken });
@@ -34,6 +36,8 @@ export const registerUser: RequestHandler = async (req, res, next) => {
     res.cookie("refreshToken", refreshToken, {
       maxAge: jwtMaxAge,
       httpOnly: true,
+      sameSite: "none",
+      secure: true,
     });
 
     return res.json({ user, accessToken });

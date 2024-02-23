@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Stack, Typography, Button, IconButton } from "@mui/material";
+import { Stack, Typography, IconButton } from "@mui/material";
 import { IAttributeValue } from "../../types";
 import AttributeValues from "./AttributeValues";
 import ConfirmDialog from "../ui/ConfirmDialog";

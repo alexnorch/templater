@@ -7,7 +7,7 @@ const attributeApi = baseApi
     endpoints: (build) => ({
       getAttributes: build.query<IAttribute[], void>({
         query: () => "/attributes",
-        providesTags: (result, error, arg) =>
+        providesTags: (result) =>
           result
             ? [
                 ...result.map(({ _id }) => ({
@@ -31,9 +31,7 @@ const attributeApi = baseApi
           url: `/attributes/${attributeId}`,
           method: "DELETE",
         }),
-        invalidatesTags: (result, error, arg) => [
-          { type: "Attribute", _id: arg },
-        ],
+        invalidatesTags: (arg) => [{ type: "Attribute", _id: arg }],
       }),
       addAttributeOption: build.mutation({
         query: ({ _id, value }) => ({
@@ -43,18 +41,14 @@ const attributeApi = baseApi
             value,
           },
         }),
-        invalidatesTags: (result, error, arg) => [
-          { type: "Attribute", _id: arg._id },
-        ],
+        invalidatesTags: (arg) => [{ type: "Attribute", _id: arg._id }],
       }),
       deleteAttributeOption: build.mutation({
         query: ({ attrId, optionId }) => ({
           url: `/attributes/${attrId}/option/${optionId}`,
           method: "DELETE",
         }),
-        invalidatesTags: (result, error, arg) => [
-          { type: "Attribute", _id: arg.attrId },
-        ],
+        invalidatesTags: (arg) => [{ type: "Attribute", _id: arg.attrId }],
       }),
     }),
   });
