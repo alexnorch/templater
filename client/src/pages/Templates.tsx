@@ -15,7 +15,12 @@ const Templates = () => {
   return (
     <>
       <TemplateFilter />
-      <Grid spacing={5} container justifyContent="space-between">
+      <Grid
+        container
+        spacing={{ xs: 3, md: 5 }}
+        justifyContent="space-between"
+        flexDirection={{ xs: "column-reverse", md: "row" }}
+      >
         <Grid item sm={12} md={4} xs={12}>
           <TemplatesList />
         </Grid>

@@ -8,29 +8,24 @@ import { InlineStyleControls } from "./InlineStylesControls";
 
 import { styled } from "@mui/system";
 
-const ControllersContainer = styled(Stack)({
-  gap: "5px",
-  flexDirection: "row",
-  padding: "10px",
-  borderBottom: "1px solid rgba(0,0,0,0.2);",
-});
-
-const EditorContainer = styled(Box)({
-  height: 400,
-  overflowY: "auto",
-});
-
 interface TextEditorProps {
-  isError?: boolean;
   state: EditorState;
   onChange: (value: EditorState) => void;
 }
 
-const TextEditor: React.FC<TextEditorProps> = ({
-  state,
-  isError,
-  onChange,
-}) => {
+const ControllersContainer = styled(Stack)({
+  gap: "5px",
+  flexDirection: "row",
+  padding: "5px",
+  borderBottom: "1px solid rgba(0,0,0,0.2);",
+});
+
+const EditorContainer = styled(Box)({
+  height: "30vh",
+  overflowY: "auto",
+});
+
+const TextEditor: React.FC<TextEditorProps> = ({ state, onChange }) => {
   const handleChangeText = (value: EditorState) => {
     onChange(value);
   };
@@ -45,13 +40,15 @@ const TextEditor: React.FC<TextEditorProps> = ({
     onChange(newState);
   };
 
-  const borderStyles = isError
-    ? "1px solid #d32f2f"
-    : "1px solid rgba(0,0,0,0.2)";
-
   return (
-    <Stack sx={{ border: borderStyles, borderRadius: 1, maxWidth: "100%" }}>
-      <ControllersContainer>
+    <Stack
+      sx={{
+        border: "1px solid rgba(0,0,0,0.2)",
+        borderRadius: 1,
+        maxWidth: "100%",
+      }}
+    >
+      <ControllersContainer flexWrap={{ xs: "wrap" }}>
         <InlineStyleControls
           onToggle={handleToggleInlineStyles}
           editorState={state}

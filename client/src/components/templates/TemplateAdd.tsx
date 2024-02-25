@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Box } from "@mui/material";
 
 import { ITemplateItem } from "../../types";
 
 // Internal components
-import BasicModal from "../ui/CustomModal";
+import CustomModal from "../ui/CustomModal";
 import AddButton from "../ui/AddButton";
 import TemplateForm from "./TemplateForm";
 
@@ -31,20 +30,19 @@ const TemplateAdd = () => {
     <>
       <AddButton onClick={handleToggleModal} />
 
-      <BasicModal
+      <CustomModal
         title="Create Template"
         isOpen={isModalOpen}
         handleClose={handleToggleModal}
+        sx={{ maxWidth: 800, width: "100%" }}
       >
-        <Box minWidth={600}>
-          <TemplateForm
-            mode="create"
-            onSubmit={handleSubmitForm}
-            values={defaultValues}
-            isLoading={isLoading}
-          />
-        </Box>
-      </BasicModal>
+        <TemplateForm
+          mode="create"
+          onSubmit={handleSubmitForm}
+          values={defaultValues}
+          isLoading={isLoading}
+        />
+      </CustomModal>
     </>
   );
 };

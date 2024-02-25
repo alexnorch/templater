@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
-import { Grid, Stack, FormHelperText, Button, Typography } from "@mui/material";
+import { Grid, Stack, FormHelperText, Button } from "@mui/material";
 
 import { useGetAttributesQuery } from "../../api/attributeApi";
 import { ITemplateItem, IAttributeValue } from "../../types";
@@ -86,16 +86,15 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
 
   return (
     <Stack onSubmit={handleSubmit(submitForm)} spacing={2} component="form">
-      {/* Title */}
-      <FormTextField control={control} name="title" label="Title" />
-
-      {/* Category */}
-      <FormSelectField
-        control={control}
-        name="category"
-        label="Category"
-        values={categories}
-      />
+      <Stack flexDirection="row" gap={2}>
+        <FormTextField control={control} name="title" label="Title" />
+        <FormSelectField
+          control={control}
+          name="category"
+          label="Category"
+          values={categories}
+        />
+      </Stack>
 
       {/* Text */}
       <FormTextEditor control={control} name="text" />

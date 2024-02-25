@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
+import { CiLogin } from "react-icons/ci";
 import { TextField, Stack, Typography, Box } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { authValidationRules } from "../utils/authValidationRules";
-import { CiLogin } from "react-icons/ci";
 
 import { useLoginUserMutation } from "../api/authApi";
 import { setCredentials } from "../components/auth/authSlice";
@@ -35,6 +35,7 @@ const Login = () => {
   const handleLoginUser = async (credentials: IFormInput) => {
     try {
       const userData = await loginUser(credentials).unwrap();
+
       dispatch(setCredentials({ ...userData }));
       navigate("/templates");
       localStorage.setItem("accessToken", userData.accessToken);
@@ -44,7 +45,7 @@ const Login = () => {
   };
 
   return (
-    <Stack p={2} maxWidth={400}>
+    <Stack>
       <Box mb={2}>
         <Typography component="h2" variant="h4">
           Login
@@ -53,12 +54,8 @@ const Login = () => {
           Don't have an account yet? <Link to="/register">Register now!</Link>
         </Typography>
       </Box>
-      <Stack
-        width="100%"
-        onSubmit={handleSubmit(onSubmitForm)}
-        component="form"
-        spacing={3}
-      >
+
+      <Stack onSubmit={handleSubmit(onSubmitForm)} component="form" spacing={3}>
         <Controller
           name="email"
           control={control}

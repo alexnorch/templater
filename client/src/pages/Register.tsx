@@ -46,7 +46,7 @@ const Register = () => {
   };
 
   return (
-    <Stack p={2} maxWidth={400}>
+    <Stack>
       <Box mb={2}>
         <Typography component="h2" variant="h4">
           Register
@@ -56,12 +56,7 @@ const Register = () => {
         </Typography>
       </Box>
 
-      <Stack
-        width="100%"
-        onSubmit={handleSubmit(onSubmitForm)}
-        component="form"
-        spacing={2}
-      >
+      <Stack onSubmit={handleSubmit(onSubmitForm)} component="form" spacing={2}>
         <Controller
           name="email"
           control={control}
