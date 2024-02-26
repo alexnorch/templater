@@ -4,9 +4,14 @@ import { Stack, TextField, Button } from "@mui/material";
 interface IAttributeForm {
   values: { [key: string]: any };
   onSubmit: (data: any) => void;
+  isLoading: boolean;
 }
 
-const AttributeForm: React.FC<IAttributeForm> = ({ values, onSubmit }) => {
+const AttributeForm: React.FC<IAttributeForm> = ({
+  values,
+  onSubmit,
+  isLoading,
+}) => {
   const {
     control,
     handleSubmit,
@@ -39,7 +44,7 @@ const AttributeForm: React.FC<IAttributeForm> = ({ values, onSubmit }) => {
           />
         )}
       />
-      <Button fullWidth type="submit" variant="contained">
+      <Button disabled={isLoading} fullWidth type="submit" variant="contained">
         Submit
       </Button>
     </Stack>

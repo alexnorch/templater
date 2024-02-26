@@ -5,11 +5,9 @@ import { useGetCategoriesQuery } from "../../api/categoryApi";
 import { setCategory } from "./filterSlice";
 import { ICategoryItem } from "../../types";
 
-import { Skeleton } from "@mui/material";
-
 const FilterByCategory = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const { data: categories = [], isLoading } = useGetCategoriesQuery();
+  const { data: categories = [] } = useGetCategoriesQuery();
 
   const dispatch = useDispatch();
 
@@ -43,8 +41,7 @@ const FilterByCategory = () => {
   );
 
   return (
-    <Stack mt={3} flexDirection="row" gap={2} flexWrap="wrap">
-      {isLoading && <Skeleton variant="rounded" width={150} height={35} />}
+    <Stack flexDirection="row" gap={2} flexWrap="wrap">
       {filterCategoriesItems}
     </Stack>
   );

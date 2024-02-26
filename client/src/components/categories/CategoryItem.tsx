@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-import { ConfirmDialog, BasicModal } from "../ui";
+import { ConfirmDialog, CustomModal } from "../ui";
 import CategoryForm from "./CategoryForm";
 
 import { ICategoryItem } from "../../types";
@@ -30,7 +30,8 @@ const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
   const categoryAvatar = title?.charAt(0).toUpperCase();
 
   const [deleteCategory] = useDeleteCategoryMutation();
-  const [updateCategory] = useUpdateCategoryMutation();
+  const [updateCategory, { isLoading: isLoadingUpdate }] =
+    useUpdateCategoryMutation();
 
   const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
@@ -91,13 +92,17 @@ const CategoryItem: React.FC<ICategoryItem> = ({ title, _id }) => {
       />
 
       {/* Editing category */}
-      <BasicModal
+      <CustomModal
         title="Edit Template"
         isOpen={shouldEdit}
         handleClose={handleFinishEditing}
       >
-        <CategoryForm values={{ _id, title }} onSubmit={onEditCategory} />
-      </BasicModal>
+        <CategoryForm
+          values={{ _id, title }}
+          onSubmit={onEditCategory}
+          isLoading={isLoadingUpdate}
+        />
+      </CustomModal>
     </>
   );
 };

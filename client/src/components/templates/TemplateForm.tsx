@@ -1,18 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
-import { Grid, Stack, FormHelperText, Button } from "@mui/material";
+
+import {
+  Grid,
+  Stack,
+  FormHelperText,
+  Button,
+  ToggleButtonGroup,
+  ToggleButton,
+} from "@mui/material";
 
 import { useGetAttributesQuery } from "../../api/attributeApi";
 import { ITemplateItem, IAttributeValue } from "../../types";
 import { useGetCategoriesQuery } from "../../api/categoryApi";
-import NoCategoriesMessage from "../categories/NoCategoriesMessage";
-import FormSelectField from "../ui/FormSelectField";
-import FormTextField from "../ui/FormTextField";
-
+import { NoCategoriesMessage } from "../categories";
+import { FormSelectField, FormTextField, FormTextEditor } from "../ui";
 import { formatTemplateData } from "../../utils/helpers";
-
-import FormTextEditor from "../ui/FormTextEditor";
 
 interface TemplateFormProps {
   mode: "edit" | "create";
@@ -20,6 +24,8 @@ interface TemplateFormProps {
   onSubmit: (data: ITemplateItem) => void;
   isLoading: boolean;
 }
+
+type TabType = "content" | "attributes";
 
 interface CustomFieldErrors extends FieldErrors<ITemplateItem> {
   attributeValues?: Record<string, { message: string }>;
@@ -30,12 +36,17 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
   mode,
   values,
   onSubmit,
+  isLoading,
 }) => {
   const { data: categories = [] } = useGetCategoriesQuery();
   const { data: attributesList = [] } = useGetAttributesQuery();
+  const [activeTab, setActiveTab] = useState<TabType>("content");
 
   const methods = useForm({ defaultValues: values });
   const navigate = useNavigate();
+
+  const isAttributesTabActive = activeTab === "attributes";
+  const isContentTabActive = activeTab === "content";
 
   const {
     control,
@@ -47,6 +58,13 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
   useEffect(() => {
     setDefaultAttributeValues();
   }, []);
+
+  const handleChangeTab = (
+    _: React.MouseEvent<HTMLElement>,
+    selectedTab: TabType
+  ) => {
+    setActiveTab(selectedTab);
+  };
 
   const setDefaultAttributeValues = () => {
     if (mode === "edit") {
@@ -72,7 +90,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
     ]?.message;
 
     return (
-      <Grid item xs={3} md={2.5} key={_id}>
+      <Grid item xs={5.5} sm={4} key={_id}>
         <FormSelectField
           control={control}
           name={name}
@@ -84,9 +102,9 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
     );
   });
 
-  return (
-    <Stack onSubmit={handleSubmit(submitForm)} spacing={2} component="form">
-      <Stack flexDirection="row" gap={2}>
+  const contentTab = (
+    <>
+      <Stack flexDirection={{ xs: "column", sm: "row" }} gap={2}>
         <FormTextField control={control} name="title" label="Title" />
         <FormSelectField
           control={control}
@@ -95,19 +113,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
           values={categories}
         />
       </Stack>
-
-      {/* Text */}
       <FormTextEditor control={control} name="text" />
-
-      {/* Custom attributes */}
-      <Stack>
-        <Grid container flexDirection="row" flexWrap="wrap" gap={2}>
-          {renderedAttributes}
-        </Grid>
-      </Stack>
-
-      {categories.length === 0 && <NoCategoriesMessage />}
-
       <Stack
         gap={2}
         flexDirection="row"
@@ -119,10 +125,47 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
             Back
           </Button>
         )}
-        <Button disabled={!isValid} type="submit" variant="contained">
-          Save
+        <Button
+          disabled={!isValid || isLoading}
+          type="submit"
+          variant="contained"
+        >
+          Submit
         </Button>
       </Stack>
+    </>
+  );
+
+  const attributesTab = (
+    <Grid container gap={2}>
+      {renderedAttributes}
+    </Grid>
+  );
+
+  return (
+    <Stack
+      minHeight="60vh"
+      onSubmit={handleSubmit(submitForm)}
+      spacing={2}
+      component="form"
+    >
+      <ToggleButtonGroup
+        size="small"
+        value={activeTab}
+        exclusive
+        onChange={handleChangeTab}
+      >
+        <ToggleButton disabled={isContentTabActive} value="content">
+          Content
+        </ToggleButton>
+        <ToggleButton disabled={isAttributesTabActive} value="attributes">
+          Attributes
+        </ToggleButton>
+      </ToggleButtonGroup>
+
+      {categories.length === 0 && <NoCategoriesMessage />}
+      {activeTab === "content" && contentTab}
+      {activeTab === "attributes" && attributesTab}
     </Stack>
   );
 };

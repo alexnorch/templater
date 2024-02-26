@@ -2,6 +2,7 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { capitalizeFirstLetter } from "../../utils/helpers";
 import { useController, UseControllerProps } from "react-hook-form";
 import { ITemplateItem } from "../../types";
+import React from "react";
 
 interface FormSelectFieldProps extends UseControllerProps<ITemplateItem> {
   name: any;
@@ -9,8 +10,12 @@ interface FormSelectFieldProps extends UseControllerProps<ITemplateItem> {
   values: any[];
 }
 
-const FormSelectField = (props: FormSelectFieldProps) => {
-  const { name, control, values, label } = props;
+const FormSelectField: React.FC<FormSelectFieldProps> = ({
+  name,
+  control,
+  values,
+  label,
+}) => {
   const { field } = useController({
     name,
     control,

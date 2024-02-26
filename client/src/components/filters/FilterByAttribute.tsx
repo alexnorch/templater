@@ -24,7 +24,12 @@ const FilterByAttribute = () => {
     };
 
     return (
-      <Stack key={_id} flexDirection="row" alignItems="flex-end">
+      <Stack
+        key={_id}
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
         <AttributeSelect
           _id={_id}
           onChange={onSelectAttribute}
@@ -40,7 +45,7 @@ const FilterByAttribute = () => {
   });
 
   return (
-    <Stack spacing={5} direction="row" alignItems="flex-end" flexWrap="wrap">
+    <Stack spacing={2} direction="row" alignItems="flex-end" flexWrap="wrap">
       {renderedAttributes}
     </Stack>
   );

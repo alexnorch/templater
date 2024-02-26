@@ -1,21 +1,10 @@
 import { useState } from "react";
+import { Stack } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
+import { EditorState, convertFromRaw } from "draft-js";
 import { toast } from "react-toastify";
-import { Editor, EditorState, convertFromRaw } from "draft-js";
-
-import {
-  Typography,
-  Stack,
-  Divider,
-  IconButton,
-  Box,
-  Chip,
-} from "@mui/material";
-import ConfirmDialog from "../components/ui/ConfirmDialog";
-
-// Icons
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { TemplateViewSkeleton, TemplateDetails } from "../components/templates";
+import { ConfirmDialog, CenteredLoader } from "../components/ui";
 
 // API
 import {
@@ -25,84 +14,57 @@ import {
 import { IAttributeValue } from "../types";
 
 const TemplateView = () => {
-  const [shouldDelete, setShouldDelete] = useState(false);
   const { templateId } = useParams();
+  const [shouldDelete, setShouldDelete] = useState(false);
   const navigate = useNavigate();
+
   const {
     data: template,
     isLoading,
-    isFetching,
-    isError,
-    error,
     isSuccess,
+    isFetching,
   } = useGetTemplateQuery(templateId);
 
   const [deleteTemplate] = useDeleteTemplateMutation();
 
-  const startDeleting = () => setShouldDelete(true);
-  const finishDeleting = () => setShouldDelete(false);
+  const handleToggleDeleting = () => setShouldDelete((prev) => !prev);
+  const handleStartEditing = () => navigate("edit");
+
+  if (isLoading) return <TemplateViewSkeleton />;
+  if (isSuccess && !template) return <p>Not found</p>;
+  if (!template) return null;
+
+  const handleCopyText = () => {
+    const contentState = editorState.getCurrentContent();
+    const text = contentState.getPlainText();
+
+    navigator.clipboard.writeText(text);
+  };
 
   const onDeleteTemplate = () => {
-    deleteTemplate(templateId);
+    deleteTemplate(templateId).unwrap();
     setShouldDelete(false);
     navigate("/templates");
 
     toast.success("Successfully deleted");
   };
 
-  if (isLoading || isFetching) return <p>Loading...</p>;
-  if (isError) return <p>{JSON.stringify(error)}</p>;
-  if (!isSuccess) return;
-
-  const templateAttributes = (
-    template.attributeValues as IAttributeValue[]
-  ).map(({ value, _id }) => <Chip key={_id} label={value} />);
-
   const editorState = EditorState.createWithContent(
     convertFromRaw(JSON.parse(template.text))
   );
 
-  const handleCopyText = () => {
-    const contentState = editorState.getCurrentContent();
-    const text = contentState.getPlainText();
-    navigator.clipboard.writeText(text);
-  };
-
   return (
     <>
-      <Stack>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography ml={2} variant="h5" component="h4">
-            {template.title}
-          </Typography>
-          <Box>
-            <IconButton onClick={() => navigate("edit")} size="small">
-              <EditIcon />
-            </IconButton>
-            <IconButton onClick={startDeleting} size="small">
-              <DeleteIcon />
-            </IconButton>
-          </Box>
-        </Stack>
-        <Box
-          sx={{
-            borderRadius: 2,
-            cursor: "pointer",
-            ":hover": { backgroundColor: "#ddd" },
-          }}
-          onClick={handleCopyText}
-          my={1}
-        >
-          <Editor
-            onChange={() => null}
-            readOnly={true}
-            editorState={editorState}
-          />
-        </Box>
-        <Divider sx={{ marginY: 1 }} />
-        <Stack gap={2} p={1} flexDirection="row" alignItems="center">
-          {templateAttributes}
-        </Stack>
+      <Stack sx={{ position: "relative" }}>
+        {!isLoading && isFetching && <CenteredLoader />}
+        <TemplateDetails
+          title={template.title}
+          attributeValues={template.attributeValues as IAttributeValue[]}
+          content={editorState}
+          onStartEditing={handleStartEditing}
+          onStartDeleting={handleToggleDeleting}
+          onCopyText={handleCopyText}
+        />
       </Stack>
 
       {/* Deleting Template */}
@@ -110,7 +72,7 @@ const TemplateView = () => {
         title="Template deleting"
         text="Are you sure you want to delete this template?"
         isOpen={shouldDelete}
-        handleClose={finishDeleting}
+        handleClose={handleToggleDeleting}
         handleSubmit={onDeleteTemplate}
       />
     </>

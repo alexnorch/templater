@@ -1,15 +1,14 @@
 import { useSelector } from "react-redux";
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography, LinearProgress, Box } from "@mui/material";
 import { useGetTemplatesQuery } from "../../api/templateApi";
 
-import TemplateLite from "./TemplateItem";
 import { styled } from "@mui/system";
 import { selectFilterParams } from "../filters/filterSlice";
+import { TemplateItem, TemplatesListSkeleton } from "../templates";
 
 const TemplatesContainer = styled(Stack)({
-  maxHeight: "65vh",
   overflowY: "scroll",
-  paddingRight: 2,
+  paddingRight: 20,
   "&::-webkit-scrollbar": {
     width: "10px",
   },
@@ -27,19 +26,28 @@ const TemplatesList = () => {
     data: templates = [],
     isLoading,
     isSuccess,
+    isFetching,
   } = useGetTemplatesQuery(filterParams);
-
-  if (isLoading) return <Typography>Loading...</Typography>;
 
   if (isSuccess && templates.length === 0) {
     return <Typography>No template was identified or found</Typography>;
   }
 
   const templateItems = templates.map(({ _id, title }: any) => (
-    <TemplateLite key={_id} _id={_id} title={title} />
+    <TemplateItem key={_id} _id={_id} title={title} />
   ));
 
-  return <TemplatesContainer spacing={2}>{templateItems}</TemplatesContainer>;
+  return (
+    <TemplatesContainer spacing={2} sx={{ height: { sm: "55vh", xs: "40vh" } }}>
+      {!isLoading && isFetching && (
+        <Box>
+          <LinearProgress />
+        </Box>
+      )}
+      {isLoading && <TemplatesListSkeleton />}
+      {templateItems}
+    </TemplatesContainer>
+  );
 };
 
 export default TemplatesList;

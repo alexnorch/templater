@@ -34,7 +34,7 @@ const TemplateAdd = () => {
         title="Create Template"
         isOpen={isModalOpen}
         handleClose={handleToggleModal}
-        sx={{ maxWidth: 800, width: "100%" }}
+        sx={{ maxWidth: 800, width: { xs: "90%", sx: "100%" } }}
       >
         <TemplateForm
           mode="create"

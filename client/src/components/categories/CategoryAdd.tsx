@@ -2,18 +2,18 @@ import { useState } from "react";
 import CategoryForm from "./CategoryForm";
 import { useAddCategoryMutation } from "../../api/categoryApi";
 import { ICategoryItem } from "../../types";
-import { BasicModal, AddButton } from "../ui";
+import { CustomModal, AddButton } from "../ui";
 
 const defaultValues = { title: "" };
 
 const CategoryAdd = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [addCategory] = useAddCategoryMutation();
+  const [addCategory, { isLoading }] = useAddCategoryMutation();
 
   const handleToggleModal = () => setIsModalOpen((prev) => !prev);
 
-  const onSubmitForm = (data: ICategoryItem) => {
-    addCategory(data);
+  const onSubmitForm = async (data: ICategoryItem) => {
+    await addCategory(data).unwrap();
     handleToggleModal();
   };
 
@@ -21,13 +21,18 @@ const CategoryAdd = () => {
     <>
       <AddButton onClick={handleToggleModal} />
 
-      <BasicModal
+      <CustomModal
         title="Create Category"
         isOpen={isModalOpen}
         handleClose={handleToggleModal}
+        sx={{ maxWidth: "400px" }}
       >
-        <CategoryForm onSubmit={onSubmitForm} values={defaultValues} />
-      </BasicModal>
+        <CategoryForm
+          onSubmit={onSubmitForm}
+          values={defaultValues}
+          isLoading={isLoading}
+        />
+      </CustomModal>
     </>
   );
 };

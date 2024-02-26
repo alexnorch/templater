@@ -2,7 +2,7 @@ import { Grid, Typography } from "@mui/material";
 import { useGetAttributesQuery } from "../../api/attributeApi";
 import AttributeItem from "./AttributeItem";
 
-const AttributesList = () => {
+const AttributesList: React.FC = () => {
   const {
     data: attributesList = [],
     isLoading,

@@ -1,7 +1,11 @@
 import { Box, Stack, Typography } from "@mui/material";
 import DescriptionIcon from "@mui/icons-material/Description";
 
-const containerStyles = { backgroundColor: "#ccc", minHeight: "50vh" };
+const containerStyles = {
+  backgroundColor: "#ccc",
+  minHeight: { sm: "50vh", xs: 200 },
+};
+
 const iconStyles = { color: "gray", fontSize: 50 };
 
 const TemplatePlaceholder = () => {

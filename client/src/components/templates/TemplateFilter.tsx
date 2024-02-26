@@ -1,19 +1,33 @@
-import { Grid, Box } from "@mui/material";
+import {
+  Stack,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
 import { FilterByAttribute, FilterByTitle, FilterByCategory } from "../filters";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const TemplateFilter = () => {
   return (
-    <Box mb={3}>
-      <Grid my={1} container justifyContent="space-between" alignItems="center">
-        <Grid item md={4}>
+    <Accordion
+      square
+      sx={{
+        my: 3,
+        backgroundColor: "#eee",
+      }}
+    >
+      <AccordionSummary>
+        Filtering Templates
+        <KeyboardArrowDownIcon />
+      </AccordionSummary>
+      <AccordionDetails>
+        <Stack spacing={2}>
           <FilterByTitle />
-        </Grid>
-        <Grid item>
+          <FilterByCategory />
           <FilterByAttribute />
-        </Grid>
-      </Grid>
-      <FilterByCategory />
-    </Box>
+        </Stack>
+      </AccordionDetails>
+    </Accordion>
   );
 };
 

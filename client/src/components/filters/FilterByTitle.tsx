@@ -2,7 +2,7 @@ import { useState, useEffect, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { useDebounce } from "use-debounce";
 import { setTitle } from "./filterSlice";
-import { TextField } from "@mui/material";
+import { TextField, Box } from "@mui/material";
 
 const FilterByTitle = () => {
   const [value, setValue] = useState<string>("");
@@ -18,13 +18,16 @@ const FilterByTitle = () => {
   };
 
   return (
-    <TextField
-      onChange={handleChange}
-      size="small"
-      value={value}
-      variant="outlined"
-      placeholder="Search template by title"
-    />
+    <Box width={{ md: "25%", xs: "100%" }}>
+      <TextField
+        fullWidth
+        onChange={handleChange}
+        size="small"
+        value={value}
+        variant="outlined"
+        placeholder="Search template by title"
+      />
+    </Box>
   );
 };
 

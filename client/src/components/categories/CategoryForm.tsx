@@ -6,9 +6,14 @@ import { ICategoryItem } from "../../types";
 interface ICategoryForm {
   values: ICategoryItem;
   onSubmit: (data: ICategoryItem) => void;
+  isLoading: boolean;
 }
 
-const CategoryForm: React.FC<ICategoryForm> = ({ values, onSubmit }) => {
+const CategoryForm: React.FC<ICategoryForm> = ({
+  values,
+  onSubmit,
+  isLoading,
+}) => {
   const {
     reset,
     control,
@@ -39,7 +44,7 @@ const CategoryForm: React.FC<ICategoryForm> = ({ values, onSubmit }) => {
         )}
       />
       <Stack my={2}>
-        <Button type="submit" variant="contained">
+        <Button disabled={isLoading} type="submit" variant="contained">
           Submit
         </Button>
       </Stack>

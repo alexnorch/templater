@@ -10,12 +10,12 @@ const defaultValues = {
 
 const AttributeAdd = () => {
   const [isModal, setIsModal] = useState(false);
-  const [createAttribute] = useAddAttributeMutation();
+  const [createAttribute, { isLoading }] = useAddAttributeMutation();
 
   const handleToggleModal = () => setIsModal((prev) => !prev);
 
   const onAddAttribute = async (data: any) => {
-    await createAttribute(data);
+    await createAttribute(data).unwrap();
     handleToggleModal();
   };
 
@@ -27,7 +27,11 @@ const AttributeAdd = () => {
         isOpen={isModal}
         handleClose={handleToggleModal}
       >
-        <AttributeForm onSubmit={onAddAttribute} values={defaultValues} />
+        <AttributeForm
+          onSubmit={onAddAttribute}
+          values={defaultValues}
+          isLoading={isLoading}
+        />
       </BasicModal>
     </>
   );

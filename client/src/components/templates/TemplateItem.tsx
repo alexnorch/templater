@@ -4,7 +4,7 @@ import { ITemplateLite } from "../../types";
 
 const templateStyles = {
   display: "flex",
-  maxHeight: 50,
+  minHeight: 50,
   alignItems: "center",
   justifyContent: "space-between",
   borderRadius: 1,
