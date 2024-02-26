@@ -158,7 +158,10 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
         <ToggleButton disabled={isContentTabActive} value="content">
           Content
         </ToggleButton>
-        <ToggleButton disabled={isAttributesTabActive} value="attributes">
+        <ToggleButton
+          disabled={isAttributesTabActive || attributesList.length === 0}
+          value="attributes"
+        >
           Attributes
         </ToggleButton>
       </ToggleButtonGroup>

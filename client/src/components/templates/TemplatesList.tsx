@@ -8,7 +8,6 @@ import { TemplateItem, TemplatesListSkeleton } from "../templates";
 
 const TemplatesContainer = styled(Stack)({
   overflowY: "scroll",
-  paddingRight: 20,
   "&::-webkit-scrollbar": {
     width: "10px",
   },

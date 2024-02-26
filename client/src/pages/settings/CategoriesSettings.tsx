@@ -1,12 +1,18 @@
-import { Typography } from "@mui/material";
+import { Typography, Stack } from "@mui/material";
 import { CategoriesList, CategoryAdd } from "../../components/categories";
+import { CustomTooltip } from "../../components/ui";
 
-const CategoriesSettings = () => {
+const CategoryTooltip =
+  "Categories help organize templates. If you plan to maintain many templates, creating categories is advisable. There are no limits to the number of categories you can create";
+
+const CategoriesSettings: React.FC = () => {
   return (
     <>
-      <Typography variant="h5" mb={2}>
-        My Categories
-      </Typography>
+      <Stack flexDirection="row" gap={1} alignItems="center" mb={2}>
+        <Typography variant="h5">My Categories</Typography>
+        <CustomTooltip title={CategoryTooltip} />
+      </Stack>
+
       <CategoriesList />
       <CategoryAdd />
     </>

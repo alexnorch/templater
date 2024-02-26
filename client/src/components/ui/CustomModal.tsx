@@ -1,5 +1,6 @@
-import { Modal, Box, Typography } from "@mui/material";
+import { Modal, Box, Typography, Stack, IconButton } from "@mui/material";
 import { SxProps } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface CustomModalProps {
   title: string;
@@ -28,12 +29,22 @@ const CustomModal: React.FC<CustomModalProps> = ({
 }) => {
   return (
     <Modal open={isOpen} onClose={handleClose}>
-      <Box sx={Object.assign(defaultStyles, sx)}>
-        <Typography component="h4" variant="h6" mb={2}>
-          {title}
-        </Typography>
-        {children}
-      </Box>
+      <Stack sx={Object.assign(defaultStyles, sx)}>
+        <Stack
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={2}
+        >
+          <Typography component="h4" variant="h6">
+            {title}
+          </Typography>
+          <IconButton onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+        </Stack>
+        <Box>{children}</Box>
+      </Stack>
     </Modal>
   );
 };

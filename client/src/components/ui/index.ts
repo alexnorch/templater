@@ -7,6 +7,7 @@ import NavBar from "./NavBar";
 import CenteredLoader from "./CenteredLoader";
 import Logo from "./Logo";
 import FormTextEditor from "./FormTextEditor";
+import CustomTooltip from "./CustomTooltip";
 
 export {
   AddButton,
@@ -18,4 +19,5 @@ export {
   NavBar,
   CenteredLoader,
   FormTextEditor,
+  CustomTooltip,
 };

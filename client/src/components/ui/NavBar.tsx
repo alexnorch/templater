@@ -52,9 +52,6 @@ const NavBar: React.FC = () => {
           {title}
         </Button>
       ))}
-      <Button onClick={handleLogout} sx={{ my: 2, color: "white" }}>
-        Log Out
-      </Button>
     </Box>
   );
 
