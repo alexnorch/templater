@@ -32,8 +32,8 @@ const TemplatesList = () => {
     return <Typography>No template was identified or found</Typography>;
   }
 
-  const templateItems = templates.map(({ _id, title }: any) => (
-    <TemplateItem key={_id} _id={_id} title={title} />
+  const templateItems = templates.map((item: any) => (
+    <TemplateItem key={item._id} _id={item._id} title={item.title} />
   ));
 
   return (

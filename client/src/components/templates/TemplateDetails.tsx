@@ -6,7 +6,9 @@ import {
   Box,
   Divider,
   Chip,
+  Tooltip,
 } from "@mui/material";
+import { CustomTooltip } from "../ui";
 
 // Icons
 import EditIcon from "@mui/icons-material/Edit";
@@ -49,9 +51,13 @@ const TemplateDetails: React.FC<TemplateDetailsProps> = ({
           </IconButton>
         </Box>
       </Stack>
-      <Box onClick={onCopyText} my={1}>
-        <Editor onChange={() => null} readOnly={true} editorState={content} />
-      </Box>
+
+      <Tooltip title="Click the text to copy it." placement="top">
+        <Box onClick={onCopyText} my={1}>
+          <Editor onChange={() => null} readOnly={true} editorState={content} />
+        </Box>
+      </Tooltip>
+
       <Divider sx={{ marginY: 1 }} />
       <Stack gap={2} p={1} flexDirection="row" alignItems="center">
         {templateAttributes}

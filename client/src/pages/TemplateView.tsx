@@ -41,8 +41,8 @@ const TemplateView = () => {
     navigator.clipboard.writeText(text);
   };
 
-  const onDeleteTemplate = () => {
-    deleteTemplate(templateId).unwrap();
+  const onDeleteTemplate = async () => {
+    await deleteTemplate(templateId).unwrap();
     setShouldDelete(false);
     navigate("/templates");
 

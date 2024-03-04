@@ -5,11 +5,6 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-
-interface CustomTooltipProps {
-  title: string;
-}
 
 const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -26,14 +21,12 @@ const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-const CustomTooltip: React.FC<CustomTooltipProps> = ({ title }) => {
+const CustomTooltip: React.FC<TooltipProps> = ({ title, children }) => {
+  const tooltipText = title ? <Typography>{title}</Typography> : undefined;
+
   return (
-    <StyledTooltip
-      arrow={true}
-      placement="right-start"
-      title={<Typography>{title}</Typography>}
-    >
-      <InfoOutlinedIcon />
+    <StyledTooltip arrow={true} placement="right-start" title={tooltipText}>
+      {children}
     </StyledTooltip>
   );
 };

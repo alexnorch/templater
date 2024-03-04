@@ -15,6 +15,7 @@ import {
   ListItemButton,
 } from "@mui/material";
 import Logo from "./Logo";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import { logOut } from "../auth/authSlice";
 import { useLogoutMutation } from "../../api/authApi";
@@ -42,16 +43,34 @@ const NavBar: React.FC = () => {
   };
 
   const LinkList = () => (
-    <Box sx={{ display: { sm: "flex", xs: "none" } }}>
-      {pages.map(({ title, path }) => (
-        <Button
-          key={title}
-          onClick={() => navigate(path)}
-          sx={{ my: 2, color: "white" }}
-        >
-          {title}
-        </Button>
-      ))}
+    <Box
+      sx={{
+        display: { sm: "flex", xs: "none" },
+        justifyContent: "space-between",
+        flexBasis: "60%",
+      }}
+    >
+      <Box>
+        {pages.map(({ title, path }) => (
+          <Button
+            key={title}
+            onClick={() => navigate(path)}
+            sx={{ my: 2, color: "white" }}
+          >
+            {title}
+          </Button>
+        ))}
+      </Box>
+
+      <Button
+        color="secondary"
+        variant="contained"
+        onClick={handleLogout}
+        sx={{ my: 2, color: "white" }}
+        endIcon={<LogoutIcon />}
+      >
+        Logout
+      </Button>
     </Box>
   );
 
