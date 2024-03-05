@@ -28,6 +28,8 @@ const AttributeForm: React.FC<IAttributeForm> = ({
       alignItems="start"
       spacing={2}
       component="form"
+      px={2}
+      mb={2}
     >
       <Controller
         name="label"
@@ -44,7 +46,7 @@ const AttributeForm: React.FC<IAttributeForm> = ({
           />
         )}
       />
-      <Button disabled={isLoading} fullWidth type="submit" variant="contained">
+      <Button  disabled={isLoading} fullWidth type="submit" variant="contained">
         Submit
       </Button>
     </Stack>

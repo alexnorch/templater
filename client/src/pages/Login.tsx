@@ -7,7 +7,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { authValidationRules } from "../utils/authValidationRules";
 
 import { useLoginUserMutation } from "../api/authApi";
-import { setCredentials } from "../components/auth/authSlice";
+import { setCredentials } from "../store/slices/authSlice";
 
 interface IFormInput {
   email: string;

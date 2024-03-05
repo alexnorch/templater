@@ -2,7 +2,8 @@ import { Outlet, NavLink } from "react-router-dom";
 import { Stack, Box } from "@mui/material";
 import { styled } from "@mui/system";
 
-const pages = [
+const SETTINGS_PAGES = [
+  { title: "Profile", path: "profile" },
   { title: "Categories", path: "categories" },
   { title: "Attributes", path: "attributes" },
 ];
@@ -14,7 +15,7 @@ const StyledLink = styled(NavLink)({
 });
 
 const SettingsWrapper = () => {
-  const navLinks = pages.map(({ title, path }) => (
+  const navLinks = SETTINGS_PAGES.map(({ title, path }) => (
     <StyledLink
       key={title}
       to={path}
@@ -30,7 +31,7 @@ const SettingsWrapper = () => {
 
   return (
     <>
-      <Stack mt={3} flexDirection="row" gap={2} alignItems="center">
+      <Stack mt={3} flexDirection="row" gap={2} alignItems="center" flexWrap='wrap'>
         {navLinks}
       </Stack>
       <Box mt={2} component="section">

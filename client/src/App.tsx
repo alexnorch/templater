@@ -5,7 +5,7 @@ import withAuth from "./hocs/withAuth";
 import { SettingsWrapper, AuthWrapper, AppWrapper } from "./wrappers";
 
 // Settings Pages
-import { CategoriesSettings, AttributesSettings } from "./pages";
+import { CategoriesSettings, AttributesSettings, ProfileSettings } from "./pages";
 
 // Pages
 import {
@@ -13,7 +13,6 @@ import {
   Register,
   Login,
   TemplateEdit,
-  TemplateView,
 } from "./pages";
 
 import { Paths } from "./pages/paths";
@@ -25,7 +24,6 @@ function App() {
     <Routes>
       <Route element={<AppWithAuth />}>
         <Route path={Paths.templates} element={<Templates />}>
-          <Route path={Paths.templateView} element={<TemplateView />} />
           <Route path={Paths.templateEdit} element={<TemplateEdit />} />
         </Route>
         <Route path={Paths.settings} element={<SettingsWrapper />}>
@@ -36,6 +34,10 @@ function App() {
           <Route
             path={Paths.settingsAttribute}
             element={<AttributesSettings />}
+          />
+          <Route
+            path={Paths.settingsProfile}
+            element={<ProfileSettings />}
           />
         </Route>
       </Route>

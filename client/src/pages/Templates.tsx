@@ -1,23 +1,24 @@
-import { useParams, Outlet } from "react-router-dom";
 import { Grid } from "@mui/material";
+import { useParams, Outlet } from "react-router-dom";
 
 import {
   TemplateAdd,
   TemplatesList,
-  TemplatePlaceholder,
   TemplateFilter,
 } from "../components/templates";
+import _TemplateView from "../components/templates/_TemplateView";
+
 
 const Templates = () => {
   const { templateId } = useParams();
-  const templateView = templateId ? <Outlet /> : <TemplatePlaceholder />;
+  const content = templateId ? <Outlet /> : <_TemplateView />
 
   return (
     <>
       <TemplateFilter />
       <Grid
         container
-        spacing={{ xs: 3, md: 5 }}
+        spacing={2}
         justifyContent="space-between"
         flexDirection={{ xs: "column-reverse", md: "row" }}
       >
@@ -25,7 +26,7 @@ const Templates = () => {
           <TemplatesList />
         </Grid>
         <Grid item sm={12} md={8} xs={12}>
-          {templateView}
+          {content}
         </Grid>
       </Grid>
       <TemplateAdd />

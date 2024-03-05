@@ -39,7 +39,7 @@ const TemplateAdd: React.FC = () => {
         title="Create Template"
         isOpen={isModalOpen}
         handleClose={handleToggleModal}
-        sx={{ maxWidth: 800, width: { xs: "90%", sx: "100%" } }}
+        sx={{ maxWidth: 800, width: { xs: "90%", sx: "100%", }, p: 0 }}
       >
         <TemplateForm
           mode="create"

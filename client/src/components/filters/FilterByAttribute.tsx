@@ -5,7 +5,7 @@ import { RootState } from "../../store";
 
 import { AttributeSelect } from "../attributes";
 import { useGetAttributesQuery } from "../../api/attributeApi";
-import { setAttributesValues } from "./filterSlice";
+import { setAttributesValues } from "../../store/slices/filterSlice";
 
 const selectAttributesValues = (state: RootState) => state.filter.attributes;
 

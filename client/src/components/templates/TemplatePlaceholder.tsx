@@ -12,7 +12,7 @@ const TemplatePlaceholder = () => {
   return (
     <Stack sx={containerStyles} justifyContent="center">
       <Box gap={1} display="flex" alignItems="center" flexDirection="column">
-        <Typography>Select a template to see the details</Typography>
+        <Typography>Hover a template to see the details</Typography>
         <DescriptionIcon sx={iconStyles} />
       </Box>
     </Stack>

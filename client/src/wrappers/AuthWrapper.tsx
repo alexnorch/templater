@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import { Stack, Box } from "@mui/material";
 import svgImage from "../assets/programmer.svg";
 
-import { selectCurrentToken } from "../components/auth/authSlice";
+import { selectCurrentToken } from "../store/slices/authSlice";
 
 const AuthWrapper = () => {
   const accessToken = useSelector(selectCurrentToken);

@@ -17,7 +17,7 @@ const defaultStyles = {
   transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
   borderRadius: 1,
-  p: 3,
+
 };
 
 const CustomModal: React.FC<CustomModalProps> = ({
@@ -34,7 +34,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
           flexDirection="row"
           alignItems="center"
           justifyContent="space-between"
-          mb={2}
+          p={2}
         >
           <Typography component="h4" variant="h6">
             {title}

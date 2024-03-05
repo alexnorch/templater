@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
-import { selectCurrentToken } from "../components/auth/authSlice";
+import { selectCurrentToken } from "../store/slices/authSlice";
 
 const withAuth = (WrappedComponent: any) => {
   return (props: any) => {

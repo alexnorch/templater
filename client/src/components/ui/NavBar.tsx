@@ -15,15 +15,14 @@ import {
   ListItemButton,
 } from "@mui/material";
 import Logo from "./Logo";
-import LogoutIcon from "@mui/icons-material/Logout";
 
-import { logOut } from "../auth/authSlice";
+import { logOut } from "../../store/slices/authSlice";
 import { useLogoutMutation } from "../../api/authApi";
+import UserNavbar from "../user/UserNavbar";
 import MenuIcon from "@mui/icons-material/Menu";
 
-const pages = [
+const PAGES = [
   { title: "Templates", path: "/templates" },
-  { title: "Settings", path: "/settings/categories" },
 ];
 
 const NavBar: React.FC = () => {
@@ -42,35 +41,25 @@ const NavBar: React.FC = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
-  const LinkList = () => (
+  const NavbarItems = () => (
     <Box
       sx={{
         display: { sm: "flex", xs: "none" },
         justifyContent: "space-between",
-        flexBasis: "60%",
+        alignItems: 'center',
       }}
     >
       <Box>
-        {pages.map(({ title, path }) => (
+        {PAGES.map(({ title, path }) => (
           <Button
             key={title}
             onClick={() => navigate(path)}
-            sx={{ my: 2, color: "white" }}
+            sx={{ my: 2, color: "white", textTransform: 'none' }}
           >
             {title}
           </Button>
         ))}
       </Box>
-
-      <Button
-        color="secondary"
-        variant="contained"
-        onClick={handleLogout}
-        sx={{ my: 2, color: "white" }}
-        endIcon={<LogoutIcon />}
-      >
-        Logout
-      </Button>
     </Box>
   );
 
@@ -79,7 +68,7 @@ const NavBar: React.FC = () => {
       <Box p={2}>
         <Logo variant="h5" />
       </Box>
-      {pages.map(({ title, path }) => (
+      {PAGES.map(({ title, path }) => (
         <ListItem key={title} divider disablePadding>
           <ListItemButton
             onClick={() => navigate(path)}
@@ -109,7 +98,8 @@ const NavBar: React.FC = () => {
               justifyContent="space-between"
             >
               <Logo />
-              <LinkList />
+              <NavbarItems />
+              <UserNavbar />
               <IconButton
                 onClick={handleDrawerToggle}
                 sx={{ display: { sm: "none" } }}

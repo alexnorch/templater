@@ -76,7 +76,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
 
   return (
     <Stack onSubmit={handleSubmit(submitForm)} spacing={2} component="form">
-      <Stack spacing={2} sx={{ maxHeight: "60vh", overflowY: "scroll" }}>
+      <Stack px={2} spacing={2} sx={{ maxHeight: "60vh", overflowY: "scroll" }}>
         <Stack flexDirection={{ xs: "column", sm: "row" }} gap={2}>
           <FormTextField control={control} name="title" label="Title" />
           <FormSelectField
@@ -91,15 +91,18 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
 
         <Stack>
           <Typography mb={1}>Additional fields (attributes):</Typography>
-          <Grid container gap={2}>
+          <Grid container spacing={2}>
             {attributes}
           </Grid>
         </Stack>
+
       </Stack>
+
       <Stack
+        p={2}
         gap={2}
         flexDirection="row"
-        justifyContent="flex-end"
+        justifyContent={mode === 'edit' ? "flex-start" : 'flex-end'}
         alignItems="flex-end"
       >
         {mode === "edit" && (

@@ -24,9 +24,7 @@ const TemplateEdit = () => {
     onNavigate();
   };
 
-  const onNavigate = () => {
-    navigate(`/templates/${templateId}`);
-  };
+  const onNavigate = () => navigate(`/templates`);
 
   if (isLoading) return <p>Loading...</p>;
   if (!isSuccess) return;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Stack } from "@mui/material";
 import { useGetCategoriesQuery } from "../../api/categoryApi";
-import { setCategory } from "./filterSlice";
+import { setCategory } from "../../store/slices/filterSlice";
 import { ICategoryItem } from "../../types";
 
 const FilterByCategory = () => {

@@ -1,7 +1,7 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { useDebounce } from "use-debounce";
-import { setTitle } from "./filterSlice";
+import { setTitle } from "../../store/slices/filterSlice";
 import { TextField, Box } from "@mui/material";
 
 const FilterByTitle = () => {

@@ -1,8 +1,9 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 // Slices
-import authSlice from "../components/auth/authSlice";
-import filterSlice from "../components/filters/filterSlice";
+import authSlice from "./slices/authSlice";
+import filterSlice from "./slices/filterSlice";
+import templateSlice from "./slices/templateSlice";
 
 // Api
 import { baseApi } from "../api/apiSlice";
@@ -11,6 +12,7 @@ import { rtkQueryErrorLogger } from "./middlewares/rtkQueryErrorLogger";
 const rootReducer = combineReducers({
   filter: filterSlice,
   auth: authSlice,
+  template: templateSlice,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 

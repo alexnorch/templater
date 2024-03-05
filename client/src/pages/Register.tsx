@@ -3,7 +3,7 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { Box, TextField, Stack, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useDispatch } from "react-redux";
-import { setCredentials } from "../components/auth/authSlice";
+import { setCredentials } from "../store/slices/authSlice";
 import { CiLogin } from "react-icons/ci";
 
 interface IFormInput {

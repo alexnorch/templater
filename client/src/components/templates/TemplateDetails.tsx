@@ -1,4 +1,4 @@
-import { Editor, EditorState } from "draft-js";
+import { Editor, EditorState, convertFromRaw } from "draft-js";
 import {
   Stack,
   Typography,
@@ -8,7 +8,6 @@ import {
   Chip,
   Tooltip,
 } from "@mui/material";
-import { CustomTooltip } from "../ui";
 
 // Icons
 import EditIcon from "@mui/icons-material/Edit";
@@ -18,22 +17,27 @@ import { IAttributeValue } from "../../types";
 interface TemplateDetailsProps {
   title: string;
   attributeValues: IAttributeValue[];
-  content: EditorState;
+  text: string;
   onStartEditing: () => void;
   onStartDeleting: () => void;
-  onCopyText: () => void;
+  // onCopyText: () => void;
 }
 
 const TemplateDetails: React.FC<TemplateDetailsProps> = ({
   attributeValues,
   title,
-  content,
+  text,
   onStartDeleting,
   onStartEditing,
-  onCopyText,
+  // onCopyText,
 }) => {
+
   const templateAttributes = (attributeValues as IAttributeValue[]).map(
     ({ value, _id }) => <Chip key={_id} label={value} />
+  );
+
+  const editorState = EditorState.createWithContent(
+    convertFromRaw(JSON.parse(text))
   );
 
   return (
@@ -43,18 +47,24 @@ const TemplateDetails: React.FC<TemplateDetailsProps> = ({
           {title}
         </Typography>
         <Box>
-          <IconButton onClick={onStartEditing} size="small">
+          <IconButton
+            onClick={onStartEditing}
+            size="small">
             <EditIcon />
           </IconButton>
-          <IconButton onClick={onStartDeleting} size="small">
+          <IconButton
+            onClick={onStartDeleting}
+            size="small">
             <DeleteIcon />
           </IconButton>
         </Box>
       </Stack>
 
       <Tooltip title="Click the text to copy it." placement="top">
-        <Box onClick={onCopyText} my={1}>
-          <Editor onChange={() => null} readOnly={true} editorState={content} />
+        <Box
+          // onClick={onCopyText}
+          my={1}>
+          <Editor onChange={() => null} readOnly={true} editorState={editorState} />
         </Box>
       </Tooltip>
 

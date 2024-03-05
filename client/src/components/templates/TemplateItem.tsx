@@ -1,10 +1,12 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
-import { ITemplateLite } from "../../types";
+import { Box, Typography, IconButton } from "@mui/material";
+import { ITemplateItem } from "../../types";
+import PushPinIcon from '@mui/icons-material/PushPin';
+import { useDispatch, useSelector } from "react-redux";
+import { selectHoveredTemplate, selectPinnedTemplate, setHoveredTemplate, setPinnedTemplate } from "../../store/slices/templateSlice";
 
 const templateStyles = {
   display: "flex",
-  minHeight: 50,
+  maxHeight: 45,
   alignItems: "center",
   justifyContent: "space-between",
   borderRadius: 1,
@@ -13,29 +15,58 @@ const templateStyles = {
   padding: 2,
   cursor: "pointer",
   border: "1px solid transparent",
+
   "&:hover": {
     backgroundColor: "#75ACE4",
     color: "#fff",
   },
 };
 
-const TemplateItem: React.FC<ITemplateLite> = ({ _id, title }) => {
-  const { templateId } = useParams();
-  const navigate = useNavigate();
+const TemplateItem: React.FC<ITemplateItem> = (template) => {
+  const dispatch = useDispatch();
+  const currentHover = useSelector(selectHoveredTemplate)
+  const currentPin = useSelector(selectPinnedTemplate)
 
-  const onNavigateTemplate = () => {
-    const templatePath = `/templates/${_id}`;
-    navigate(templatePath);
-  };
 
-  templateStyles.backgroundColor = _id === templateId ? "#1976d2" : "#ccc";
-  templateStyles.color = _id === templateId ? "#fff" : "#333";
+  templateStyles.backgroundColor = template._id === currentPin?._id ? "#1976d2" : "#ccc";
+  templateStyles.color = template._id === currentPin?._id ? "#fff" : "#333";
+
+  const handleHoverTemplate = () => {
+    if (currentPin) return
+
+    if (currentHover && currentHover._id !== template._id) {
+      dispatch(setHoveredTemplate(template))
+    } else {
+      dispatch(setHoveredTemplate(template))
+    }
+  }
+
+  const handleTogglePinTemplate = () => {
+    if (!currentPin) {
+      dispatch(setPinnedTemplate(template))
+    } else if (currentPin && currentPin._id !== template._id) {
+      dispatch(setPinnedTemplate(template))
+    } else {
+      dispatch(setPinnedTemplate(null))
+    }
+  }
 
   return (
-    <Box onClick={onNavigateTemplate} sx={templateStyles}>
+    <Box
+      onMouseEnter={handleHoverTemplate}
+      sx={templateStyles}>
       <Typography variant="body1" component="h5">
-        {title}
+        {template.title}
       </Typography>
+
+      {currentHover?._id === template._id && (
+        <IconButton
+          size="small"
+          onClick={handleTogglePinTemplate}>
+          <PushPinIcon />
+        </IconButton>
+      )}
+
     </Box>
   );
 };
