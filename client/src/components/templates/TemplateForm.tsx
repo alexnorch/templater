@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Grid, Stack, Button, Typography } from "@mui/material";
@@ -12,22 +11,21 @@ import { formatTemplateData } from "../../utils/helpers";
 
 interface TemplateFormProps {
   mode: "edit" | "create";
-  values: ITemplateItem;
+  data: ITemplateItem;
   onSubmit: (data: ITemplateItem) => void;
   isLoading: boolean;
 }
 
 const TemplateForm: React.FC<TemplateFormProps> = ({
   mode,
-  values,
+  data,
   onSubmit,
   isLoading,
 }) => {
   const { data: categories = [] } = useGetCategoriesQuery();
   const { data: attributesList = [] } = useGetAttributesQuery();
 
-  const methods = useForm({ defaultValues: values });
-  const navigate = useNavigate();
+  const methods = useForm({ defaultValues: data });
 
   const {
     control,
@@ -43,11 +41,13 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
   }, []);
 
   const setDefaultAttributeValues = () => {
+
     if (mode === "edit") {
-      if (Array.isArray(values.attributeValues)) {
-        values.attributeValues.forEach((item: IAttributeValue) => {
-          const lowerLabel = item.attribute.toLowerCase();
-          setValue(`attributeValues.${lowerLabel}`, item._id);
+      if (Array.isArray(data.attributeValues)) {
+        data.attributeValues.forEach(({ _id, attribute }: IAttributeValue) => {
+          console.log(attribute)
+          const lowerLabel = attribute.label.toLowerCase();
+          setValue(`attributeValues.${lowerLabel}`, _id);
         });
       }
     }
@@ -76,7 +76,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
 
   return (
     <Stack onSubmit={handleSubmit(submitForm)} spacing={2} component="form">
-      <Stack px={2} spacing={2} sx={{ maxHeight: "60vh", overflowY: "scroll" }}>
+      <Stack px={2} spacing={2} sx={{ maxHeight: "60vh", overflowY: "auto" }}>
         <Stack flexDirection={{ xs: "column", sm: "row" }} gap={2}>
           <FormTextField control={control} name="title" label="Title" />
           <FormSelectField
@@ -102,14 +102,9 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
         p={2}
         gap={2}
         flexDirection="row"
-        justifyContent={mode === 'edit' ? "flex-start" : 'flex-end'}
+        justifyContent='flex-end'
         alignItems="flex-end"
       >
-        {mode === "edit" && (
-          <Button onClick={() => navigate(-1)} variant="outlined">
-            Back
-          </Button>
-        )}
         <Button disabled={isSubmitDisabled} type="submit" variant="contained">
           Submit
         </Button>

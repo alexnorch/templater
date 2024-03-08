@@ -3,12 +3,12 @@ import DescriptionIcon from "@mui/icons-material/Description";
 
 const containerStyles = {
   backgroundColor: "#ccc",
-  minHeight: { sm: "50vh", xs: 200 },
+  height: '100%'
 };
 
 const iconStyles = { color: "gray", fontSize: 50 };
 
-const TemplatePlaceholder = () => {
+const TemplatePlaceholder: React.FC = () => {
   return (
     <Stack sx={containerStyles} justifyContent="center">
       <Box gap={1} display="flex" alignItems="center" flexDirection="column">

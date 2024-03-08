@@ -23,9 +23,8 @@ function App() {
   return (
     <Routes>
       <Route element={<AppWithAuth />}>
-        <Route path={Paths.templates} element={<Templates />}>
-          <Route path={Paths.templateEdit} element={<TemplateEdit />} />
-        </Route>
+        <Route path={Paths.templates} element={<Templates />} />
+        <Route path={Paths.templateEdit} element={<TemplateEdit />} />
         <Route path={Paths.settings} element={<SettingsWrapper />}>
           <Route
             path={Paths.settingsCategories}
@@ -45,7 +44,7 @@ function App() {
         <Route path={Paths.register} element={<Register />} />
         <Route path={Paths.login} element={<Login />} />
       </Route>
-      <Route path="*" element={<Navigate to="/templates" />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }

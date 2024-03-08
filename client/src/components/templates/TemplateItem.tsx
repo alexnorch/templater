@@ -2,7 +2,7 @@ import { Box, Typography, IconButton } from "@mui/material";
 import { ITemplateItem } from "../../types";
 import PushPinIcon from '@mui/icons-material/PushPin';
 import { useDispatch, useSelector } from "react-redux";
-import { selectHoveredTemplate, selectPinnedTemplate, setHoveredTemplate, setPinnedTemplate } from "../../store/slices/templateSlice";
+import { selectHoveredTemplate, selectIsPinned, setHoveredTemplate, setIsPinned } from "../../store/slices/templateSlice";
 
 const templateStyles = {
   display: "flex",
@@ -23,16 +23,17 @@ const templateStyles = {
 };
 
 const TemplateItem: React.FC<ITemplateItem> = (template) => {
+  const currentHover = useSelector(selectHoveredTemplate);
+  const isPinned = useSelector(selectIsPinned);
   const dispatch = useDispatch();
-  const currentHover = useSelector(selectHoveredTemplate)
-  const currentPin = useSelector(selectPinnedTemplate)
 
+  const hoverTemplateId = currentHover && currentHover._id
 
-  templateStyles.backgroundColor = template._id === currentPin?._id ? "#1976d2" : "#ccc";
-  templateStyles.color = template._id === currentPin?._id ? "#fff" : "#333";
+  templateStyles.backgroundColor = template._id === hoverTemplateId ? "#1976d2" : "#ccc";
+  templateStyles.color = template._id === hoverTemplateId ? "#fff" : "#333";
 
   const handleHoverTemplate = () => {
-    if (currentPin) return
+    if (isPinned) return
 
     if (currentHover && currentHover._id !== template._id) {
       dispatch(setHoveredTemplate(template))
@@ -42,12 +43,10 @@ const TemplateItem: React.FC<ITemplateItem> = (template) => {
   }
 
   const handleTogglePinTemplate = () => {
-    if (!currentPin) {
-      dispatch(setPinnedTemplate(template))
-    } else if (currentPin && currentPin._id !== template._id) {
-      dispatch(setPinnedTemplate(template))
+    if (!isPinned && template._id === hoverTemplateId) {
+      dispatch(setIsPinned(true))
     } else {
-      dispatch(setPinnedTemplate(null))
+      dispatch(setIsPinned(false))
     }
   }
 

@@ -2,7 +2,8 @@ import { useState, useEffect, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { useDebounce } from "use-debounce";
 import { setTitle } from "../../store/slices/filterSlice";
-import { TextField, Box } from "@mui/material";
+import { TextField, Box, InputAdornment } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 
 const FilterByTitle = () => {
   const [value, setValue] = useState<string>("");
@@ -26,6 +27,13 @@ const FilterByTitle = () => {
         value={value}
         variant="outlined"
         placeholder="Search template by title"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
       />
     </Box>
   );

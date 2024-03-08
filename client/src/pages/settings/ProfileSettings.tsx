@@ -7,7 +7,7 @@ const ProfileSettings = () => {
         <Stack >
             <Typography variant="h5">My profile</Typography>
 
-            <Stack mt={{ sm: 2 }} gap={4} flexDirection={{ sm: 'row' }}>
+            <Stack mt={{ sm: 2 }} gap={4} maxWidth={400}>
                 <UserDetails />
                 <UserPasswords />
             </Stack>

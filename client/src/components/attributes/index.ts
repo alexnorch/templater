@@ -1,5 +1,5 @@
 import AttributeAdd from "./AttributeAdd";
-import AttributeForm from "./AttributeForm";
+import AttributeItemForm from "./AttributeItemForm";
 import AttributeItem from "./AttributeItem";
 import AttributeSelect from "./AttributeSelect";
 import AttributesList from "./AttributesList";
@@ -9,7 +9,7 @@ import AttributeValues from "./AttributeValues";
 
 export {
   AttributeAdd,
-  AttributeForm,
+  AttributeItemForm,
   AttributeItem,
   AttributeSelect,
   AttributesList,

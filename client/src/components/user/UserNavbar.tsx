@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Typography, Menu, MenuItem, Stack, Avatar } from "@mui/material"
+import { Typography, Menu, MenuItem, Stack } from "@mui/material"
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { logOut } from "../../store/slices/authSlice";
 import { useDispatch } from "react-redux";
@@ -37,7 +37,7 @@ const UserNavbar = () => {
       <Stack display={{ xs: 'none', sm: 'flex' }} sx={{ cursor: 'pointer' }}
         flexDirection='row'
         gap={1}
-        alignItems='end'
+        alignItems='center'
         justifyContent='center'
         onClick={handleOpen}>
         <KeyboardArrowDownIcon />

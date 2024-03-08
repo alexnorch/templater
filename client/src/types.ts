@@ -6,11 +6,6 @@ export interface ITemplateItem {
   attributeValues: IAttributeValue[] | { [key: string]: string };
 }
 
-export interface ITemplateLite {
-  _id: string;
-  title: string;
-}
-
 export interface ICategoryItem {
   title: string;
   _id?: string | undefined;
@@ -25,5 +20,5 @@ export interface IAttribute {
 export interface IAttributeValue {
   _id: string;
   value: string;
-  attribute: string;
+  attribute: IAttribute;
 }

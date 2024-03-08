@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AddButton from "../ui/AddButton";
 import BasicModal from "../ui/CustomModal";
-import AttributeForm from "./AttributeForm";
+import AttributeForm from "./AttributeItemForm";
 import { useAddAttributeMutation } from "../../api/attributeApi";
 
 const defaultValues = {
@@ -23,6 +23,7 @@ const AttributeAdd = () => {
     <>
       <AddButton onClick={handleToggleModal} />
       <BasicModal
+        sx={{ maxWidth: 400 }}
         title="Create Attribute"
         isOpen={isModal}
         handleClose={handleToggleModal}

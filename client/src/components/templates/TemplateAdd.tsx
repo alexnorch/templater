@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Tooltip } from "@mui/material";
 import { ITemplateItem } from "../../types";
 import { CustomModal, AddButton } from "../ui";
 import { useAddTemplateMutation } from "../../api/templateApi";
@@ -44,7 +43,7 @@ const TemplateAdd: React.FC = () => {
         <TemplateForm
           mode="create"
           onSubmit={handleSubmitForm}
-          values={defaultValues}
+          data={defaultValues}
           isLoading={isLoading}
         />
       </CustomModal>

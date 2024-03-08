@@ -38,6 +38,9 @@ export const filterSlice = createSlice({
 export const { setAttributesValues, setTitle, setCategory } =
   filterSlice.actions;
 
+export const selectAttributesValues = (state: RootState) =>
+  state.filter.attributes;
+
 export const selectFilterParams = (state: RootState) => state.filter;
 
 export default filterSlice.reducer;

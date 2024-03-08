@@ -37,19 +37,10 @@ class TemplateService {
 
     const templates: ITemplate[] | null = await Template.find(queryObj)
       .populate("category")
-      .populate("attributeValues")
+      .populate({ path: "attributeValues", populate: { path: "attribute" } })
       .lean();
 
-    const templatesWithCategories = templates!.map((template) => {
-      const category = template.category ? template.category.title : "";
-
-      return {
-        ...template,
-        category,
-      };
-    });
-
-    return templatesWithCategories;
+    return templates;
   }
 
   async getTemplateById(templateId: string) {
@@ -64,16 +55,7 @@ class TemplateService {
           path: "attribute",
           select: "label",
         },
-      })
-      .lean();
-
-    if (template && template.attributeValues) {
-      template.attributeValues.forEach((attrValue: any) => {
-        if (attrValue.attribute && attrValue.attribute.label) {
-          attrValue.attribute = attrValue.attribute.label;
-        }
       });
-    }
 
     return template;
   }
@@ -121,25 +103,29 @@ class TemplateService {
   async updateTemplate(templateId: string, body: any) {
     const { text, title, category, attributeValues } = body;
 
-    const template = await Template.findOne({
+    const templateFilter = { user: this.userId, _id: templateId };
+    const templateOptions = { new: true, runValidators: true };
+    const templateUpdates = {
       user: this.userId,
-      _id: templateId,
-    });
+      title,
+      text,
+      category,
+      attributeValues,
+    };
 
-    if (!template) {
-      throw new AppError("Template with that ID wasn't found", 404);
-    }
-
-    const updatedTemplate = await template.updateOne(
-      {
-        user: this.userId,
-        title,
-        text,
-        category,
-        attributeValues,
-      },
-      { runValidators: true }
-    );
+    const updatedTemplate = await Template.findOneAndUpdate(
+      templateFilter,
+      templateUpdates,
+      templateOptions
+    )
+      .populate("category")
+      .populate({
+        path: "attributeValues",
+        populate: {
+          path: "attribute",
+          select: "label",
+        },
+      });
 
     return updatedTemplate;
   }

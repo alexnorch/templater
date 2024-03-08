@@ -37,7 +37,7 @@ const AttributeValueAdd: React.FC<AttributeValueAddProps> = ({ attrId }) => {
         isOpen={isModal}
         handleClose={handleModalToggle}
       >
-        <Stack onSubmit={handleSubmit} component="form" spacing={2}>
+        <Stack p={2} onSubmit={handleSubmit} component="form" spacing={2}>
           <TextField
             size="small"
             onChange={handleChange}

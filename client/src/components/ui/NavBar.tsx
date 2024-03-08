@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
   AppBar,
   Toolbar,
   Container,
   Stack,
-  Button,
   IconButton,
   Drawer,
   Box,
@@ -21,12 +19,7 @@ import { useLogoutMutation } from "../../api/authApi";
 import UserNavbar from "../user/UserNavbar";
 import MenuIcon from "@mui/icons-material/Menu";
 
-const PAGES = [
-  { title: "Templates", path: "/templates" },
-];
-
 const NavBar: React.FC = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [logoutUser] = useLogoutMutation();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -41,43 +34,12 @@ const NavBar: React.FC = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
-  const NavbarItems = () => (
-    <Box
-      sx={{
-        display: { sm: "flex", xs: "none" },
-        justifyContent: "space-between",
-        alignItems: 'center',
-      }}
-    >
-      <Box>
-        {PAGES.map(({ title, path }) => (
-          <Button
-            key={title}
-            onClick={() => navigate(path)}
-            sx={{ my: 2, color: "white", textTransform: 'none' }}
-          >
-            {title}
-          </Button>
-        ))}
-      </Box>
-    </Box>
-  );
 
   const DrawerContent = () => (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Box p={2}>
         <Logo variant="h5" />
       </Box>
-      {PAGES.map(({ title, path }) => (
-        <ListItem key={title} divider disablePadding>
-          <ListItemButton
-            onClick={() => navigate(path)}
-            sx={{ textAlign: "center" }}
-          >
-            <ListItemText primary={title} />
-          </ListItemButton>
-        </ListItem>
-      ))}
       <ListItem disablePadding>
         <ListItemButton onClick={handleLogout} sx={{ textAlign: "center" }}>
           <ListItemText primary="Logout" />
@@ -98,7 +60,6 @@ const NavBar: React.FC = () => {
               justifyContent="space-between"
             >
               <Logo />
-              <NavbarItems />
               <UserNavbar />
               <IconButton
                 onClick={handleDrawerToggle}

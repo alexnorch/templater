@@ -51,10 +51,11 @@ export const updateTemplate: RequestHandler = async (req, res, next) => {
   }
 
   try {
-    const updatedTemplate = templateService.updateTemplate(
+    const updatedTemplate = await templateService.updateTemplate(
       templateId,
       req.body
     );
+
     res.send(updatedTemplate);
   } catch (error) {
     next(error);

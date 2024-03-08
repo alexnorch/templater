@@ -35,14 +35,13 @@ export const templateApi = baseApi
       }),
       updateTemplate: build.mutation({
         query: (template) => {
-          console.log(template._id);
           return {
             url: `/templates/${template._id}`,
             method: "PATCH",
             body: template,
           };
         },
-        invalidatesTags: (arg) => [{ type: "Template", _id: arg }],
+        invalidatesTags: (arg) => [{ type: "Template", _id: arg._id }],
       }),
       deleteTemplate: build.mutation({
         query: (templateId) => ({

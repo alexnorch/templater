@@ -20,7 +20,7 @@ interface TemplateDetailsProps {
   text: string;
   onStartEditing: () => void;
   onStartDeleting: () => void;
-  // onCopyText: () => void;
+  onCopyText: (editorState: EditorState) => void;
 }
 
 const TemplateDetails: React.FC<TemplateDetailsProps> = ({
@@ -29,7 +29,7 @@ const TemplateDetails: React.FC<TemplateDetailsProps> = ({
   text,
   onStartDeleting,
   onStartEditing,
-  // onCopyText,
+  onCopyText,
 }) => {
 
   const templateAttributes = (attributeValues as IAttributeValue[]).map(
@@ -62,7 +62,7 @@ const TemplateDetails: React.FC<TemplateDetailsProps> = ({
 
       <Tooltip title="Click the text to copy it." placement="top">
         <Box
-          // onClick={onCopyText}
+          onClick={() => onCopyText(editorState)}
           my={1}>
           <Editor onChange={() => null} readOnly={true} editorState={editorState} />
         </Box>

@@ -13,7 +13,7 @@ const linkStyles = {
 
 const Logo: React.FC<LogoProps> = ({ variant, component }) => {
   return (
-    <Link style={linkStyles} to="/templates">
+    <Link style={linkStyles} to="/">
       <Typography
         variant={variant}
         noWrap

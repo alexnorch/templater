@@ -37,7 +37,7 @@ const Login = () => {
       const userData = await loginUser(credentials).unwrap();
 
       dispatch(setCredentials({ ...userData }));
-      navigate("/templates");
+      navigate("/");
       localStorage.setItem("accessToken", userData.accessToken);
     } catch (error: any) {
       console.log(error);

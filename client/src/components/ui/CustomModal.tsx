@@ -1,4 +1,4 @@
-import { Modal, Box, Typography, Stack, IconButton } from "@mui/material";
+import { Modal, Box, Typography, Stack, IconButton, Divider } from "@mui/material";
 import { SxProps } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -17,7 +17,7 @@ const defaultStyles = {
   transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
   borderRadius: 1,
-
+  p: 2
 };
 
 const CustomModal: React.FC<CustomModalProps> = ({
@@ -34,7 +34,8 @@ const CustomModal: React.FC<CustomModalProps> = ({
           flexDirection="row"
           alignItems="center"
           justifyContent="space-between"
-          p={2}
+          px={2}
+          py={1}
         >
           <Typography component="h4" variant="h6">
             {title}
@@ -43,6 +44,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
             <CloseIcon />
           </IconButton>
         </Stack>
+        <Divider sx={{ mb: 2 }} />
         <Box>{children}</Box>
       </Stack>
     </Modal>

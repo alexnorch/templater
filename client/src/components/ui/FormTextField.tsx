@@ -24,6 +24,7 @@ const FormTextField: React.FC<FormTextFieldProps> = ({
     <TextField
       {...field}
       fullWidth
+      variant="filled"
       size="small"
       error={invalid}
       helperText={error?.message}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Button, Stack } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { useGetCategoriesQuery } from "../../api/categoryApi";
 import { setCategory } from "../../store/slices/filterSlice";
 import { ICategoryItem } from "../../types";
@@ -27,23 +27,27 @@ const FilterByCategory = () => {
       };
 
       return (
-        <Button
-          onClick={handleChange}
-          size="small"
-          variant="contained"
-          key={_id}
-          sx={btnStyles}
-        >
-          {title}
-        </Button>
+        <Grid md={4} item>
+          <Button
+            fullWidth
+            onClick={handleChange}
+            size="small"
+            variant="contained"
+            key={_id}
+            sx={btnStyles}
+          >
+            {title}
+          </Button>
+        </Grid>
+
       );
     }
   );
 
   return (
-    <Stack flexDirection="row" gap={2} flexWrap="wrap">
+    <Grid container spacing={2}>
       {filterCategoriesItems}
-    </Stack>
+    </Grid>
   );
 };
 

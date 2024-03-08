@@ -1,13 +1,13 @@
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { Stack, TextField, Button } from "@mui/material";
 
-interface IAttributeForm {
+interface IAttributeItemForm {
   values: { [key: string]: any };
   onSubmit: (data: any) => void;
   isLoading: boolean;
 }
 
-const AttributeForm: React.FC<IAttributeForm> = ({
+const AttributeItemForm: React.FC<IAttributeItemForm> = ({
   values,
   onSubmit,
   isLoading,
@@ -46,11 +46,11 @@ const AttributeForm: React.FC<IAttributeForm> = ({
           />
         )}
       />
-      <Button  disabled={isLoading} fullWidth type="submit" variant="contained">
+      <Button disabled={isLoading} fullWidth type="submit" variant="contained">
         Submit
       </Button>
     </Stack>
   );
 };
 
-export default AttributeForm;
+export default AttributeItemForm;

@@ -1,4 +1,6 @@
+import { toast } from "react-toastify";
 import { useParams, useNavigate } from "react-router-dom";
+import { Stack, Typography } from "@mui/material";
 import { TemplateForm } from "../components/templates";
 import { ITemplateItem } from "../types";
 
@@ -7,7 +9,7 @@ import {
   useGetTemplateQuery,
   useUpdateTemplateMutation,
 } from "../api/templateApi";
-import { toast } from "react-toastify";
+
 import { formatTemplateData } from "../utils/helpers";
 
 const TemplateEdit = () => {
@@ -30,12 +32,14 @@ const TemplateEdit = () => {
   if (!isSuccess) return;
 
   return (
-    <TemplateForm
-      mode="edit"
-      values={data}
-      isLoading={isUpdateLoading}
-      onSubmit={onUpdateTemplate}
-    />
+    <Stack spacing={2}>
+      <Typography variant='h5'>Editing Template</Typography>
+      <TemplateForm mode="edit"
+        data={data}
+        isLoading={isUpdateLoading}
+        onSubmit={onUpdateTemplate}
+      />
+    </Stack>
   );
 };
 

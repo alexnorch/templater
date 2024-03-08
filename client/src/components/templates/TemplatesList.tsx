@@ -29,7 +29,7 @@ const TemplatesContainer = styled(Stack)({
   }
 });
 
-const TemplatesList = () => {
+const TemplatesList: React.FC = () => {
   const filterParams = useSelector(selectFilterParams);
   const {
     data: templates = [],
@@ -42,18 +42,20 @@ const TemplatesList = () => {
     return <Typography>No template was identified or found</Typography>;
   }
 
-  const templateItems = templates.map((template: ITemplateItem) => (
+  const templateItems = templates.map(({
+    _id, category, text, title, attributeValues
+  }: ITemplateItem) => (
     <TemplateItem
-      key={template._id}
-      category={template.category}
-      _id={template._id}
-      text={template.text}
-      title={template.title}
-      attributeValues={template.attributeValues as IAttributeValue[]} />
+      key={_id}
+      category={category}
+      _id={_id}
+      text={text}
+      title={title}
+      attributeValues={attributeValues as IAttributeValue[]} />
   ));
 
   return (
-    <TemplatesContainer spacing={2} sx={{ height: { sm: "55vh", xs: "40vh" } }}>
+    <TemplatesContainer spacing={2} height='100%'>
       {!isLoading && isFetching && (
         <Box>
           <LinearProgress />
