@@ -8,6 +8,7 @@ import CenteredLoader from "./CenteredLoader";
 import Logo from "./Logo";
 import FormTextEditor from "./FormTextEditor";
 import CustomTooltip from "./CustomTooltip";
+import ScrollContainer from "./ScrollContainer";
 
 export {
   AddButton,
@@ -20,4 +21,5 @@ export {
   CenteredLoader,
   FormTextEditor,
   CustomTooltip,
+  ScrollContainer,
 };

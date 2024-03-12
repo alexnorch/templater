@@ -3,7 +3,7 @@ export interface ITemplateItem {
   title: string;
   category: string | ICategoryItem;
   text: string;
-  attributeValues: IAttributeValue[] | { [key: string]: string };
+  attributeValues: IAttributeOption[] | { [key: string]: string };
 }
 
 export interface ICategoryItem {
@@ -14,11 +14,11 @@ export interface ICategoryItem {
 export interface IAttribute {
   _id: string;
   label: string;
-  values: [] | IAttributeValue[];
+  values: [] | IAttributeOption[];
 }
 
-export interface IAttributeValue {
+export interface IAttributeOption {
   _id: string;
   value: string;
-  attribute: IAttribute;
+  attribute: IAttribute | string;
 }

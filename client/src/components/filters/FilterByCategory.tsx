@@ -1,40 +1,34 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Grid } from "@mui/material";
 import { useGetCategoriesQuery } from "../../api/categoryApi";
-import { setCategory } from "../../store/slices/filterSlice";
+import { setCategory, selectFilterCategory } from "../../store/slices/filterSlice";
 import { ICategoryItem } from "../../types";
 
-const FilterByCategory = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const { data: categories = [] } = useGetCategoriesQuery();
+const activeBgColor = "palette.primary.dark"
+const defaultBgColor = '#bbb'
 
+const FilterByCategory: React.FC = () => {
+  const { data: categories = [] } = useGetCategoriesQuery();
+  const selectedCategory = useSelector(selectFilterCategory)
   const dispatch = useDispatch();
 
   const handleChangeCategory = (categoryId: string | null) => {
-    const newCategory = selectedCategory === categoryId ? null : categoryId;
-
-    setSelectedCategory(newCategory);
+    const newCategory = selectedCategory === categoryId ? null : categoryId
     dispatch(setCategory(newCategory));
   };
 
   const filterCategoriesItems = categories.map(
     ({ _id, title }: ICategoryItem) => {
-      const handleChange = () => handleChangeCategory(_id!);
-
-      const btnStyles = {
-        background: selectedCategory === _id ? "palette.primary.dark" : "#bbb",
-      };
 
       return (
         <Grid md={4} item>
           <Button
             fullWidth
-            onClick={handleChange}
+            onClick={handleChangeCategory.bind(null, _id!)}
             size="small"
             variant="contained"
             key={_id}
-            sx={btnStyles}
+            sx={{ background: selectedCategory === _id ? activeBgColor : defaultBgColor }}
           >
             {title}
           </Button>

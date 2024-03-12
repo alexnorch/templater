@@ -34,8 +34,8 @@ const attributeApi = baseApi
         invalidatesTags: (arg) => [{ type: "Attribute", _id: arg }],
       }),
       addAttributeOption: build.mutation({
-        query: ({ _id, value }) => ({
-          url: `/attributes/${_id}/option`,
+        query: ({ attributeId, value }) => ({
+          url: `/attributes/${attributeId}/option`,
           method: "POST",
           body: {
             value,
@@ -44,8 +44,8 @@ const attributeApi = baseApi
         invalidatesTags: (arg) => [{ type: "Attribute", _id: arg._id }],
       }),
       deleteAttributeOption: build.mutation({
-        query: ({ attrId, optionId }) => ({
-          url: `/attributes/${attrId}/option/${optionId}`,
+        query: ({ attributeId, optionId }) => ({
+          url: `/attributes/${attributeId}/option/${optionId}`,
           method: "DELETE",
         }),
         invalidatesTags: (arg) => [{ type: "Attribute", _id: arg.attrId }],

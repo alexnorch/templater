@@ -41,6 +41,8 @@ export const { setAttributesValues, setTitle, setCategory } =
 export const selectAttributesValues = (state: RootState) =>
   state.filter.attributes;
 
+export const selectFilterCategory = (state: RootState) => state.filter.category;
+
 export const selectFilterParams = (state: RootState) => state.filter;
 
 export default filterSlice.reducer;

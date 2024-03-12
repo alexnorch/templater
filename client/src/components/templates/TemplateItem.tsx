@@ -1,25 +1,15 @@
-import { Box, Typography, IconButton } from "@mui/material";
-import { ITemplateItem } from "../../types";
+import { Typography, Chip, Stack } from "@mui/material";
+import { IAttributeValue, ITemplateItem } from "../../types";
 import PushPinIcon from '@mui/icons-material/PushPin';
 import { useDispatch, useSelector } from "react-redux";
 import { selectHoveredTemplate, selectIsPinned, setHoveredTemplate, setIsPinned } from "../../store/slices/templateSlice";
 
-const templateStyles = {
-  display: "flex",
-  maxHeight: 45,
-  alignItems: "center",
-  justifyContent: "space-between",
+const styles = {
   borderRadius: 1,
   backgroundColor: "#ccc",
   color: "#333",
-  padding: 2,
+  padding: 1,
   cursor: "pointer",
-  border: "1px solid transparent",
-
-  "&:hover": {
-    backgroundColor: "#75ACE4",
-    color: "#fff",
-  },
 };
 
 const TemplateItem: React.FC<ITemplateItem> = (template) => {
@@ -28,9 +18,10 @@ const TemplateItem: React.FC<ITemplateItem> = (template) => {
   const dispatch = useDispatch();
 
   const hoverTemplateId = currentHover && currentHover._id
+  const isCurrentHover = template._id === hoverTemplateId
 
-  templateStyles.backgroundColor = template._id === hoverTemplateId ? "#1976d2" : "#ccc";
-  templateStyles.color = template._id === hoverTemplateId ? "#fff" : "#333";
+  styles.backgroundColor = template._id === hoverTemplateId ? "#1976d2" : "#ccc";
+  styles.color = template._id === hoverTemplateId ? "#fff" : "#333";
 
   const handleHoverTemplate = () => {
     if (isPinned) return
@@ -43,31 +34,48 @@ const TemplateItem: React.FC<ITemplateItem> = (template) => {
   }
 
   const handleTogglePinTemplate = () => {
-    if (!isPinned && template._id === hoverTemplateId) {
+    if (!isPinned && isCurrentHover) {
       dispatch(setIsPinned(true))
-    } else {
+    }
+
+    if (isPinned && isCurrentHover) {
       dispatch(setIsPinned(false))
+    } else {
+      dispatch(setIsPinned(true))
+      dispatch(setHoveredTemplate(template))
     }
   }
 
+  const renderedAttributes = (template.attributeValues as IAttributeValue[]).map(
+    (attribute: IAttributeValue) =>
+    (
+      <Chip
+        key={attribute._id}
+        sx={{ fontSize: 10 }}
+        size="small"
+        label={attribute.value} />
+    ))
+
   return (
-    <Box
+    <Stack
+      sx={styles}
+      spacing={0.5}
+      onClick={handleTogglePinTemplate}
       onMouseEnter={handleHoverTemplate}
-      sx={templateStyles}>
-      <Typography variant="body1" component="h5">
-        {template.title}
-      </Typography>
-
-      {currentHover?._id === template._id && (
-        <IconButton
-          size="small"
-          onClick={handleTogglePinTemplate}>
-          <PushPinIcon />
-        </IconButton>
-      )}
-
-    </Box>
+    >
+      <Stack flexDirection='row' justifyContent='space-between'>
+        <Typography variant="body1" component="h5">
+          {template.title}
+        </Typography>
+        {currentHover?._id === template._id && isPinned && <PushPinIcon />}
+      </Stack>
+      <Stack flexDirection='row' gap={1}>
+        {renderedAttributes}
+      </Stack>
+    </Stack>
   );
 };
 
 export default TemplateItem;
+
+

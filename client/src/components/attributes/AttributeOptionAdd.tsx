@@ -5,11 +5,11 @@ import BasicModal from "../ui/CustomModal";
 
 import { useAddAttributeOptionMutation } from "../../api/attributeApi";
 
-interface AttributeValueAddProps {
-  attrId: string;
+interface AttributeOptionAddProps {
+  attributeId: string;
 }
 
-const AttributeValueAdd: React.FC<AttributeValueAddProps> = ({ attrId }) => {
+const AttributeOptionAdd: React.FC<AttributeOptionAddProps> = ({ attributeId }) => {
   const [isModal, setIsModal] = useState(false);
   const [attributeValue, setAttributeValue] = useState("");
   const [addAttributeValue] = useAddAttributeOptionMutation();
@@ -23,7 +23,7 @@ const AttributeValueAdd: React.FC<AttributeValueAddProps> = ({ attrId }) => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    await addAttributeValue({ _id: attrId, value: attributeValue });
+    await addAttributeValue({ attributeId, value: attributeValue });
 
     handleModalToggle();
     setAttributeValue("");
@@ -54,4 +54,4 @@ const AttributeValueAdd: React.FC<AttributeValueAddProps> = ({ attrId }) => {
   );
 };
 
-export default AttributeValueAdd;
+export default AttributeOptionAdd;

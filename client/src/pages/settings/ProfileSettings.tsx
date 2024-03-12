@@ -5,11 +5,13 @@ import UserDetails from "../../components/user/UserDetails"
 const ProfileSettings = () => {
     return (
         <Stack >
-            <Typography variant="h5">My profile</Typography>
+            <Typography variant="h5">My Profile</Typography>
 
-            <Stack mt={{ sm: 2 }} gap={4} maxWidth={400}>
-                <UserDetails />
-                <UserPasswords />
+            <Stack alignItems='center'>
+                <Stack mt={{ sm: 2 }} gap={4} maxWidth={600} width='100%'>
+                    <UserDetails />
+                    <UserPasswords />
+                </Stack>
             </Stack>
 
         </Stack >

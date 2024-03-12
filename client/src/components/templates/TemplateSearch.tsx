@@ -3,9 +3,10 @@ import { useDispatch } from "react-redux";
 import { useDebounce } from "use-debounce";
 import { setTitle } from "../../store/slices/filterSlice";
 import { TextField, Box, InputAdornment } from "@mui/material";
+
 import SearchIcon from '@mui/icons-material/Search';
 
-const FilterByTitle = () => {
+const TemplateSearch: React.FC = () => {
   const [value, setValue] = useState<string>("");
   const [debouncedValue] = useDebounce(value, 1000);
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const FilterByTitle = () => {
   };
 
   return (
-    <Box width={{ md: "25%", xs: "100%" }}>
+    <Box >
       <TextField
         fullWidth
         onChange={handleChange}
@@ -39,4 +40,4 @@ const FilterByTitle = () => {
   );
 };
 
-export default FilterByTitle;
+export default TemplateSearch;

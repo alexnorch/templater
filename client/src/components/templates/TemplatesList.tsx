@@ -1,33 +1,11 @@
 import { useSelector } from "react-redux";
-import { Stack, Typography, LinearProgress, Box } from "@mui/material";
+import { Typography, LinearProgress, Box } from "@mui/material";
 import { useGetTemplatesQuery } from "../../api/templateApi";
 
-import { styled } from "@mui/system";
 import { selectFilterParams } from "../../store/slices/filterSlice";
 import { TemplateItem, TemplatesListSkeleton } from "../templates";
 import { IAttributeValue, ITemplateItem } from "../../types";
-
-const TemplatesContainer = styled(Stack)({
-  overflowY: "scroll",
-  paddingRight: 18,
-  "&::-webkit-scrollbar": {
-    width: "10px",
-  },
-  "&::-webkit-scrollbar-track": {
-    background: "none",
-  },
-  "&::-webkit-scrollbar-thumb": {
-    background: "none",
-  },
-  "&:hover::-webkit-scrollbar-track": {
-    background: "#ddd",
-    borderRadius: '10px'
-  },
-  "&:hover::-webkit-scrollbar-thumb": {
-    background: "#1976d2",
-    borderRadius: '10px'
-  }
-});
+import { ScrollContainer } from "../ui";
 
 const TemplatesList: React.FC = () => {
   const filterParams = useSelector(selectFilterParams);
@@ -55,7 +33,7 @@ const TemplatesList: React.FC = () => {
   ));
 
   return (
-    <TemplatesContainer spacing={2} height='100%'>
+    <ScrollContainer spacing={2} height='100%'>
       {!isLoading && isFetching && (
         <Box>
           <LinearProgress />
@@ -63,7 +41,7 @@ const TemplatesList: React.FC = () => {
       )}
       {isLoading && <TemplatesListSkeleton />}
       {templateItems}
-    </TemplatesContainer>
+    </ScrollContainer>
   );
 };
 

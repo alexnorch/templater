@@ -27,7 +27,7 @@ const CategoryForm: React.FC<ICategoryForm> = ({
   };
 
   return (
-    <Box px={2} onSubmit={handleSubmit(onSubmitForm)} component="form">
+    <Box onSubmit={handleSubmit(onSubmitForm)} component="form">
       <Controller
         name="title"
         control={control}

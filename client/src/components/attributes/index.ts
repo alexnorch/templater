@@ -1,19 +1,19 @@
 import AttributeAdd from "./AttributeAdd";
-import AttributeItemForm from "./AttributeItemForm";
-import AttributeItem from "./AttributeItem";
+import AttributeForm from "./AttributeForm";
+import Attribute from "./Attribute";
 import AttributeSelect from "./AttributeSelect";
 import AttributesList from "./AttributesList";
-import AttributeValue from "./AttributeValue";
-import AttributeValueAdd from "./AttributeValueAdd";
-import AttributeValues from "./AttributeValues";
+import AttributeOption from "./AttributeOption";
+import AttributeOptionAdd from "./AttributeOptionAdd";
+import AttributeOptionsList from "./AttributeOptionsList";
 
 export {
   AttributeAdd,
-  AttributeItemForm,
-  AttributeItem,
+  AttributeForm,
+  Attribute,
   AttributeSelect,
   AttributesList,
-  AttributeValue,
-  AttributeValueAdd,
-  AttributeValues,
+  AttributeOption,
+  AttributeOptionAdd,
+  AttributeOptionsList,
 };

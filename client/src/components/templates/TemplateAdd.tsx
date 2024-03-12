@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { Button } from "@mui/material";
 import { ITemplateItem } from "../../types";
-import { CustomModal, AddButton } from "../ui";
+import { CustomModal } from "../ui";
 import { useAddTemplateMutation } from "../../api/templateApi";
 import { useGetCategoriesQuery } from "../../api/categoryApi";
 import TemplateForm from "./TemplateForm";
+
+import AddIcon from '@mui/icons-material/Add';
 
 const defaultValues = {
   title: "",
@@ -28,17 +31,23 @@ const TemplateAdd: React.FC = () => {
 
   return (
     <>
-      <AddButton
-        tooltipText="Before creating a template, it's necessary to first create a category. Go to settings."
+      <Button
+        size="small"
+        color="secondary"
+        variant="contained"
+        sx={{ height: 35 }}
         disabled={isButtonDisabled}
         onClick={handleToggleModal}
-      />
+        endIcon={<AddIcon />}
+      >
+        Create Template
+      </Button>
 
       <CustomModal
         title="Create Template"
         isOpen={isModalOpen}
         handleClose={handleToggleModal}
-        sx={{ maxWidth: 800, width: { xs: "90%", sx: "100%", }, p: 0 }}
+        sx={{ maxWidth: 800, width: { xs: "90%", sx: "100%", } }}
       >
         <TemplateForm
           mode="create"

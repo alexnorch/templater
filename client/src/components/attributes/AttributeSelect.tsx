@@ -27,7 +27,11 @@ const AttributeSelect: React.FC<IAttributeSelect> = ({
   return (
     <FormControl fullWidth size="small" >
       <InputLabel>{label}</InputLabel>
-      <Select sx={{ m: 0, }} onChange={onChange} value={value} name={label} label={label} >
+      <Select
+        onChange={onChange}
+        value={value}
+        name={label}
+        label={label} >
         {renderedOptions}
       </Select>
     </FormControl>

@@ -37,19 +37,17 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
   const isSubmitDisabled = !isValid || isLoading;
 
   useEffect(() => {
-    setDefaultAttributeValues();
+
+    if (mode === 'edit') setDefaultAttributeValues();
+
   }, []);
 
   const setDefaultAttributeValues = () => {
-
-    if (mode === "edit") {
-      if (Array.isArray(data.attributeValues)) {
-        data.attributeValues.forEach(({ _id, attribute }: IAttributeValue) => {
-          console.log(attribute)
-          const lowerLabel = attribute.label.toLowerCase();
-          setValue(`attributeValues.${lowerLabel}`, _id);
-        });
-      }
+    if (Array.isArray(data.attributeValues)) {
+      data.attributeValues.forEach(({ _id, attribute }: IAttributeValue) => {
+        const lowerLabel = attribute.label.toLowerCase();
+        setValue(`attributeValues.${lowerLabel}`, _id);
+      });
     }
   };
 
@@ -76,7 +74,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
 
   return (
     <Stack onSubmit={handleSubmit(submitForm)} spacing={2} component="form">
-      <Stack px={2} spacing={2} sx={{ maxHeight: "60vh", overflowY: "auto" }}>
+      <Stack spacing={2} sx={{ maxHeight: "60vh", overflowY: "auto" }}>
         <Stack flexDirection={{ xs: "column", sm: "row" }} gap={2}>
           <FormTextField control={control} name="title" label="Title" />
           <FormSelectField

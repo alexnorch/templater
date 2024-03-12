@@ -1,14 +1,14 @@
 import { useState } from "react";
 import AddButton from "../ui/AddButton";
 import BasicModal from "../ui/CustomModal";
-import AttributeForm from "./AttributeItemForm";
+import AttributeForm from "./AttributeForm";
 import { useAddAttributeMutation } from "../../api/attributeApi";
 
 const defaultValues = {
   label: "",
 };
 
-const AttributeAdd = () => {
+const AttributeAdd: React.FC = () => {
   const [isModal, setIsModal] = useState(false);
   const [createAttribute, { isLoading }] = useAddAttributeMutation();
 

@@ -15,11 +15,13 @@ const router = express.Router();
 router.use(verifyJWT);
 
 router.route("/").get(getAllAttributes).post(createAttribute);
-router.route("/:attrId").delete(deleteAttribute).patch(updateAttribute);
 
-router.route("/:attrId/option").post(createAttributeOption);
+router.route("/:attributeId").delete(deleteAttribute).patch(updateAttribute);
+
+router.route("/:attributeId/option").post(createAttributeOption);
+
 router
-  .route("/:attrId/option/:optionId")
+  .route("/:attributeId/option/:optionId")
   .delete(deleteAttributeOption)
   .patch(updateAttributeOption);
 

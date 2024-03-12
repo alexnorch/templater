@@ -33,7 +33,8 @@ export const createAttribute: RequestHandler = async (req, res, next) => {
 
 export const updateAttribute: RequestHandler = async (req, res, next) => {
   const attributeService = new AttributeService(req.userId);
-  const attrId = req.params.attrId;
+  const attributeId = req.params.attributeId;
+
   const newLabel = req.body.label;
 
   if (!newLabel) {
@@ -42,7 +43,7 @@ export const updateAttribute: RequestHandler = async (req, res, next) => {
 
   try {
     const updatedAttribute = await attributeService.updateAttribute(
-      attrId,
+      attributeId,
       newLabel
     );
 
@@ -66,17 +67,17 @@ export const deleteAttribute: RequestHandler = async (req, res, next) => {
 
 export const createAttributeOption: RequestHandler = async (req, res, next) => {
   const attributeService = new AttributeService(req.userId);
-  const attrId = req.params.attrId;
-  const attrValue = req.body.value;
+  const attributeId = req.params.attributeId;
+  const attributeValue = req.body.value;
 
-  if (!attrValue) {
+  if (!attributeValue) {
     return next(new AppError("Attribute value is required", 400));
   }
 
   try {
     const createAttributeValues = await attributeService.createAttributeValue(
-      attrId,
-      attrValue
+      attributeId,
+      attributeValue
     );
 
     res.send(createAttributeValues);
@@ -86,14 +87,15 @@ export const createAttributeOption: RequestHandler = async (req, res, next) => {
 };
 
 export const deleteAttributeOption: RequestHandler = async (req, res, next) => {
-  const { attrId, optionId } = req.params;
+  const { attributeId, optionId } = req.params;
   const attributeService = new AttributeService(req.userId);
 
   try {
     const deletedAttributeValue = await attributeService.deleteAttributeValue(
-      attrId,
+      attributeId,
       optionId
     );
+
     res.send(deletedAttributeValue);
   } catch (error) {
     next(error);

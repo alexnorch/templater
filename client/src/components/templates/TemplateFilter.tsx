@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Stack,
   Accordion,
@@ -10,7 +10,7 @@ import {
   Box,
   Divider,
 } from "@mui/material";
-import { FilterByAttribute, FilterByTitle, FilterByCategory } from "../filters";
+import { FilterByAttribute, FilterByCategory } from "../filters";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -23,28 +23,41 @@ interface AccordionFilterProps {
 const TemplateFilter: React.FC = () => {
   const [isDrawer, setIsDrawer] = useState(false);
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setIsDrawer(newOpen);
-  };
+  const toggleDrawer = (newOpen: boolean) => () => setIsDrawer(newOpen);
 
   return (
     <>
-      <Stack flexDirection='row' justifyContent='space-between' alignItems='center'>
-        <FilterByTitle />
+      <Stack
+        flexDirection='row'
+        justifyContent='space-between'
+        alignItems='center'>
         <Button
+          sx={{ height: 35 }}
           size="small"
           variant="contained"
           endIcon={<FilterAltIcon />}
           onClick={toggleDrawer(true)}>
           Filter
         </Button>
-        <Drawer anchor="right" open={isDrawer} onClose={toggleDrawer(false)}>
+        <Drawer
+          anchor="right"
+          open={isDrawer}
+          onClose={toggleDrawer(false)}>
           <Box maxWidth={400}>
-            <Typography textAlign='center' m={1} variant='h6'>Filter options</Typography>
+            <Typography
+              textAlign='center'
+              m={1}
+              variant='h6'>
+              Filter options
+            </Typography>
             <Divider />
             <Stack spacing={2} p={2}>
-              <AccordionFilter title="By attributes" body={<FilterByAttribute />} />
-              <AccordionFilter title="By category" body={<FilterByCategory />} />
+              <AccordionFilter
+                title="By attributes"
+                body={<FilterByAttribute />} />
+              <AccordionFilter
+                title="By category"
+                body={<FilterByCategory />} />
             </Stack>
           </Box>
         </Drawer>

@@ -41,7 +41,7 @@ const TemplateDetails: React.FC<TemplateDetailsProps> = ({
   );
 
   return (
-    <Stack>
+    <Stack sx={{ height: '100%' }}>
       <Stack direction="row" justifyContent="space-between">
         <Typography ml={2} variant="h5" component="h4">
           {title}

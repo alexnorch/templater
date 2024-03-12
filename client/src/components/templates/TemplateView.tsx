@@ -2,11 +2,13 @@ import { useState } from "react"
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux"
 import { selectHoveredTemplate, setHoveredTemplate, setIsPinned } from "../../store/slices/templateSlice"
-import { IAttributeValue, ITemplateItem } from "../../types"
+import { IAttributeOption, ITemplateItem } from "../../types"
 import { TemplatePlaceholder, TemplateDetails, TemplateForm } from "."
 import { useDeleteTemplateMutation, useUpdateTemplateMutation } from "../../api/templateApi"
 import { ConfirmDialog, CustomModal } from "../ui";
 import { EditorState } from "draft-js";
+import { ScrollContainer } from "../ui";
+
 
 const TemplateView: React.FC = () => {
     const [shouldDelete, setShouldDelete] = useState(false)
@@ -18,9 +20,7 @@ const TemplateView: React.FC = () => {
 
     const dispatch = useDispatch();
 
-    if (!hoveredTemplate) {
-        return <TemplatePlaceholder />
-    }
+    if (!hoveredTemplate) return <TemplatePlaceholder />
 
     const handleToggleDeleting = () => setShouldDelete((prev) => !prev);
     const handleToggleEditing = () => setShouldEdit((prev) => !prev)
@@ -51,14 +51,17 @@ const TemplateView: React.FC = () => {
 
     return (
         <>
-            <TemplateDetails
-                title={hoveredTemplate.title}
-                text={hoveredTemplate.text}
-                attributeValues={hoveredTemplate.attributeValues as IAttributeValue[]}
-                onStartDeleting={handleToggleDeleting}
-                onStartEditing={handleToggleEditing}
-                onCopyText={handleCopyText}
-            />
+
+            <ScrollContainer height='100%'>
+                <TemplateDetails
+                    title={hoveredTemplate.title}
+                    text={hoveredTemplate.text}
+                    attributeValues={hoveredTemplate.attributeValues as IAttributeOption[]}
+                    onStartDeleting={handleToggleDeleting}
+                    onStartEditing={handleToggleEditing}
+                    onCopyText={handleCopyText}
+                />
+            </ScrollContainer>
 
             <ConfirmDialog
                 title="Template deleting"

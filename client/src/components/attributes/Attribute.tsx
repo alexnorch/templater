@@ -1,35 +1,29 @@
 import { useState } from "react";
 import { Stack, Typography, IconButton } from "@mui/material";
-import { IAttributeValue } from "../../types";
-import AttributeValues from "./AttributeValues";
+import { IAttribute } from "../../types";
+import { AttributeOptionsList } from ".";
 import ConfirmDialog from "../ui/ConfirmDialog";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { useDeleteAttributeMutation } from "../../api/attributeApi";
 
-interface AttributeItemProps {
-  label: string;
-  attrId: string;
-  values: IAttributeValue[];
-}
-
-const AttributeItem: React.FC<AttributeItemProps> = ({
-  attrId,
+const Attribute: React.FC<IAttribute> = ({
+  _id,
   label,
   values,
 }) => {
   const [shouldDelete, setShouldDelete] = useState(false);
   const [deleteAttribute] = useDeleteAttributeMutation();
 
-  const onDeleteAttribute = async () => await deleteAttribute(attrId);
+  const onDeleteAttribute = async () => await deleteAttribute(_id);
   const toggleShouldDelete = () => setShouldDelete((prev) => !prev);
 
   return (
     <>
       <Stack
         sx={{ backgroundColor: "white", padding: 2, borderRadius: 1 }}
-        key={attrId}
+        key={_id}
       >
         <Stack flexDirection="row" justifyContent="space-between">
           <Typography mb={1} component="h4" variant="h6">
@@ -39,7 +33,10 @@ const AttributeItem: React.FC<AttributeItemProps> = ({
             <DeleteIcon />
           </IconButton>
         </Stack>
-        <AttributeValues attrId={attrId} values={values} />
+        <AttributeOptionsList
+          attributeId={_id}
+          values={values}
+        />
       </Stack>
 
       {/* Attribute Deleting */}
@@ -54,4 +51,4 @@ const AttributeItem: React.FC<AttributeItemProps> = ({
   );
 };
 
-export default AttributeItem;
+export default Attribute;

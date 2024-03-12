@@ -4,24 +4,28 @@ import { Chip } from "@mui/material";
 import { useDeleteAttributeOptionMutation } from "../../api/attributeApi";
 import ConfirmDialog from "../ui/ConfirmDialog";
 
-interface AttributeValueProps {
+interface AttributeOptionProps {
   value: string;
-  attrId: string;
+  attributeId: string;
   optionId: string;
 }
 
-const AttributeValue: React.FC<AttributeValueProps> = ({
+const AttributeOption: React.FC<AttributeOptionProps> = ({
   value,
-  attrId,
+  attributeId,
   optionId,
 }) => {
+
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteAttributeOption] = useDeleteAttributeOptionMutation();
 
   const handleToggleDeleting = () => setIsDeleting((prev) => !prev);
 
   const onDeleteOptionAttribute = async () => {
-    await deleteAttributeOption({ attrId, optionId });
+
+    console.log('attrId', attributeId)
+    console.log('optionid', optionId)
+    await deleteAttributeOption({ attributeId, optionId });
   };
 
   return (
@@ -40,4 +44,4 @@ const AttributeValue: React.FC<AttributeValueProps> = ({
   );
 };
 
-export default AttributeValue;
+export default AttributeOption;

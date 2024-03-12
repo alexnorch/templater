@@ -24,7 +24,7 @@ const FormSelectField: React.FC<FormSelectFieldProps> = ({
   const value = field.value?._id || field.value || "";
 
   return (
-    <FormControl variant="filled" size="small" fullWidth>
+    <FormControl variant="standard" size="small" fullWidth>
       <InputLabel>{label}</InputLabel>
       <Select {...field} value={value} label={label}>
         {values.map(({ value, title, _id }) => (
