@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
@@ -5,6 +6,7 @@ import { CiLogin } from "react-icons/ci";
 import { TextField, Stack, Typography, Box } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { authValidationRules } from "../utils/authValidationRules";
+import PasswordInput from "../components/ui/InputPassword";
 
 import { useLoginUserMutation } from "../api/authApi";
 import { setCredentials } from "../store/slices/authSlice";
@@ -16,13 +18,15 @@ interface IFormInput {
 
 const defaultValues = { email: "", password: "" };
 
-const Login = () => {
+const Login: React.FC = () => {
+  const [showPassword, setShowPassword] = useState(false)
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues });
 
+  const [loginUser, { isLoading }] = useLoginUserMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -30,7 +34,9 @@ const Login = () => {
     handleLoginUser(data);
   };
 
-  const [loginUser, { isLoading }] = useLoginUserMutation();
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev)
+  }
 
   const handleLoginUser = async (credentials: IFormInput) => {
     try {
@@ -78,14 +84,15 @@ const Login = () => {
           name="password"
           control={control}
           render={({ field, fieldState: { invalid } }) => (
-            <TextField
+            <PasswordInput
               {...field}
               fullWidth
-              type="password"
+              variant="filled"
+              showPassword={showPassword}
+              toggleShowPassword={toggleShowPassword}
               error={invalid}
               helperText={errors?.password?.message}
               placeholder="Password"
-              variant="filled"
               size="small"
             />
           )}

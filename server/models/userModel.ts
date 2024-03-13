@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import validator from "validator";
 
 export interface IUser extends mongoose.Document {
   email: string;
@@ -15,6 +16,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Email is required"],
     unique: true,
+    validate: [validator.isEmail, "Please provide a valid e-mail adress"],
   },
   password: {
     type: String,
@@ -22,7 +24,6 @@ const UserSchema = new mongoose.Schema({
     minlength: 8,
     select: false,
   },
-
   categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
   templates: [{ type: mongoose.Schema.Types.ObjectId, ref: "Template" }],
   attributes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Attribute" }],

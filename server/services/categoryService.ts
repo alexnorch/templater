@@ -1,7 +1,6 @@
 import AppError from "../utils/AppError";
 import User, { IUser } from "../models/userModel";
 import Category, { ICategory } from "../models/categoryModel";
-import Template from "../models/templateModel";
 
 class CategoryService {
   private userId: string;
@@ -38,24 +37,13 @@ class CategoryService {
   }
 
   async deleteCategory(categoryId: string) {
-    const category: ICategory | null = await Category.findOne({
+    const deletedCategory: ICategory | null = await Category.findOneAndDelete({
       user: this.userId,
       _id: categoryId,
     });
 
-    if (!category) {
-      throw new AppError("Category not found", 404);
-    }
-
-    await Template.deleteMany({
-      user: this.userId,
-      category: categoryId,
-    });
-
-    const deletedCategory = await category.deleteOne();
-
     if (!deletedCategory) {
-      throw new AppError("Something went wrong. Please try again later", 500);
+      throw new AppError("Category not found", 404);
     }
 
     return deletedCategory;

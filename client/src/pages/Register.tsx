@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { Box, TextField, Stack, Typography } from "@mui/material";
@@ -5,6 +6,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../store/slices/authSlice";
 import { CiLogin } from "react-icons/ci";
+import InputPassword from "../components/ui/InputPassword";
 
 interface IFormInput {
   email: string;
@@ -22,16 +24,21 @@ const defaultValues = {
 };
 
 const Register = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues });
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const [registerUser, { isLoading }] = useRegisterUserMutation();
+  const togglePassword = () => setShowPassword((prev) => !prev);
+  const toggleConfirmPassword = () => setShowConfirmPassword((prev) => !prev);
 
   const onSubmitForm: SubmitHandler<IFormInput> = async (data) => {
     try {
@@ -79,7 +86,7 @@ const Register = () => {
           control={control}
           rules={authValidationRules.registerPassword}
           render={({ field, fieldState: { invalid } }) => (
-            <TextField
+            <InputPassword
               {...field}
               fullWidth
               error={invalid}
@@ -88,6 +95,8 @@ const Register = () => {
               size="small"
               type="password"
               placeholder="Password"
+              showPassword={showPassword}
+              toggleShowPassword={togglePassword}
             />
           )}
         />
@@ -96,7 +105,7 @@ const Register = () => {
           name="confirmPassword"
           control={control}
           render={({ field, fieldState: { invalid } }) => (
-            <TextField
+            <InputPassword
               {...field}
               fullWidth
               error={invalid}
@@ -105,6 +114,8 @@ const Register = () => {
               size="small"
               type="password"
               placeholder="Confirm Password"
+              showPassword={showConfirmPassword}
+              toggleShowPassword={toggleConfirmPassword}
             />
           )}
         />
