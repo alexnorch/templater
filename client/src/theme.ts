@@ -18,10 +18,16 @@ const theme = createTheme({
         disableRipple: true,
       },
       styleOverrides: {
-        root: {
+        root: ({ ownerState }) => ({
           borderRadius: "0.2rem",
           textTransform: "none",
-        },
+          ...(ownerState.variant === "outlined" && {
+            "&:hover": {
+              backgroundColor: theme.palette.primary.main,
+              color: "#fff",
+            },
+          }),
+        }),
       },
     },
   },

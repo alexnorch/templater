@@ -25,15 +25,14 @@ const NavBar: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleLogout = async () => {
-    localStorage.removeItem("accessToken");
     await logoutUser(null).unwrap();
     dispatch(logOut());
+    localStorage.clear()
   };
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-
 
   const DrawerContent = () => (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>

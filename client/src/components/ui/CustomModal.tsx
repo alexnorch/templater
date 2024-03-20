@@ -31,6 +31,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
     <Modal open={isOpen} onClose={handleClose}>
       <Stack sx={Object.assign(defaultStyles, sx)}>
         <Stack
+          mb={2}
           flexDirection="row"
           alignItems="center"
           justifyContent="space-between"

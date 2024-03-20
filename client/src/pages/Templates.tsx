@@ -1,4 +1,4 @@
-import { Grid, Divider } from "@mui/material";
+import { Grid } from "@mui/material";
 
 import {
   TemplatesList,
@@ -11,7 +11,6 @@ const Templates = () => {
   return (
     <>
       <TemplateNavbar />
-      <Divider sx={{ mt: 2 }} />
       <Grid
         height='75vh'
         mt={1}

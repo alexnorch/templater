@@ -42,9 +42,13 @@ const Login: React.FC = () => {
     try {
       const userData = await loginUser(credentials).unwrap();
 
+
       dispatch(setCredentials({ ...userData }));
       navigate("/");
+
       localStorage.setItem("accessToken", userData.accessToken);
+      localStorage.setItem('userData', JSON.stringify(userData.user))
+
     } catch (error: any) {
       console.log(error);
     }

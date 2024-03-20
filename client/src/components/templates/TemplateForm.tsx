@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Grid, Stack, Button, Typography } from "@mui/material";
 
 import { useGetAttributesQuery } from "../../api/attributeApi";
-import { ITemplateItem, IAttributeValue } from "../../types";
+import { ITemplateItem, IAttributeOption } from "../../types";
 import { useGetCategoriesQuery } from "../../api/categoryApi";
 import { FormSelectField, FormTextField, FormTextEditor } from "../ui";
 import { formatTemplateData } from "../../utils/helpers";
@@ -44,7 +44,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
 
   const setDefaultAttributeValues = () => {
     if (Array.isArray(data.attributeValues)) {
-      data.attributeValues.forEach(({ _id, attribute }: IAttributeValue) => {
+      data.attributeValues.forEach(({ _id, attribute }: IAttributeOption) => {
         const lowerLabel = attribute.label.toLowerCase();
         setValue(`attributeValues.${lowerLabel}`, _id);
       });
@@ -87,17 +87,18 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
 
         <FormTextEditor control={control} name="text" />
 
-        <Stack>
-          <Typography mb={1}>Additional fields (attributes):</Typography>
-          <Grid container spacing={2}>
-            {attributes}
-          </Grid>
-        </Stack>
+        {!!attributesList.length && (
+          <Stack>
+            <Typography mb={1}>Additional fields (attributes):</Typography>
+            <Grid container spacing={2}>
+              {attributes}
+            </Grid>
+          </Stack>
+        )}
 
       </Stack>
 
       <Stack
-        p={2}
         gap={2}
         flexDirection="row"
         justifyContent='flex-end'

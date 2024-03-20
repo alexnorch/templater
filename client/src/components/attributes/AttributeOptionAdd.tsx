@@ -37,7 +37,7 @@ const AttributeOptionAdd: React.FC<AttributeOptionAddProps> = ({ attributeId }) 
         isOpen={isModal}
         handleClose={handleModalToggle}
       >
-        <Stack p={2} onSubmit={handleSubmit} component="form" spacing={2}>
+        <Stack onSubmit={handleSubmit} component="form" spacing={2}>
           <TextField
             size="small"
             onChange={handleChange}

@@ -4,7 +4,7 @@ import User, { IUser } from "../models/userModel";
 import TokenService from "./tokenService";
 import ApiError from "../exceptions/ApiError";
 
-class UserService {
+class AuthService {
   async login(email: string, password: string) {
     if (!email || !password) {
       throw ApiError.BadRequest("Please provide all values");
@@ -79,4 +79,4 @@ class UserService {
   }
 }
 
-export default new UserService();
+export default new AuthService();

@@ -1,9 +1,18 @@
 export interface ITemplateItem {
-  _id?: string;
+  _id: string;
   title: string;
   category: string | ICategoryItem;
   text: string;
   attributeValues: IAttributeOption[] | { [key: string]: string };
+}
+
+export interface IUser {
+  _id: string;
+  attributes: IAttribute[];
+  categories: ICategoryItem[];
+  templates: ITemplateItem[];
+  createdAt: string;
+  email: string;
 }
 
 export interface ICategoryItem {
@@ -14,7 +23,7 @@ export interface ICategoryItem {
 export interface IAttribute {
   _id: string;
   label: string;
-  values: [] | IAttributeOption[];
+  values: IAttributeOption[];
 }
 
 export interface IAttributeOption {

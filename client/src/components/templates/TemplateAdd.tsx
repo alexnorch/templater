@@ -33,14 +33,13 @@ const TemplateAdd: React.FC = () => {
     <>
       <Button
         size="small"
-        color="secondary"
-        variant="contained"
+        variant="outlined"
         sx={{ height: 35 }}
         disabled={isButtonDisabled}
         onClick={handleToggleModal}
         endIcon={<AddIcon />}
       >
-        Create Template
+        Add Template
       </Button>
 
       <CustomModal

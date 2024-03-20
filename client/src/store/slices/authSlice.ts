@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "..";
+import { IUser } from "../../types";
 
 interface AuthState {
-  user: string | null;
+  user: IUser | null;
   token: string | null;
 }
 
 const initialState: AuthState = {
-  user: null,
+  user: JSON.parse(localStorage.getItem("userData") as string),
   token: localStorage.getItem("accessToken") || null,
 };
 

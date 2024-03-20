@@ -12,9 +12,10 @@ import ApiError from "./exceptions/ApiError";
 
 // Routes
 import templateRouter from "./routes/templateRouter";
-import userRouter from "./routes/userRouter";
+import authRouter from "./routes/authRouter";
 import categoryRouter from "./routes/categoryRouter";
 import attributeRouter from "./routes/attributeRouter";
+import userRouter from "./routes/userRouter";
 
 const app = express();
 
@@ -22,10 +23,11 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
+app.use("/api/auth", authRouter);
 app.use("/api/templates", templateRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/attributes", attributeRouter);
-app.use("/api/users", userRouter);
+app.use("/api/user", userRouter);
 
 // Error handling
 app.use("*", (req: Request, res: Response, next: NextFunction) => {

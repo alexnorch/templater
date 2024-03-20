@@ -47,6 +47,8 @@ const Register = () => {
       navigate("/templates");
 
       localStorage.setItem("accessToken", userData.accessToken);
+      localStorage.setItem('userData', JSON.stringify(userData.user))
+
     } catch (error) {
       console.log(error);
     }

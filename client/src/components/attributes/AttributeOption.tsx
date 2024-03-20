@@ -22,9 +22,6 @@ const AttributeOption: React.FC<AttributeOptionProps> = ({
   const handleToggleDeleting = () => setIsDeleting((prev) => !prev);
 
   const onDeleteOptionAttribute = async () => {
-
-    console.log('attrId', attributeId)
-    console.log('optionid', optionId)
     await deleteAttributeOption({ attributeId, optionId });
   };
 

@@ -1,20 +1,20 @@
-import React from 'react';
-import { TextFieldProps, TextField, IconButton, InputAdornment, TextFieldVariants } from "@mui/material";
+import { forwardRef } from "react";
+import { TextFieldProps, TextField, IconButton, InputAdornment } from "@mui/material";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-type ExtendedTextFieldProps<
-    Variant extends TextFieldVariants = TextFieldVariants>
-    = TextFieldProps<Variant>
 
-interface InputPasswordProps extends ExtendedTextFieldProps<"filled"> {
+type InputPasswordProps = TextFieldProps & {
     showPassword: boolean;
     toggleShowPassword: () => void;
-}
+};
 
-const InputPassword: React.FC<InputPasswordProps> = ({ showPassword, toggleShowPassword, ...otherProps }) => {
+const InputPassword: React.FC<InputPasswordProps> = forwardRef((props, ref) => {
+    const { showPassword, toggleShowPassword, ...otherProps } = props;
+
     return (
         <TextField
+            ref={ref}
             {...otherProps}
             type={showPassword ? 'text' : 'password'}
             InputProps={{
@@ -27,5 +27,6 @@ const InputPassword: React.FC<InputPasswordProps> = ({ showPassword, toggleShowP
             }}
         />
     )
-}
+})
+
 export default InputPassword;
