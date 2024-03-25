@@ -12,11 +12,11 @@ import {
 // Icons
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { IAttributeValue } from "../../types";
+import { IAttributeOption } from "../../types";
 
 interface TemplateDetailsProps {
   title: string;
-  attributeValues: IAttributeValue[];
+  attributeValues: IAttributeOption[];
   text: string;
   onStartEditing: () => void;
   onStartDeleting: () => void;
@@ -32,7 +32,7 @@ const TemplateDetails: React.FC<TemplateDetailsProps> = ({
   onCopyText,
 }) => {
 
-  const templateAttributes = (attributeValues as IAttributeValue[]).map(
+  const templateAttributes = (attributeValues as IAttributeOption[]).map(
     ({ value, _id }) => <Chip key={_id} label={value} />
   );
 

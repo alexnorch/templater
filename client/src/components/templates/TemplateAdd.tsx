@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import { ITemplateItem } from "../../types";
-import { CustomModal } from "../ui";
+import { CustomModal, CustomTooltip } from "../ui";
 import { useAddTemplateMutation } from "../../api/templateApi";
 import { useGetCategoriesQuery } from "../../api/categoryApi";
 import TemplateForm from "./TemplateForm";
@@ -28,19 +28,25 @@ const TemplateAdd: React.FC = () => {
   };
 
   const isButtonDisabled = categories.length === 0;
+  const disabledText = 'First you need to create a category'
 
   return (
     <>
-      <Button
-        size="small"
-        variant="outlined"
-        sx={{ height: 35 }}
-        disabled={isButtonDisabled}
-        onClick={handleToggleModal}
-        endIcon={<AddIcon />}
-      >
-        Add Template
-      </Button>
+      <CustomTooltip title={isButtonDisabled && disabledText}>
+        <Box>
+          <Button
+            size="small"
+            variant="outlined"
+            sx={{ height: 35 }}
+            disabled={isButtonDisabled}
+            onClick={handleToggleModal}
+            endIcon={<AddIcon />}
+          >
+            Add Template
+          </Button>
+        </Box>
+      </CustomTooltip>
+
 
       <CustomModal
         title="Create Template"

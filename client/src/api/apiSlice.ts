@@ -1,11 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setCredentials, logOut } from "../store/slices/authSlice";
 import { RootState } from "../store";
+import { Mutex } from "async-mutex";
+
 import type {
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query/react";
+
+const mutex = new Mutex();
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:5000/api",
@@ -26,20 +30,36 @@ const baseQueryWithReauth: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
+  await mutex.waitForUnlock();
+
   let result = await baseQuery(args, api, extraOptions);
 
   if (result?.error?.status === 401) {
-    const refreshResult = await baseQuery("/auth/refresh", api, extraOptions);
+    if (!mutex.isLocked()) {
+      const release = await mutex.acquire();
 
-    if (refreshResult?.data) {
-      api.dispatch(setCredentials({ ...refreshResult.data }));
+      try {
+        const refreshResult = await baseQuery(
+          "/auth/refresh",
+          api,
+          extraOptions
+        );
 
-      //@ts-ignore
-      localStorage.setItem("accessToken", refreshResult.data.accessToken);
+        if (refreshResult.data) {
+          api.dispatch(setCredentials({ ...refreshResult.data }));
 
-      result = await baseQuery(args, api, extraOptions);
+          //@ts-ignore
+          localStorage.setItem("accessToken", refreshResult.data.accessToken);
+          result = await baseQuery(args, api, extraOptions);
+        } else {
+          api.dispatch(logOut());
+        }
+      } finally {
+        release();
+      }
     } else {
-      api.dispatch(logOut());
+      await mutex.waitForUnlock();
+      result = await baseQuery(args, api, extraOptions);
     }
   }
 

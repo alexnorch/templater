@@ -4,7 +4,7 @@ import { useGetTemplatesQuery } from "../../api/templateApi";
 
 import { selectFilterParams } from "../../store/slices/filterSlice";
 import { TemplateItem, TemplatesListSkeleton } from "../templates";
-import { IAttributeValue, ITemplateItem } from "../../types";
+import { IAttributeOption, ITemplateItem } from "../../types";
 import { ScrollContainer } from "../ui";
 
 const TemplatesList: React.FC = () => {
@@ -29,7 +29,7 @@ const TemplatesList: React.FC = () => {
       _id={_id}
       text={text}
       title={title}
-      attributeValues={attributeValues as IAttributeValue[]} />
+      attributeValues={attributeValues as IAttributeOption[]} />
   ));
 
   return (
@@ -39,6 +39,7 @@ const TemplatesList: React.FC = () => {
           <LinearProgress />
         </Box>
       )}
+
       {isLoading && <TemplatesListSkeleton />}
       {templateItems}
     </ScrollContainer>

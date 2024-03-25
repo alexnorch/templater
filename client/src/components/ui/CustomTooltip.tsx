@@ -12,7 +12,7 @@ const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
   [`& .${tooltipClasses.tooltip}`]: {
     backgroundColor: "#3498db",
     color: "#fff",
-    padding: 20,
+    padding: 15,
     maxWidth: 280,
     border: "1px solid #dadde9",
   },
@@ -21,11 +21,11 @@ const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-const CustomTooltip: React.FC<TooltipProps> = ({ title, children }) => {
+const CustomTooltip: React.FC<TooltipProps> = ({ title, children, placement }) => {
   const tooltipText = title ? <Typography>{title}</Typography> : undefined;
 
   return (
-    <StyledTooltip arrow={true} placement="right-start" title={tooltipText}>
+    <StyledTooltip arrow={true} title={tooltipText} placement={placement}>
       {children}
     </StyledTooltip>
   );

@@ -2,7 +2,6 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { capitalizeFirstLetter } from "../../utils/helpers";
 import { useController, UseControllerProps } from "react-hook-form";
 import { ITemplateItem } from "../../types";
-import React from "react";
 
 interface FormSelectFieldProps extends UseControllerProps<ITemplateItem> {
   name: any;

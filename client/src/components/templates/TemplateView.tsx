@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux"
-import { selectHoveredTemplate, setHoveredTemplate, setIsPinned } from "../../store/slices/templateSlice"
+import { Box } from "@mui/material";
+import { selectCurrentTemplate, setSelectedTemplate } from "../../store/slices/templateSlice"
 import { IAttributeOption, ITemplateItem } from "../../types"
 import { TemplatePlaceholder, TemplateDetails, TemplateForm } from "."
 import { useDeleteTemplateMutation, useUpdateTemplateMutation } from "../../api/templateApi"
@@ -13,23 +14,21 @@ import { ScrollContainer } from "../ui";
 const TemplateView: React.FC = () => {
     const [shouldDelete, setShouldDelete] = useState(false)
     const [shouldEdit, setShouldEdit] = useState(false)
-    const hoveredTemplate = useSelector(selectHoveredTemplate);
+    const selectedTemplate = useSelector(selectCurrentTemplate) as ITemplateItem;
 
     const [deleteTemplate] = useDeleteTemplateMutation();
     const [updateTemplate, { isLoading: isUpdateLoading }] = useUpdateTemplateMutation();
 
     const dispatch = useDispatch();
-
-    if (!hoveredTemplate) return <TemplatePlaceholder />
-
     const handleToggleDeleting = () => setShouldDelete((prev) => !prev);
     const handleToggleEditing = () => setShouldEdit((prev) => !prev)
 
-    const onDeleteTemplate = async () => {
-        await deleteTemplate(hoveredTemplate._id).unwrap();
+    if (!selectedTemplate) return <TemplatePlaceholder />
 
-        dispatch(setIsPinned(false))
-        dispatch(setHoveredTemplate(null))
+    const onDeleteTemplate = async () => {
+        await deleteTemplate(selectedTemplate._id).unwrap();
+
+        dispatch(setSelectedTemplate(null))
 
         setShouldDelete(false);
         toast.success("Successfully deleted");
@@ -38,7 +37,7 @@ const TemplateView: React.FC = () => {
     const onEditTemplate = async (data: ITemplateItem) => {
         const updatedValue = await updateTemplate(data).unwrap()
 
-        dispatch(setHoveredTemplate(updatedValue))
+        dispatch(setSelectedTemplate(updatedValue))
         handleToggleEditing()
     }
 
@@ -50,13 +49,12 @@ const TemplateView: React.FC = () => {
     };
 
     return (
-        <>
-
+        <Box>
             <ScrollContainer height='100%'>
                 <TemplateDetails
-                    title={hoveredTemplate.title}
-                    text={hoveredTemplate.text}
-                    attributeValues={hoveredTemplate.attributeValues as IAttributeOption[]}
+                    title={selectedTemplate.title}
+                    text={selectedTemplate.text}
+                    attributeValues={selectedTemplate.attributeValues as IAttributeOption[]}
                     onStartDeleting={handleToggleDeleting}
                     onStartEditing={handleToggleEditing}
                     onCopyText={handleCopyText}
@@ -78,10 +76,10 @@ const TemplateView: React.FC = () => {
                 <TemplateForm
                     isLoading={isUpdateLoading}
                     mode="edit"
-                    data={hoveredTemplate}
+                    data={selectedTemplate}
                     onSubmit={onEditTemplate} />
             </CustomModal>
-        </>
+        </Box>
     )
 }
 export default TemplateView

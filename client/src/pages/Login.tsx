@@ -42,7 +42,6 @@ const Login: React.FC = () => {
     try {
       const userData = await loginUser(credentials).unwrap();
 
-
       dispatch(setCredentials({ ...userData }));
       navigate("/");
 

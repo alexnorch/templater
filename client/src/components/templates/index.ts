@@ -5,7 +5,6 @@ import TemplateItem from "./TemplateItem";
 import TemplatePlaceholder from "./TemplatePlaceholder";
 import TemplatesList from "./TemplatesList";
 import TemplatesListSkeleton from "./TemplatesListSkeleton";
-import TemplateViewSkeleton from "./TemplateViewSkeleton";
 import TemplateDetails from "./TemplateDetails";
 import TemplateView from "./TemplateView";
 import TemplateSearch from "./TemplateSearch";
@@ -20,7 +19,6 @@ export {
   TemplatePlaceholder,
   TemplatesList,
   TemplatesListSkeleton,
-  TemplateViewSkeleton,
   TemplateView,
   TemplateSearch,
   TemplateNavbar,

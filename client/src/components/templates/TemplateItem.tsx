@@ -1,53 +1,55 @@
 import { Typography, Chip, Stack } from "@mui/material";
-import { IAttributeValue, ITemplateItem } from "../../types";
+import { IAttributeOption, ITemplateItem } from "../../types";
 import PushPinIcon from '@mui/icons-material/PushPin';
 import { useDispatch, useSelector } from "react-redux";
-import { selectHoveredTemplate, selectIsPinned, setHoveredTemplate, setIsPinned } from "../../store/slices/templateSlice";
+import {
+  selectCurrentTemplate,
+  setSelectedTemplate
+} from "../../store/slices/templateSlice";
 
-const styles = {
+
+const defaultStyles = {
   borderRadius: 1,
-  backgroundColor: "#ccc",
-  color: "#333",
   padding: 1,
   cursor: "pointer",
-};
+
+}
+
+const activeStyles = {
+  ...defaultStyles,
+  backgroundColor: "#1976d2",
+  color: '#fff',
+}
+
+const inActiveStyles = {
+  ...defaultStyles,
+  backgroundColor: "#e0e0e0",
+  color: "#333",
+  "&:hover": {
+    backgroundColor: "#ccc"
+  }
+}
 
 const TemplateItem: React.FC<ITemplateItem> = (template) => {
-  const currentHover = useSelector(selectHoveredTemplate);
-  const isPinned = useSelector(selectIsPinned);
+  const selectedTemplate = useSelector(selectCurrentTemplate);
   const dispatch = useDispatch();
 
-  const hoverTemplateId = currentHover && currentHover._id
-  const isCurrentHover = template._id === hoverTemplateId
+  let templateStyles;
 
-  styles.backgroundColor = template._id === hoverTemplateId ? "#1976d2" : "#ccc";
-  styles.color = template._id === hoverTemplateId ? "#fff" : "#333";
+  if (template._id === selectedTemplate?._id) {
+    templateStyles = activeStyles
+  } else {
+    templateStyles = inActiveStyles
+  }
 
-  const handleHoverTemplate = () => {
-    if (isPinned) return
-
-    if (currentHover && currentHover._id !== template._id) {
-      dispatch(setHoveredTemplate(template))
-    } else {
-      dispatch(setHoveredTemplate(template))
+  const handleSelectTemplate = () => {
+    if (selectedTemplate?._id !== template._id) {
+      dispatch(setSelectedTemplate(template))
     }
   }
 
-  const handleTogglePinTemplate = () => {
-    if (!isPinned && isCurrentHover) {
-      dispatch(setIsPinned(true))
-    }
-
-    if (isPinned && isCurrentHover) {
-      dispatch(setIsPinned(false))
-    } else {
-      dispatch(setIsPinned(true))
-      dispatch(setHoveredTemplate(template))
-    }
-  }
-
-  const renderedAttributes = (template.attributeValues as IAttributeValue[]).map(
-    (attribute: IAttributeValue) =>
+  const renderedAttributes = (template.attributeValues as IAttributeOption[]).map(
+    (attribute: IAttributeOption) =>
     (
       <Chip
         key={attribute._id}
@@ -58,16 +60,15 @@ const TemplateItem: React.FC<ITemplateItem> = (template) => {
 
   return (
     <Stack
-      sx={styles}
+      sx={templateStyles}
       spacing={0.5}
-      onClick={handleTogglePinTemplate}
-      onMouseEnter={handleHoverTemplate}
+      onClick={handleSelectTemplate}
     >
       <Stack flexDirection='row' justifyContent='space-between'>
         <Typography variant="body1" component="h5">
           {template.title}
         </Typography>
-        {currentHover?._id === template._id && isPinned && <PushPinIcon />}
+        {selectedTemplate?._id === template._id && <PushPinIcon />}
       </Stack>
       <Stack flexDirection='row' gap={1}>
         {renderedAttributes}

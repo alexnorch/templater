@@ -1,5 +1,5 @@
 export interface ITemplateItem {
-  _id: string;
+  _id?: string;
   title: string;
   category: string | ICategoryItem;
   text: string;

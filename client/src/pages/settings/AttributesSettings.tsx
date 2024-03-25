@@ -1,7 +1,7 @@
 import { Typography, Stack } from "@mui/material";
 import { AttributeAdd, AttributesList } from "../../components/attributes";
-
 import { CustomTooltip } from "../../components/ui";
+
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const attributesTooltip =

@@ -4,36 +4,29 @@ import { ITemplateItem } from "../../types";
 import { RootState } from "..";
 
 interface TemplateSlice {
-  hoveredTemplate: ITemplateItem | null;
-  isPinned: boolean;
+  selectedTemplate: ITemplateItem | null;
 }
 
 const initialState: TemplateSlice = {
-  hoveredTemplate: null,
-  isPinned: false,
+  selectedTemplate: null,
 };
 
 const templateSlice = createSlice({
   name: "template",
   initialState,
   reducers: {
-    setHoveredTemplate: (
+    setSelectedTemplate: (
       state,
       action: PayloadAction<ITemplateItem | null>
     ) => {
-      state.hoveredTemplate = action.payload;
-    },
-    setIsPinned: (state, action: PayloadAction<boolean>) => {
-      state.isPinned = action.payload;
+      state.selectedTemplate = action.payload;
     },
   },
 });
 
-export const { setHoveredTemplate, setIsPinned } = templateSlice.actions;
+export const { setSelectedTemplate } = templateSlice.actions;
 
-export const selectHoveredTemplate = (state: RootState) =>
-  state.template.hoveredTemplate;
-
-export const selectIsPinned = (state: RootState) => state.template.isPinned;
+export const selectCurrentTemplate = (state: RootState) =>
+  state.template.selectedTemplate;
 
 export default templateSlice.reducer;

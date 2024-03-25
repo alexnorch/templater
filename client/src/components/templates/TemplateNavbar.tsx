@@ -3,13 +3,12 @@ import { TemplateAdd, TemplateFilter, TemplateSearch } from "."
 
 const TemplateNavbar: React.FC = () => {
     return (
-        <Stack flexDirection='row' justifyContent='space-between'>
+        <Stack flexDirection={{ sm: 'row' }} justifyContent='space-between'>
             <TemplateSearch />
-            <Stack flexDirection='row' alignItems='center' gap={2}>
+            <Stack mt={{ xs: 2, sm: 0 }} flexDirection='row' alignItems='center' gap={2}>
                 <TemplateAdd />
                 <TemplateFilter />
             </Stack>
-
         </Stack>
     )
 }
