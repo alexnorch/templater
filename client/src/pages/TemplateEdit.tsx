@@ -12,7 +12,7 @@ import {
 
 import { formatTemplateData } from "../utils/helpers";
 
-const TemplateEdit = () => {
+const TemplateEdit: React.FC = () => {
   const { templateId } = useParams();
   const { data, isLoading, isSuccess } = useGetTemplateQuery(templateId);
   const [updateTemplate, { isLoading: isUpdateLoading }] =

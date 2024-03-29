@@ -6,7 +6,7 @@ import {
   TemplateNavbar
 } from "../components/templates";
 
-const Templates = () => {
+const Templates: React.FC = () => {
 
   return (
     <>

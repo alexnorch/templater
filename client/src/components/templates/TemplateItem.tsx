@@ -1,7 +1,8 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Typography, Chip, Stack } from "@mui/material";
 import { IAttributeOption, ITemplateItem } from "../../types";
 import PushPinIcon from '@mui/icons-material/PushPin';
-import { useDispatch, useSelector } from "react-redux";
+
 import {
   selectCurrentTemplate,
   setSelectedTemplate
@@ -12,7 +13,6 @@ const defaultStyles = {
   borderRadius: 1,
   padding: 1,
   cursor: "pointer",
-
 }
 
 const activeStyles = {

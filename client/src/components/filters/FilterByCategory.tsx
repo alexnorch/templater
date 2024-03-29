@@ -33,7 +33,6 @@ const FilterByCategory: React.FC = () => {
             {title}
           </Button>
         </Grid>
-
       );
     }
   );

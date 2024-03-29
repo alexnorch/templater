@@ -23,7 +23,7 @@ const defaultValues = {
   confirmPassword: "",
 };
 
-const Register = () => {
+const Register: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [registerUser, { isLoading }] = useRegisterUserMutation();

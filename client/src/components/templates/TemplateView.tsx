@@ -49,7 +49,7 @@ const TemplateView: React.FC = () => {
     };
 
     return (
-        <Box>
+        <>
             <ScrollContainer height='100%'>
                 <TemplateDetails
                     title={selectedTemplate.title}
@@ -79,7 +79,7 @@ const TemplateView: React.FC = () => {
                     data={selectedTemplate}
                     onSubmit={onEditTemplate} />
             </CustomModal>
-        </Box>
+        </>
     )
 }
 export default TemplateView

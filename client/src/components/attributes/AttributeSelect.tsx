@@ -26,12 +26,14 @@ const AttributeSelect: React.FC<IAttributeSelect> = ({
 
   return (
     <FormControl fullWidth size="small" >
-      <InputLabel>{label}</InputLabel>
+      <InputLabel shrink>{label}</InputLabel>
       <Select
+        displayEmpty
         onChange={onChange}
         value={value}
         name={label}
         label={label} >
+        <MenuItem value=''>All</MenuItem>
         {renderedOptions}
       </Select>
     </FormControl>
