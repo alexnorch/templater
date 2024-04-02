@@ -1,14 +1,19 @@
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { Stack, TextField, Button } from "@mui/material";
+import { useForm, Controller, SubmitHandler, useFieldArray } from "react-hook-form";
+import { Stack, TextField, Button, Typography } from "@mui/material";
+import { IAttribute, formMode } from "../../types";
 
-interface IAttributeItemForm {
-  values: { [key: string]: any };
-  onSubmit: (data: any) => void;
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
+
+interface IAttributeForm {
+  mode: formMode
+  formData: IAttribute;
+  onSubmit: (data: IAttribute) => void;
   isLoading: boolean;
 }
 
-const AttributeItemForm: React.FC<IAttributeItemForm> = ({
-  values,
+const AttributeForm: React.FC<IAttributeForm> = ({
+  formData,
   onSubmit,
   isLoading,
 }) => {
@@ -16,11 +21,22 @@ const AttributeItemForm: React.FC<IAttributeItemForm> = ({
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ values });
+  } = useForm({ values: formData });
 
-  const onSubmitForm: SubmitHandler<any> = (data) => {
-    onSubmit(data);
+  const { fields = [], remove, append } = useFieldArray({
+    name: 'values',
+    rules: { required: 'Attribute Option is required' },
+    control
+  })
+
+  const attrOptionErrMsg = errors.values?.root?.message
+
+  const onSubmitForm: SubmitHandler<IAttribute> = (data) => {
+    // onSubmit(data);
+    console.log(data)
   };
+
+  console.log(errors)
 
   return (
     <Stack
@@ -29,6 +45,7 @@ const AttributeItemForm: React.FC<IAttributeItemForm> = ({
       spacing={2}
       component="form"
     >
+      <Typography >Label:</Typography>
       <Controller
         name="label"
         control={control}
@@ -44,15 +61,57 @@ const AttributeItemForm: React.FC<IAttributeItemForm> = ({
           />
         )}
       />
+
+      <Typography>Options:</Typography>
+      <Stack spacing={2} width={1} maxHeight={200} overflow='auto'>
+        {fields.map((item, index) =>
+          <Stack flexDirection='row' key={item.id}>
+            <Controller
+              name={`values.${index}.value`}
+              control={control}
+              rules={{ required: 'The field is required' }}
+              render={({ field }) => (
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  placeholder="Attribute Value"
+                  helperText={errors?.values?.[index]?.value?.message?.toString()}
+                  size="small"
+
+                  {...field} />
+              )}
+            />
+            <Button
+              variant="contained"
+              onClick={() => remove(index)}>
+              <RemoveIcon />
+            </Button>
+          </Stack>)}
+      </Stack>
+
       <Button
-        disabled={isLoading}
-        fullWidth
-        type="submit"
-        variant="contained">
-        Submit
+        color="primary"
+        variant="outlined"
+        endIcon={<AddIcon />}
+        onClick={() => append({ value: '' })}>
+        New Value
       </Button>
+
+      {!!attrOptionErrMsg &&
+        <Typography fontSize={12} color='error'>
+          {attrOptionErrMsg}
+        </Typography>}
+
+      <Stack width={1} alignItems='flex-end'>
+        <Button
+          disabled={isLoading}
+          type="submit"
+          variant="contained">
+          Submit
+        </Button>
+      </Stack>
     </Stack>
   );
 };
 
-export default AttributeItemForm;
+export default AttributeForm;

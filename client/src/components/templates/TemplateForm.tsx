@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Grid, Stack, Button, Typography } from "@mui/material";
 
 import { useGetAttributesQuery } from "../../api/attributeApi";
-import { ITemplateItem, IAttributeOption } from "../../types";
+import { ITemplateItem, IAttributeOption, IAttribute } from "../../types";
 import { useGetCategoriesQuery } from "../../api/categoryApi";
 import { FormSelectField, FormTextField, FormTextEditor } from "../ui";
 import { formatTemplateData } from "../../utils/helpers";
@@ -37,15 +37,15 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
   const isSubmitDisabled = !isValid || isLoading;
 
   useEffect(() => {
-
-    if (mode === 'edit') setDefaultAttributeValues();
-
+    if (mode === 'edit') {
+      setDefaultAttributeValues();
+    }
   }, []);
 
   const setDefaultAttributeValues = () => {
     if (Array.isArray(data.attributeValues)) {
       data.attributeValues.forEach(({ _id, attribute }: IAttributeOption) => {
-        const lowerLabel = attribute.label.toLowerCase();
+        const lowerLabel = (attribute as IAttribute).label.toLowerCase();
         setValue(`attributeValues.${lowerLabel}`, _id);
       });
     }

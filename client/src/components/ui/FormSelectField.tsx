@@ -22,15 +22,18 @@ const FormSelectField: React.FC<FormSelectFieldProps> = ({
 
   const value = field.value?._id || field.value || "";
 
+  const selectOptions = values.map(({ value, title, _id }) => (
+    <MenuItem key={_id} value={_id}>
+      {value || (title && capitalizeFirstLetter(title))}
+    </MenuItem>
+  ))
+
   return (
     <FormControl variant="standard" size="small" fullWidth>
-      <InputLabel>{label}</InputLabel>
-      <Select {...field} value={value} label={label}>
-        {values.map(({ value, title, _id }) => (
-          <MenuItem key={_id} value={_id}>
-            {value || (title && capitalizeFirstLetter(title))}
-          </MenuItem>
-        ))}
+      <InputLabel shrink>{label}</InputLabel>
+      <Select displayEmpty  {...field} value={value} label={label}>
+        {selectOptions}
+        {name !== 'category' && <MenuItem value=''>None</MenuItem>}
       </Select>
     </FormControl>
   );

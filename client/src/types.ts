@@ -6,6 +6,11 @@ export interface ITemplateItem {
   attributeValues: IAttributeOption[] | { [key: string]: string };
 }
 
+export enum formMode {
+  edit = "edit",
+  create = "create",
+}
+
 export interface IUser {
   _id: string;
   attributes: IAttribute[];
@@ -21,10 +26,12 @@ export interface ICategoryItem {
 }
 
 export interface IAttribute {
-  _id: string;
+  _id?: string;
   label: string;
-  values: IAttributeOption[];
+  values: IAttributeOption[] | IAttributeOptionPreview[];
 }
+
+export type IAttributeOptionPreview = Pick<IAttributeOption, "value">;
 
 export interface IAttributeOption {
   _id: string;

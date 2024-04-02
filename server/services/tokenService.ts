@@ -4,7 +4,7 @@ import Token from "../models/tokenModel";
 class TokenService {
   generateTokens(userId: string) {
     const accessToken = jwt.sign({ userId }, process.env.JWT_ACCESS_SECRET!, {
-      expiresIn: "5m",
+      expiresIn: "24h",
     });
 
     const refreshToken = jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET!, {
@@ -19,7 +19,7 @@ class TokenService {
 
   generateAccessToken(userId: string) {
     return jwt.sign({ userId }, process.env.JWT_ACCESS_SECRET!, {
-      expiresIn: "5m",
+      expiresIn: "24h",
     });
   }
 

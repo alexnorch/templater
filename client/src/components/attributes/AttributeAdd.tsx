@@ -3,9 +3,11 @@ import AddButton from "../ui/AddButton";
 import BasicModal from "../ui/CustomModal";
 import AttributeForm from "./AttributeForm";
 import { useAddAttributeMutation } from "../../api/attributeApi";
+import { formMode } from "../../types";
 
 const defaultValues = {
   label: "",
+  values: []
 };
 
 const AttributeAdd: React.FC = () => {
@@ -15,22 +17,24 @@ const AttributeAdd: React.FC = () => {
   const handleToggleModal = () => setIsModal((prev) => !prev);
 
   const onAddAttribute = async (data: any) => {
-    await createAttribute(data).unwrap();
-    handleToggleModal();
+    // await createAttribute(data).unwrap();
+    // handleToggleModal();
+    console.log(data)
   };
 
   return (
     <>
       <AddButton onClick={handleToggleModal} />
       <BasicModal
-        sx={{ maxWidth: 400 }}
+        sx={{ maxWidth: 400, width: '100%' }}
         title="Create Attribute"
         isOpen={isModal}
         handleClose={handleToggleModal}
       >
         <AttributeForm
+          mode={formMode.create}
           onSubmit={onAddAttribute}
-          values={defaultValues}
+          formData={defaultValues}
           isLoading={isLoading}
         />
       </BasicModal>

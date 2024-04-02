@@ -1,7 +1,16 @@
 import { RequestHandler } from "../types";
 import userService from "../services/authService";
+import { CookieOptions } from "express";
 
 const jwtMaxAge = 30 * 24 * 60 * 60 * 1000; // 30 days
+
+const cookieOptions: CookieOptions = {
+  maxAge: jwtMaxAge,
+  httpOnly: true,
+  sameSite: "none",
+  secure: true,
+  domain: "templatecraft-api.onrender.com",
+};
 
 export const loginUser: RequestHandler = async (req, res, next) => {
   try {
@@ -11,12 +20,7 @@ export const loginUser: RequestHandler = async (req, res, next) => {
       password
     );
 
-    res.cookie("refreshToken", refreshToken, {
-      maxAge: jwtMaxAge,
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-    });
+    res.cookie("refreshToken", refreshToken, cookieOptions);
 
     return res.json({ user, accessToken });
   } catch (error) {
@@ -33,12 +37,7 @@ export const registerUser: RequestHandler = async (req, res, next) => {
       password
     );
 
-    res.cookie("refreshToken", refreshToken, {
-      maxAge: jwtMaxAge,
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-    });
+    res.cookie("refreshToken", refreshToken, cookieOptions);
 
     return res.json({ user, accessToken });
   } catch (error) {

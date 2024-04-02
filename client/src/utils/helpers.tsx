@@ -1,6 +1,6 @@
 export const formatTemplateData = (data: any) => {
   const attributeValues = Object.values(data.attributeValues).filter(
-    (item) => typeof item === "string"
+    (item) => typeof item === "string" && item.length !== 0
   );
 
   return {

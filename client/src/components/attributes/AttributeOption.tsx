@@ -27,7 +27,7 @@ const AttributeOption: React.FC<AttributeOptionProps> = ({
 
   return (
     <>
-      <Chip label={value} onDelete={handleToggleDeleting} />
+      <Chip label={value} />
 
       {/* Deleting Attribute Value */}
       <ConfirmDialog

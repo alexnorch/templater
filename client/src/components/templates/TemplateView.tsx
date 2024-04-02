@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux"
-import { Box } from "@mui/material";
 import { selectCurrentTemplate, setSelectedTemplate } from "../../store/slices/templateSlice"
 import { IAttributeOption, ITemplateItem } from "../../types"
 import { TemplatePlaceholder, TemplateDetails, TemplateForm } from "."
@@ -9,7 +8,7 @@ import { useDeleteTemplateMutation, useUpdateTemplateMutation } from "../../api/
 import { ConfirmDialog, CustomModal } from "../ui";
 import { EditorState } from "draft-js";
 import { ScrollContainer } from "../ui";
-
+import { formatTemplateData } from "../../utils/helpers";
 
 const TemplateView: React.FC = () => {
     const [shouldDelete, setShouldDelete] = useState(false)
@@ -35,7 +34,8 @@ const TemplateView: React.FC = () => {
     };
 
     const onEditTemplate = async (data: ITemplateItem) => {
-        const updatedValue = await updateTemplate(data).unwrap()
+        const formattedData = formatTemplateData(data)
+        const updatedValue = await updateTemplate(formattedData).unwrap()
 
         dispatch(setSelectedTemplate(updatedValue))
         handleToggleEditing()

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Stack, Typography, IconButton } from "@mui/material";
-import { IAttribute } from "../../types";
-import { AttributeOptionsList } from ".";
-import ConfirmDialog from "../ui/ConfirmDialog";
+import { IconButton, Card, CardHeader, Menu, MenuItem, CardContent } from "@mui/material";
+import { IAttribute, IAttributeOption, formMode } from "../../types";
+import { AttributeOptionsList, AttributeForm } from ".";
+import { ConfirmDialog, CustomModal } from "../ui";
 
-import DeleteIcon from "@mui/icons-material/Delete";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { useDeleteAttributeMutation } from "../../api/attributeApi";
 
@@ -14,30 +14,54 @@ const Attribute: React.FC<IAttribute> = ({
   values,
 }) => {
   const [shouldDelete, setShouldDelete] = useState(false);
+  const [shouldEdit, setShouldEdit] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [deleteAttribute] = useDeleteAttributeMutation();
+  const isOpen = Boolean(anchorEl);
 
   const onDeleteAttribute = async () => await deleteAttribute(_id);
   const toggleShouldDelete = () => setShouldDelete((prev) => !prev);
+  const toggleShouldEdit = () => setShouldEdit((prev) => !prev);
+
+  const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleMenuClose = () => setAnchorEl(null);
+
+  const handleStartEditing = () => {
+    toggleShouldEdit()
+    handleMenuClose()
+  }
+
+  const handleStartDeleting = () => {
+    toggleShouldDelete()
+    handleMenuClose();
+  }
+
+  const handleSubmitForm = () => {
+    console.log('Submit')
+  }
 
   return (
     <>
-      <Stack
-        sx={{ backgroundColor: "white", padding: 2, borderRadius: 1 }}
-        key={_id}
-      >
-        <Stack flexDirection="row" justifyContent="space-between">
-          <Typography mb={1} component="h4" variant="h6">
-            {label}
-          </Typography>
-          <IconButton onClick={toggleShouldDelete}>
-            <DeleteIcon />
-          </IconButton>
-        </Stack>
-        <AttributeOptionsList
-          attributeId={_id}
-          values={values}
+      <Card>
+        <CardHeader
+          title={label}
+          action={
+            <IconButton onClick={handleMenuOpen}>
+              <MoreVertIcon />
+            </IconButton>
+          }
         />
-      </Stack>
+        <Menu anchorEl={anchorEl} open={isOpen} onClose={handleMenuClose}>
+          <MenuItem onClick={handleStartDeleting}>Delete</MenuItem>
+          <MenuItem onClick={handleStartEditing}>Edit</MenuItem>
+        </Menu>
+        <CardContent>
+          <AttributeOptionsList data={values as IAttributeOption[]} />
+        </CardContent>
+      </Card>
 
       {/* Attribute Deleting */}
       <ConfirmDialog
@@ -47,6 +71,18 @@ const Attribute: React.FC<IAttribute> = ({
         title="Delete Attribute"
         text="Are you sure you want to delete this attribute?"
       />
+
+      <CustomModal
+        isOpen={shouldEdit}
+        handleClose={toggleShouldEdit}
+        title="Editing Attribute">
+        <AttributeForm
+          mode={formMode.edit}
+          onSubmit={handleSubmitForm}
+          isLoading={false}
+          formData={{ _id, label, values }}
+        />
+      </CustomModal>
     </>
   );
 };

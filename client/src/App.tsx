@@ -12,7 +12,6 @@ import {
   Templates,
   Register,
   Login,
-  TemplateEdit,
 } from "./pages";
 
 import { Paths } from "./pages/paths";
@@ -24,7 +23,6 @@ function App() {
     <Routes>
       <Route element={<AppWithAuth />}>
         <Route path={Paths.templates} element={<Templates />} />
-        <Route path={Paths.templateEdit} element={<TemplateEdit />} />
         <Route path={Paths.settings} element={<SettingsWrapper />}>
           <Route
             path={Paths.settingsCategories}
