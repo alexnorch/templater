@@ -1,8 +1,8 @@
 import { Stack, Typography } from "@mui/material"
-import UserPasswords from "../../components/user/UserPasswords"
-import UserDetails from "../../components/user/UserDetails"
+import { UserDetails, UserPasswords } from "../../components/user"
 
-const ProfileSettings = () => {
+
+const ProfileSettings: React.FC = () => {
     return (
         <Stack >
             <Typography variant="h5">My Profile</Typography>

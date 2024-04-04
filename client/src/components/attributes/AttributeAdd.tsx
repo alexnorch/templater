@@ -16,8 +16,7 @@ const AttributeAdd: React.FC = () => {
 
   const onAddAttribute = async (data: any) => {
     await createAttribute(data).unwrap();
-    // handleToggleModal();
-    console.log(data)
+    handleToggleModal();
   };
 
   return (

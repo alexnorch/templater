@@ -5,7 +5,7 @@ import { AttributeSelect } from "../attributes";
 import { useGetAttributesQuery } from "../../api/attributeApi";
 import { setAttributesValues, selectAttributesValues } from "../../store/slices/filterSlice";
 
-const FilterByAttribute = () => {
+const FilterByAttribute: React.FC = () => {
   const attributesValues = useSelector(selectAttributesValues);
   const dispatch = useDispatch();
 

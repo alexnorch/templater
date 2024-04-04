@@ -4,18 +4,6 @@ import User, { IUser } from "../models/userModel";
 import AppError from "../utils/AppError";
 import { Types } from "mongoose";
 
-const arrayDifference = <T>(arr1: T[], arr2: T[]) => {
-  const difference: T[] = [];
-
-  for (let i = 0; i < arr1.length; i++) {
-    if (arr2.indexOf(arr1[i]) === -1) {
-      difference.push(arr1[i]);
-    }
-  }
-
-  return difference;
-};
-
 type AttributeValuePreview = Pick<IAttributeValue, "value">;
 
 class AttributeService {
@@ -124,46 +112,6 @@ class AttributeService {
     await AttributeValue.deleteMany({ attribute: deletedAttribute._id });
 
     return deletedAttribute;
-  }
-
-  async createAttributeValue(attrId: string, attrValue: string) {
-    const attribute = await Attribute.findById(attrId);
-
-    if (!attribute) {
-      throw new AppError("Invalid attribute ID", 400);
-    }
-
-    const isAlreadyExists = await AttributeValue.findOne({
-      value: attrValue,
-      attribute: attrId,
-    });
-
-    if (isAlreadyExists) {
-      throw new AppError("Option with this name is already exists", 400);
-    }
-
-    const createAttributeValue = await AttributeValue.create({
-      value: attrValue,
-      attribute: attrId,
-    });
-
-    // attribute.values.push(createAttributeValue._id);
-    // attribute.save();
-
-    return createAttributeValue;
-  }
-
-  async deleteAttributeValue(attrId: string, valueId: string) {
-    const deletedAttributeOption = await AttributeValue.findOneAndDelete({
-      attribute: attrId,
-      _id: valueId,
-    });
-
-    if (!deletedAttributeOption) {
-      throw new AppError("Attribute Option with that ID wasn't found", 404);
-    }
-
-    return deletedAttributeOption;
   }
 }
 

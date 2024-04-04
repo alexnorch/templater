@@ -41,23 +41,6 @@ const attributeApi = baseApi
         }),
         invalidatesTags: (arg) => [{ type: "Attribute", _id: arg }],
       }),
-      // addAttributeOption: build.mutation({
-      //   query: ({ attributeId, value }) => ({
-      //     url: `/attributes/${attributeId}/option`,
-      //     method: "POST",
-      //     body: {
-      //       value,
-      //     },
-      //   }),
-      //   invalidatesTags: (arg) => [{ type: "Attribute", _id: arg._id }],
-      // }),
-      // deleteAttributeOption: build.mutation({
-      //   query: ({ attributeId, optionId }) => ({
-      //     url: `/attributes/${attributeId}/option/${optionId}`,
-      //     method: "DELETE",
-      //   }),
-      //   invalidatesTags: (arg) => [{ type: "Attribute", _id: arg.attrId }],
-      // }),
     }),
   });
 
@@ -65,7 +48,5 @@ export const {
   useGetAttributesQuery,
   useAddAttributeMutation,
   useUpdateAttributeMutation,
-  // useAddAttributeOptionMutation,
-  // useDeleteAttributeOptionMutation,
   useDeleteAttributeMutation,
 } = attributeApi;

@@ -47,7 +47,6 @@ const TemplateAdd: React.FC = () => {
         </Box>
       </CustomTooltip>
 
-
       <CustomModal
         title="Create Template"
         isOpen={isModalOpen}
