@@ -1,18 +1,21 @@
-import mongoose, { Document } from "mongoose";
+import { Document, Schema, Types, model } from "mongoose";
 
 export interface IAttributeValue extends Document {
-  name: string;
+  _id: Types.ObjectId;
+  label: string;
+  value: string;
+  attribute: Types.ObjectId;
 }
 
-const OptionSchema = new mongoose.Schema({
+const OptionSchema = new Schema({
   value: {
     type: String,
     required: [true, "Attribute value is required"],
   },
   attribute: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Attribute",
   },
 });
 
-export default mongoose.model<IAttributeValue>("AttributeValue", OptionSchema);
+export default model<IAttributeValue>("AttributeValue", OptionSchema);

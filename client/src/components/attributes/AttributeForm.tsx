@@ -1,12 +1,11 @@
 import { useForm, Controller, SubmitHandler, useFieldArray } from "react-hook-form";
 import { Stack, TextField, Button, Typography } from "@mui/material";
-import { IAttribute, formMode } from "../../types";
+import { IAttribute } from "../../types";
 
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 
 interface IAttributeForm {
-  mode: formMode
   formData: IAttribute;
   onSubmit: (data: IAttribute) => void;
   isLoading: boolean;
@@ -32,11 +31,8 @@ const AttributeForm: React.FC<IAttributeForm> = ({
   const attrOptionErrMsg = errors.values?.root?.message
 
   const onSubmitForm: SubmitHandler<IAttribute> = (data) => {
-    // onSubmit(data);
-    console.log(data)
+    onSubmit(data);
   };
-
-  console.log(errors)
 
   return (
     <Stack
@@ -63,18 +59,25 @@ const AttributeForm: React.FC<IAttributeForm> = ({
       />
 
       <Typography>Options:</Typography>
+
+      {!!attrOptionErrMsg &&
+        <Typography fontSize={12} color='error'>
+          {attrOptionErrMsg}
+        </Typography>}
+
       <Stack spacing={2} width={1} maxHeight={200} overflow='auto'>
         {fields.map((item, index) =>
-          <Stack flexDirection='row' key={item.id}>
+          <Stack flexDirection='row' alignItems='flex-start' key={item.id}>
             <Controller
               name={`values.${index}.value`}
               control={control}
               rules={{ required: 'The field is required' }}
-              render={({ field }) => (
+              render={({ field, fieldState: { invalid } }) => (
                 <TextField
                   variant="outlined"
                   fullWidth
                   placeholder="Attribute Value"
+                  error={invalid}
                   helperText={errors?.values?.[index]?.value?.message?.toString()}
                   size="small"
 
@@ -96,11 +99,6 @@ const AttributeForm: React.FC<IAttributeForm> = ({
         onClick={() => append({ value: '' })}>
         New Value
       </Button>
-
-      {!!attrOptionErrMsg &&
-        <Typography fontSize={12} color='error'>
-          {attrOptionErrMsg}
-        </Typography>}
 
       <Stack width={1} alignItems='flex-end'>
         <Button

@@ -5,7 +5,7 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from "@mui/material";
-import { IAttribute } from "../../types";
+import type { IAttribute } from "../../types";
 
 interface IAttributeSelect extends IAttribute {
   onChange: (e: SelectChangeEvent) => void;

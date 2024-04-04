@@ -1,8 +1,9 @@
 import mongoose, { Document, Types } from "mongoose";
+import { IAttributeValue } from "./attributeValueModel";
 
 export interface IAttribute extends Document {
   label: string;
-  values: Types.ObjectId[];
+  values: Types.ObjectId[] | IAttributeValue[];
   templates: Types.ObjectId[];
 }
 

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { IconButton, Card, CardHeader, Menu, MenuItem, CardContent } from "@mui/material";
-import { IAttribute, IAttributeOption, formMode } from "../../types";
-import { AttributeOptionsList, AttributeForm } from ".";
+import { AttributeForm, AttributeOptionsList } from ".";
+import type { IAttribute, IAttributeOption } from "../../types";
 import { ConfirmDialog, CustomModal } from "../ui";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-import { useDeleteAttributeMutation } from "../../api/attributeApi";
+import { useDeleteAttributeMutation, useUpdateAttributeMutation } from "../../api/attributeApi";
 
 const Attribute: React.FC<IAttribute> = ({
   _id,
@@ -16,10 +16,10 @@ const Attribute: React.FC<IAttribute> = ({
   const [shouldDelete, setShouldDelete] = useState(false);
   const [shouldEdit, setShouldEdit] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [deleteAttribute] = useDeleteAttributeMutation();
   const isOpen = Boolean(anchorEl);
+  const [deleteAttribute] = useDeleteAttributeMutation();
+  const [updateAttribute] = useUpdateAttributeMutation();
 
-  const onDeleteAttribute = async () => await deleteAttribute(_id);
   const toggleShouldDelete = () => setShouldDelete((prev) => !prev);
   const toggleShouldEdit = () => setShouldEdit((prev) => !prev);
 
@@ -39,8 +39,13 @@ const Attribute: React.FC<IAttribute> = ({
     handleMenuClose();
   }
 
-  const handleSubmitForm = () => {
-    console.log('Submit')
+  const handleUpdateAttribute = async (data: any) => {
+    await updateAttribute({ _id, data }).unwrap();
+    toggleShouldEdit()
+  }
+
+  const handleDeleteAttribute = async () => {
+    await deleteAttribute(_id).unwrap();
   }
 
   return (
@@ -67,18 +72,18 @@ const Attribute: React.FC<IAttribute> = ({
       <ConfirmDialog
         isOpen={shouldDelete}
         handleClose={toggleShouldDelete}
-        handleSubmit={onDeleteAttribute}
+        handleSubmit={handleDeleteAttribute}
         title="Delete Attribute"
         text="Are you sure you want to delete this attribute?"
       />
 
+      {/* Attribute Updating */}
       <CustomModal
         isOpen={shouldEdit}
         handleClose={toggleShouldEdit}
         title="Editing Attribute">
         <AttributeForm
-          mode={formMode.edit}
-          onSubmit={handleSubmitForm}
+          onSubmit={handleUpdateAttribute}
           isLoading={false}
           formData={{ _id, label, values }}
         />

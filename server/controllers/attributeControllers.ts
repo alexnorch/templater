@@ -1,6 +1,7 @@
 import { RequestHandler } from "../types";
 import AppError from "../utils/AppError";
 import AttributeService from "../services/attributeService";
+import AttributeValue, { IAttributeValue } from "../models/attributeValueModel";
 
 export const getAllAttributes: RequestHandler = async (req, res, next) => {
   const attributeService = new AttributeService(req.userId);
@@ -14,15 +15,18 @@ export const getAllAttributes: RequestHandler = async (req, res, next) => {
 };
 
 export const createAttribute: RequestHandler = async (req, res, next) => {
-  const attributeService = new AttributeService(req.userId);
+  const { label, values } = req.body;
 
-  if (!req.body.label) {
-    return next(new AppError("Attribute label is required", 400));
+  if (!label || values.length === 0) {
+    return next(new AppError("Please, provide all values", 400));
   }
+
+  const attributeService = new AttributeService(req.userId);
 
   try {
     const createdAttribute = await attributeService.createAttribute(
-      req.body.label
+      label,
+      values
     );
 
     res.send(createdAttribute);
@@ -35,27 +39,22 @@ export const updateAttribute: RequestHandler = async (req, res, next) => {
   const attributeService = new AttributeService(req.userId);
   const attributeId = req.params.attributeId;
 
-  const newLabel = req.body.label;
-
-  if (!newLabel) {
-    return next(new AppError("Please provide all values", 400));
-  }
-
   try {
     const updatedAttribute = await attributeService.updateAttribute(
       attributeId,
-      newLabel
+      req.body
     );
 
     res.send(updatedAttribute);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
 
 export const deleteAttribute: RequestHandler = async (req, res, next) => {
   const attributeService = new AttributeService(req.userId);
-  const attrId = req.params.attrId;
+  const attrId = req.params.attributeId;
 
   try {
     const deletedAttribute = await attributeService.deleteAttribute(attrId);

@@ -26,6 +26,14 @@ const attributeApi = baseApi
         }),
         invalidatesTags: ["Attribute"],
       }),
+      updateAttribute: build.mutation({
+        query: ({ _id, data }) => ({
+          url: `/attributes/${_id}`,
+          method: "PATCH",
+          body: data,
+        }),
+        invalidatesTags: ["Attribute"],
+      }),
       deleteAttribute: build.mutation({
         query: (attributeId) => ({
           url: `/attributes/${attributeId}`,
@@ -33,30 +41,31 @@ const attributeApi = baseApi
         }),
         invalidatesTags: (arg) => [{ type: "Attribute", _id: arg }],
       }),
-      addAttributeOption: build.mutation({
-        query: ({ attributeId, value }) => ({
-          url: `/attributes/${attributeId}/option`,
-          method: "POST",
-          body: {
-            value,
-          },
-        }),
-        invalidatesTags: (arg) => [{ type: "Attribute", _id: arg._id }],
-      }),
-      deleteAttributeOption: build.mutation({
-        query: ({ attributeId, optionId }) => ({
-          url: `/attributes/${attributeId}/option/${optionId}`,
-          method: "DELETE",
-        }),
-        invalidatesTags: (arg) => [{ type: "Attribute", _id: arg.attrId }],
-      }),
+      // addAttributeOption: build.mutation({
+      //   query: ({ attributeId, value }) => ({
+      //     url: `/attributes/${attributeId}/option`,
+      //     method: "POST",
+      //     body: {
+      //       value,
+      //     },
+      //   }),
+      //   invalidatesTags: (arg) => [{ type: "Attribute", _id: arg._id }],
+      // }),
+      // deleteAttributeOption: build.mutation({
+      //   query: ({ attributeId, optionId }) => ({
+      //     url: `/attributes/${attributeId}/option/${optionId}`,
+      //     method: "DELETE",
+      //   }),
+      //   invalidatesTags: (arg) => [{ type: "Attribute", _id: arg.attrId }],
+      // }),
     }),
   });
 
 export const {
   useGetAttributesQuery,
   useAddAttributeMutation,
-  useAddAttributeOptionMutation,
-  useDeleteAttributeOptionMutation,
+  useUpdateAttributeMutation,
+  // useAddAttributeOptionMutation,
+  // useDeleteAttributeOptionMutation,
   useDeleteAttributeMutation,
 } = attributeApi;
