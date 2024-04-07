@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import User, { IUser } from "../models/userModel";
 import Category from "../models/categoryModel";
 import Template, { ITemplate } from "../models/templateModel";
-import AppError from "../utils/AppError";
+import ApiError from "../utils/ApiError";
 
 class TemplateService {
   private userId: string;
@@ -64,14 +64,14 @@ class TemplateService {
     const { title, category, text, attributeValues } = templateFields;
 
     if (!title || !category || !text) {
-      throw new AppError("Please provide all values", 400);
+      throw ApiError.BadRequest("Please provide all values");
     }
 
     const user = (await User.findById(this.userId)) as IUser;
     const userCategory = await Category.findById(category).select("+templates");
 
     if (!userCategory) {
-      throw new AppError("Invalid category", 400);
+      throw ApiError.BadRequest("Invalid category");
     }
 
     const createdTemplate = await Template.create({

@@ -1,8 +1,8 @@
+import { Types } from "mongoose";
 import Attribute, { IAttribute } from "../models/attributeModel";
 import AttributeValue, { IAttributeValue } from "../models/attributeValueModel";
 import User, { IUser } from "../models/userModel";
-import AppError from "../utils/AppError";
-import { Types } from "mongoose";
+import ApiError from "../utils/ApiError";
 
 type AttributeValuePreview = Pick<IAttributeValue, "value">;
 
@@ -24,7 +24,7 @@ class AttributeService {
     });
 
     if (isAlreadyExists) {
-      throw new AppError("Attribute with this label is already exists", 400);
+      throw ApiError.BadRequest("Attribute with this label is already exists");
     }
 
     const user = (await User.findById(this.userId)) as IUser;
@@ -54,7 +54,7 @@ class AttributeService {
     const { label, values } = body;
 
     if (!label || values.length === 0) {
-      throw new AppError("Please provide all values", 400);
+      throw ApiError.BadRequest("Please provide all values");
     }
 
     const updatedAttribute = await Attribute.findByIdAndUpdate(attributeId, {
@@ -62,7 +62,7 @@ class AttributeService {
     }).populate("values");
 
     if (!updatedAttribute) {
-      throw new AppError("Attribute with that ID wasn't found", 400);
+      throw ApiError.BadRequest("Attribute with that ID wasn't found");
     }
 
     const removedElementsIds = updatedAttribute.values
@@ -106,7 +106,7 @@ class AttributeService {
     });
 
     if (!deletedAttribute) {
-      throw new AppError("Attribute with that ID wasn't found", 400);
+      throw ApiError.BadRequest("Attribute with that ID wasn't found");
     }
 
     await AttributeValue.deleteMany({ attribute: deletedAttribute._id });

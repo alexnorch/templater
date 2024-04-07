@@ -1,19 +1,18 @@
 class ApiError extends Error {
-  status: number;
-  errors: any;
+  public statusCode: number;
 
-  constructor(status: number, message: string, errors = []) {
+  constructor(statusCode: number, message: string) {
     super(message);
-    this.status = status;
-    this.errors = errors;
+
+    this.statusCode = statusCode;
   }
 
   static UnauthorizedError() {
     return new ApiError(401, "Unauthorized");
   }
 
-  static BadRequest(message: string, errors = []) {
-    return new ApiError(400, message, errors);
+  static BadRequest(message: string) {
+    return new ApiError(400, message);
   }
 
   static NotFound(message: string) {

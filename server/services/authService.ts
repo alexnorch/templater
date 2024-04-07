@@ -1,8 +1,7 @@
 import bcrypt from "bcryptjs";
-
 import User, { IUser } from "../models/userModel";
 import TokenService from "./tokenService";
-import ApiError from "../exceptions/ApiError";
+import ApiError from "../utils/ApiError";
 
 class AuthService {
   async login(email: string, password: string) {

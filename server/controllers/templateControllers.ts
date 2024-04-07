@@ -1,6 +1,6 @@
 import { RequestHandler } from "../types";
-import AppError from "../utils/AppError";
 import TemplateService from "../services/templateService";
+import ApiError from "../utils/ApiError";
 
 export const getTemplates: RequestHandler = async (req, res, next) => {
   const templateService = new TemplateService(req.userId);
@@ -19,7 +19,7 @@ export const getTemplateById: RequestHandler = async (req, res, next) => {
   const templateId = req.params.id;
 
   if (!templateId) {
-    return next(new AppError("Please provide an ID", 400));
+    throw ApiError.BadRequest("Please provide an ID");
   }
 
   try {
@@ -44,10 +44,11 @@ export const createTemplate: RequestHandler = async (req, res, next) => {
 export const updateTemplate: RequestHandler = async (req, res, next) => {
   const templateService = new TemplateService(req.userId);
   const templateId = req.params.id;
+
   const { title, text, category } = req.body;
 
   if (!title || !text || !category) {
-    return next(new AppError("Please provide all values", 400));
+    throw ApiError.BadRequest("Please provide all values");
   }
 
   try {

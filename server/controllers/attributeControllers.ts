@@ -1,12 +1,13 @@
 import { RequestHandler } from "../types";
-import AppError from "../utils/AppError";
 import AttributeService from "../services/attributeService";
-import AttributeValue, { IAttributeValue } from "../models/attributeValueModel";
+
+// utils
+import ApiError from "../utils/ApiError";
 
 export const getAllAttributes: RequestHandler = async (req, res, next) => {
-  const attributeService = new AttributeService(req.userId);
-
   try {
+    const attributeService = new AttributeService(req.userId);
+
     const attributes = await attributeService.getAllAttributes();
     res.send(attributes);
   } catch (error) {
@@ -18,7 +19,7 @@ export const createAttribute: RequestHandler = async (req, res, next) => {
   const { label, values } = req.body;
 
   if (!label || values.length === 0) {
-    return next(new AppError("Please, provide all values", 400));
+    throw ApiError.BadRequest("Please, provide all values");
   }
 
   const attributeService = new AttributeService(req.userId);
@@ -37,7 +38,7 @@ export const createAttribute: RequestHandler = async (req, res, next) => {
 
 export const updateAttribute: RequestHandler = async (req, res, next) => {
   const attributeService = new AttributeService(req.userId);
-  const attributeId = req.params.attributeId;
+  const { attributeId } = req.params;
 
   try {
     const updatedAttribute = await attributeService.updateAttribute(
@@ -54,10 +55,12 @@ export const updateAttribute: RequestHandler = async (req, res, next) => {
 
 export const deleteAttribute: RequestHandler = async (req, res, next) => {
   const attributeService = new AttributeService(req.userId);
-  const attrId = req.params.attributeId;
+  const { attributeId } = req.params;
 
   try {
-    const deletedAttribute = await attributeService.deleteAttribute(attrId);
+    const deletedAttribute = await attributeService.deleteAttribute(
+      attributeId
+    );
     res.send(deletedAttribute);
   } catch (error) {
     next(error);

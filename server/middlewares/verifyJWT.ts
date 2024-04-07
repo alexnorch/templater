@@ -1,5 +1,5 @@
 import { RequestHandler } from "../types";
-import ApiError from "../exceptions/ApiError";
+import ApiError from "../utils/ApiError";
 import tokenService from "../services/tokenService";
 
 const verifyJWT: RequestHandler = (req, res, next) => {

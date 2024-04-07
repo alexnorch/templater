@@ -1,6 +1,6 @@
 import { RequestHandler } from "../types";
 import CategoryService from "../services/categoryService";
-import AppError from "../utils/AppError";
+import ApiError from "../utils/ApiError";
 
 export const getCategories: RequestHandler = async (req, res, next) => {
   const categoryServices = new CategoryService(req.userId);
@@ -18,7 +18,7 @@ export const createCategory: RequestHandler = async (req, res, next) => {
   const title = req.body.title;
 
   if (!title) {
-    return new AppError("Please provide the title", 400);
+    throw ApiError.BadRequest("Please provide the title");
   }
 
   try {
@@ -46,7 +46,7 @@ export const updateCategory: RequestHandler = async (req, res, next) => {
   const title = req.body.title;
 
   if (!title) {
-    return next(new AppError("Please provide all values", 400));
+    throw ApiError.BadRequest("Please provide all values");
   }
 
   try {

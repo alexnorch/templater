@@ -1,6 +1,6 @@
-import AppError from "../utils/AppError";
 import User, { IUser } from "../models/userModel";
 import Category, { ICategory } from "../models/categoryModel";
+import ApiError from "../utils/ApiError";
 
 class CategoryService {
   private userId: string;
@@ -24,7 +24,7 @@ class CategoryService {
     });
 
     if (isAlreadyExists) {
-      throw new AppError("Category is already exists", 400);
+      throw ApiError.BadRequest("Category is already exists");
     }
 
     const category = new Category({ title, user: this.userId });
@@ -43,7 +43,7 @@ class CategoryService {
     });
 
     if (!deletedCategory) {
-      throw new AppError("Category not found", 404);
+      throw ApiError.NotFound("Category not found");
     }
 
     return deletedCategory;
@@ -56,7 +56,7 @@ class CategoryService {
     });
 
     if (!category) {
-      throw new AppError("Category was not found", 404);
+      throw ApiError.NotFound("Category was not found");
     }
 
     category.title = newTitle;

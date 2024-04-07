@@ -8,7 +8,7 @@ import { Request, Response, NextFunction } from "express";
 import { corsOptions } from "./config/corsOptions";
 
 // Utils
-import ApiError from "./exceptions/ApiError";
+import ApiError from "./utils/ApiError";
 
 // Routes
 import templateRouter from "./routes/templateRouter";
@@ -30,20 +30,25 @@ app.use("/api/attributes", attributeRouter);
 app.use("/api/user", userRouter);
 
 // Error handling
-app.use("*", (req: Request, res: Response, next: NextFunction) => {
+app.all("*", (req: Request, res: Response, next: NextFunction) => {
   throw ApiError.NotFound("Page wasn't found");
 });
 
+const handleCastErrorDB = (err: ApiError) => {
+  //@ts-ignore
+  const message = `Invalid ${err.path}: ${err.value}`;
+  return ApiError.BadRequest(message);
+};
+
 app.use(
   (err: ApiError, req: Request, res: Response, next: NextFunction): void => {
-    const statusCode = err.status || 500;
+    const statusCode = err.statusCode || 500;
     const message =
       err.message || "Something went wrong, please try again later";
 
     res.status(statusCode).json({ message });
   }
 );
-
 const startApp = () => {
   const mongoURL = process.env.MONGO_URL || "";
   const PORT = process.env.PORT || 5000;
