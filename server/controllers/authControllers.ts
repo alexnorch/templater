@@ -22,7 +22,7 @@ export const loginUser: RequestHandler = async (req, res, next) => {
 
     res.cookie("refreshToken", refreshToken, cookieOptions);
 
-    return res.json({ user, accessToken });
+    return res.send({ user, accessToken });
   } catch (error) {
     next(error);
   }
@@ -39,7 +39,7 @@ export const registerUser: RequestHandler = async (req, res, next) => {
 
     res.cookie("refreshToken", refreshToken, cookieOptions);
 
-    return res.json({ user, accessToken });
+    return res.send({ user, accessToken });
   } catch (error) {
     next(error);
   }
@@ -52,7 +52,7 @@ export const logoutUser: RequestHandler = async (req, res, next) => {
 
     res.clearCookie("refreshToken");
 
-    return res.json(token);
+    return res.send(token);
   } catch (e) {
     next(e);
   }
@@ -64,7 +64,7 @@ export const refresh: RequestHandler = async (req, res, next) => {
 
     const userData = await userService.refresh(refreshToken);
 
-    return res.json(userData);
+    return res.send(userData);
   } catch (e) {
     next(e);
   }

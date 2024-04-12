@@ -7,7 +7,6 @@ import {
 } from "../components/templates";
 
 const Templates: React.FC = () => {
-
   return (
     <>
       <TemplateNavbar />
@@ -16,13 +15,11 @@ const Templates: React.FC = () => {
         mt={1}
         container
         spacing={2}
-        justifyContent="space-between"
-        flexDirection={{ xs: "column-reverse", md: "row" }}
       >
-        <Grid height='100%' item sm={12} md={4} xs={12}>
+        <Grid height='100%' item md={4} xs={12}>
           <TemplatesList />
         </Grid>
-        <Grid height='100%' item sm={12} md={8} xs={12}>
+        <Grid height='100%' item md={8} xs={12}>
           <TemplateView />
         </Grid>
       </Grid>

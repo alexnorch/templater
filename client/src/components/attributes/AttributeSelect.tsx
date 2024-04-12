@@ -5,7 +5,7 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from "@mui/material";
-import type { IAttribute } from "../../types";
+import type { IAttribute, IAttributeOption } from "../../types";
 
 interface IAttributeSelect extends IAttribute {
   onChange: (e: SelectChangeEvent) => void;
@@ -18,7 +18,7 @@ const AttributeSelect: React.FC<IAttributeSelect> = ({
   value,
   values,
 }) => {
-  const renderedOptions = values.map(({ value, _id }) => (
+  const renderedOptions = (values as IAttributeOption[]).map(({ value, _id }) => (
     <MenuItem key={_id} value={_id}>
       {value}
     </MenuItem>

@@ -12,7 +12,7 @@ import type {
 const mutex = new Mutex();
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api/",
+  baseUrl: "https://templatecraft-api.onrender.com/api/",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;

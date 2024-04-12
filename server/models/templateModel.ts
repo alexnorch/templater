@@ -17,6 +17,7 @@ const TemplateSchema = new mongoose.Schema({
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
+    required: [true, "Category is required"],
     ref: "Category",
   },
   user: {

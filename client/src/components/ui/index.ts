@@ -8,6 +8,7 @@ import Logo from "./Logo";
 import FormTextEditor from "./FormTextEditor";
 import CustomTooltip from "./CustomTooltip";
 import ScrollContainer from "./ScrollContainer";
+import InputPassword from "./InputPassword";
 
 export {
   AddButton,
@@ -20,4 +21,5 @@ export {
   FormTextEditor,
   CustomTooltip,
   ScrollContainer,
+  InputPassword,
 };

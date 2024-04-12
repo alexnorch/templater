@@ -18,7 +18,7 @@ import { Paths } from "./pages/paths";
 
 const AppWithAuth = withAuth(AppWrapper);
 
-function App() {
+const App: React.FC = () => {
   return (
     <Routes>
       <Route element={<AppWithAuth />}>

@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { Typography, Menu, MenuItem, Stack } from "@mui/material"
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { logOut, selectCurrentUser } from "../../store/slices/authSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Menu, MenuItem, Stack } from "@mui/material"
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
+import { logOut } from "../../store/slices/authSlice";
+import { useDispatch } from "react-redux";
 import { useLogoutMutation } from "../../api/authApi";
+import UserGreetings from "./UserGreetings";
 
 
-const UserNavbar = () => {
-  const currentUser = useSelector(selectCurrentUser);
+const UserNavbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
@@ -42,10 +43,7 @@ const UserNavbar = () => {
         justifyContent='center'
         onClick={handleOpen}>
         <KeyboardArrowDownIcon />
-        <Stack>
-          <Typography>Welcome</Typography>
-          <Typography color="#ddddddb3" fontSize={12}>{currentUser?.email}</Typography>
-        </Stack>
+        <UserGreetings />
       </Stack>
       <Menu
         anchorEl={anchorEl}

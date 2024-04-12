@@ -7,6 +7,7 @@ export const getCategories: RequestHandler = async (req, res, next) => {
 
   try {
     const categories = await categoryServices.getCategories();
+
     res.send(categories);
   } catch (error) {
     next(error);
@@ -23,6 +24,7 @@ export const createCategory: RequestHandler = async (req, res, next) => {
 
   try {
     const createdCategory = await categoryServices.createCategory(title);
+
     res.send(createdCategory);
   } catch (error) {
     next(error);
@@ -35,6 +37,7 @@ export const deleteCategory: RequestHandler = async (req, res, next) => {
 
   try {
     const deletedCategory = await categoryServices.deleteCategory(categoryId);
+
     res.send(deletedCategory);
   } catch (error) {
     next(error);

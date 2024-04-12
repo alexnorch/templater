@@ -11,6 +11,15 @@ export enum formMode {
   create = "create",
 }
 
+export interface ILoginForm {
+  email: string;
+  password: string;
+}
+
+export interface IRegisterForm extends ILoginForm {
+  confirmPassword: string;
+}
+
 export interface IUser {
   _id: string;
   attributes: IAttribute[];

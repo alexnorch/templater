@@ -3,18 +3,14 @@ import { useDispatch } from "react-redux";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { CiLogin } from "react-icons/ci";
-import { TextField, Stack, Typography, Box } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { TextField, Stack, Typography, Box } from "@mui/material";
 import { authValidationRules } from "../utils/authValidationRules";
-import PasswordInput from "../components/ui/InputPassword";
+import { InputPassword } from "../components/ui";
 
 import { useLoginUserMutation } from "../api/authApi";
 import { setCredentials } from "../store/slices/authSlice";
-
-interface IFormInput {
-  email: string;
-  password: string;
-}
+import type { ILoginForm } from "../types";
 
 const defaultValues = { email: "", password: "" };
 
@@ -30,7 +26,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const onSubmitForm: SubmitHandler<IFormInput> = (data) => {
+  const onSubmitForm: SubmitHandler<ILoginForm> = (data) => {
     handleLoginUser(data);
   };
 
@@ -38,7 +34,7 @@ const Login: React.FC = () => {
     setShowPassword((prev) => !prev)
   }
 
-  const handleLoginUser = async (credentials: IFormInput) => {
+  const handleLoginUser = async (credentials: ILoginForm) => {
     try {
       const userData = await loginUser(credentials).unwrap();
 
@@ -87,7 +83,7 @@ const Login: React.FC = () => {
           name="password"
           control={control}
           render={({ field, fieldState: { invalid } }) => (
-            <PasswordInput
+            <InputPassword
               {...field}
               fullWidth
               variant="filled"

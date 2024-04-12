@@ -16,8 +16,10 @@ import Logo from "./Logo";
 
 import { logOut } from "../../store/slices/authSlice";
 import { useLogoutMutation } from "../../api/authApi";
-import UserNavbar from "../user/UserNavbar";
 import MenuIcon from "@mui/icons-material/Menu";
+
+import UserNavbar from "../user/UserNavbar";
+import UserGreetings from "../user/UserGreetings";
 
 const NavBar: React.FC = () => {
   const dispatch = useDispatch();
@@ -34,11 +36,17 @@ const NavBar: React.FC = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
-  const DrawerContent = () => (
+  const MobileNavbar = () => (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Box p={2}>
+      <Box pt={2}>
         <Logo variant="h5" />
       </Box>
+      <UserGreetings />
+      <ListItem disablePadding>
+        <ListItemButton onClick={handleLogout} sx={{ textAlign: "center" }}>
+          <ListItemText primary="Settings" />
+        </ListItemButton>
+      </ListItem>
       <ListItem disablePadding>
         <ListItemButton onClick={handleLogout} sx={{ textAlign: "center" }}>
           <ListItemText primary="Logout" />
@@ -82,7 +90,7 @@ const NavBar: React.FC = () => {
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: 250 },
         }}
       >
-        <DrawerContent />
+        <MobileNavbar />
       </Drawer>
     </Box>
   );

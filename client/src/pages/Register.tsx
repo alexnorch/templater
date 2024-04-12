@@ -1,21 +1,17 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+
+import { CiLogin } from "react-icons/ci";
 import { Box, TextField, Stack, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useDispatch } from "react-redux";
+
 import { setCredentials } from "../store/slices/authSlice";
-import { CiLogin } from "react-icons/ci";
-import InputPassword from "../components/ui/InputPassword";
-
-interface IFormInput {
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
+import { InputPassword } from "../components/ui";
 import { authValidationRules } from "../utils/authValidationRules";
 import { useRegisterUserMutation } from "../api/authApi";
+import type { IRegisterForm } from "../types";
 
 const defaultValues = {
   email: "",
@@ -40,7 +36,7 @@ const Register: React.FC = () => {
   const togglePassword = () => setShowPassword((prev) => !prev);
   const toggleConfirmPassword = () => setShowConfirmPassword((prev) => !prev);
 
-  const onSubmitForm: SubmitHandler<IFormInput> = async (data) => {
+  const onSubmitForm: SubmitHandler<IRegisterForm> = async (data) => {
     try {
       const userData = await registerUser(data).unwrap();
       dispatch(setCredentials({ ...userData }));
@@ -102,6 +98,7 @@ const Register: React.FC = () => {
             />
           )}
         />
+
         <Controller
           rules={authValidationRules.confirmPassword}
           name="confirmPassword"
