@@ -13,11 +13,11 @@ class AttributeService {
     this.userId = userId;
   }
 
-  async getAllAttributes() {
+  async getAll() {
     return await Attribute.find({ user: this.userId }).populate("values");
   }
 
-  async createAttribute(label: string, values: AttributeValuePreview[]) {
+  async create(label: string, values: AttributeValuePreview[]) {
     const isAlreadyExists = await Attribute.findOne({
       label,
       user: this.userId,
@@ -50,7 +50,7 @@ class AttributeService {
     return updatedAttribute;
   }
 
-  async updateAttribute(attributeId: string, body: any) {
+  async update(attributeId: string, body: any) {
     const { label, values } = body;
 
     if (!label || values.length === 0) {
@@ -99,7 +99,7 @@ class AttributeService {
     return updatedAttribute;
   }
 
-  async deleteAttribute(attrId: string) {
+  async delete(attrId: string) {
     const deletedAttribute = await Attribute.findOneAndDelete({
       _id: attrId,
       user: this.userId,

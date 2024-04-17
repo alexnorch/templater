@@ -35,9 +35,7 @@ const TemplateAdd: React.FC = () => {
       <CustomTooltip title={isButtonDisabled && disabledText}>
         <Box>
           <Button
-            size="small"
             variant="outlined"
-            sx={{ height: 35 }}
             disabled={isButtonDisabled}
             onClick={handleToggleModal}
             endIcon={<AddIcon />}

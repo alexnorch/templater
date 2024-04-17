@@ -11,7 +11,7 @@ const Templates: React.FC = () => {
     <>
       <TemplateNavbar />
       <Grid
-        height='75vh'
+        height='70vh'
         mt={1}
         container
         spacing={2}

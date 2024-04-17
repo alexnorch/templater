@@ -1,5 +1,4 @@
 import TemplateAdd from "./TemplateAdd";
-import TemplateFilter from "./TemplateFilter";
 import TemplateForm from "./TemplateForm";
 import TemplateItem from "./TemplateItem";
 import TemplatePlaceholder from "./TemplatePlaceholder";
@@ -13,7 +12,6 @@ import TemplateNavbar from "./TemplateNavbar";
 export {
   TemplateDetails,
   TemplateAdd,
-  TemplateFilter,
   TemplateForm,
   TemplateItem,
   TemplatePlaceholder,

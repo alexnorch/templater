@@ -8,7 +8,7 @@ export const getAllAttributes: RequestHandler = async (req, res, next) => {
   try {
     const attributeService = new AttributeService(req.userId);
 
-    const attributes = await attributeService.getAllAttributes();
+    const attributes = await attributeService.getAll();
 
     res.send(attributes);
   } catch (error) {
@@ -26,10 +26,7 @@ export const createAttribute: RequestHandler = async (req, res, next) => {
   const attributeService = new AttributeService(req.userId);
 
   try {
-    const createdAttribute = await attributeService.createAttribute(
-      label,
-      values
-    );
+    const createdAttribute = await attributeService.create(label, values);
 
     res.send(createdAttribute);
   } catch (error) {
@@ -42,7 +39,7 @@ export const updateAttribute: RequestHandler = async (req, res, next) => {
   const { attributeId } = req.params;
 
   try {
-    const updatedAttribute = await attributeService.updateAttribute(
+    const updatedAttribute = await attributeService.update(
       attributeId,
       req.body
     );
@@ -58,9 +55,7 @@ export const deleteAttribute: RequestHandler = async (req, res, next) => {
   const { attributeId } = req.params;
 
   try {
-    const deletedAttribute = await attributeService.deleteAttribute(
-      attributeId
-    );
+    const deletedAttribute = await attributeService.delete(attributeId);
 
     res.send(deletedAttribute);
   } catch (error) {
