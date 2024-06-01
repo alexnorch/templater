@@ -5,7 +5,6 @@ import { UseControllerProps, useController } from "react-hook-form";
 import { ITemplateItem } from "../../types";
 
 const getTextEditorContent = (content: string) => {
-
   if (typeof content !== "string")
     return EditorState.createWithContent(convertFromRaw(content));
 
@@ -23,7 +22,6 @@ const FormTextEditor: React.FC<UseControllerProps<ITemplateItem>> = ({
     control,
     rules: { required: true },
   });
-
 
   const [editorState, setEditorState] = useState(() =>
     getTextEditorContent(field.value as string)

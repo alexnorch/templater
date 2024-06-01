@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -25,11 +26,12 @@ const NavBar: React.FC = () => {
   const dispatch = useDispatch();
   const [logoutUser] = useLogoutMutation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     await logoutUser(null).unwrap();
     dispatch(logOut());
-    localStorage.clear()
+    localStorage.clear();
   };
 
   const handleDrawerToggle = () => {
@@ -43,7 +45,10 @@ const NavBar: React.FC = () => {
       </Box>
       <UserGreetings />
       <ListItem disablePadding>
-        <ListItemButton onClick={handleLogout} sx={{ textAlign: "center" }}>
+        <ListItemButton
+          onClick={() => navigate("/settings/profile")}
+          sx={{ textAlign: "center" }}
+        >
           <ListItemText primary="Settings" />
         </ListItemButton>
       </ListItem>

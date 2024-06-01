@@ -6,7 +6,7 @@ import { useAddTemplateMutation } from "../../api/templateApi";
 import { useGetCategoriesQuery } from "../../api/categoryApi";
 import TemplateForm from "./TemplateForm";
 
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 
 const defaultValues = {
   title: "",
@@ -28,14 +28,14 @@ const TemplateAdd: React.FC = () => {
   };
 
   const isButtonDisabled = categories.length === 0;
-  const disabledText = 'First you need to create a category'
+  const disabledText = "First you need to create a category";
 
   return (
     <>
       <CustomTooltip title={isButtonDisabled && disabledText}>
         <Box>
           <Button
-            variant="outlined"
+            variant="contained"
             disabled={isButtonDisabled}
             onClick={handleToggleModal}
             endIcon={<AddIcon />}
@@ -49,12 +49,12 @@ const TemplateAdd: React.FC = () => {
         title="Create Template"
         isOpen={isModalOpen}
         handleClose={handleToggleModal}
-        sx={{ maxWidth: 800, width: { xs: "90%", sx: "100%", } }}
+        sx={{ maxWidth: 800, width: { xs: "90%", sx: "100%" } }}
       >
         <TemplateForm
           mode="create"
           onSubmit={handleSubmitForm}
-          data={defaultValues}
+          values={defaultValues}
           isLoading={isLoading}
         />
       </CustomModal>

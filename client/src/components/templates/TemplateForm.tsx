@@ -1,31 +1,33 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Grid, Stack, Button, Typography } from "@mui/material";
 
 import { useGetAttributesQuery } from "../../api/attributeApi";
-import { ITemplateItem, IAttributeOption, IAttribute } from "../../types";
+import { ITemplateItem, IAttributeOption } from "../../types";
 import { useGetCategoriesQuery } from "../../api/categoryApi";
 import { FormSelectField, FormTextField, FormTextEditor } from "../ui";
 import { formatTemplateData } from "../../utils/helpers";
 
 interface TemplateFormProps {
   mode: "edit" | "create";
-  data: ITemplateItem;
+  values: ITemplateItem;
   onSubmit: (data: ITemplateItem) => void;
   isLoading: boolean;
 }
 
 const TemplateForm: React.FC<TemplateFormProps> = ({
   mode,
-  data,
+  values,
   onSubmit,
   isLoading,
 }) => {
   const { data: categories = [] } = useGetCategoriesQuery();
   const { data: attributesList = [] } = useGetAttributesQuery();
 
-  const methods = useForm({ defaultValues: data });
+  const methods = useForm({ defaultValues: values });
+  const navigate = useNavigate();
 
   const {
     control,
@@ -37,17 +39,17 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
   const isSubmitDisabled = !isValid || isLoading;
 
   useEffect(() => {
-    if (mode === 'edit') {
-      setDefaultAttributeValues();
-    }
+    setDefaultAttributeValues();
   }, []);
 
   const setDefaultAttributeValues = () => {
-    if (Array.isArray(data.attributeValues)) {
-      data.attributeValues.forEach(({ _id, attribute }: IAttributeOption) => {
-        const lowerLabel = (attribute as IAttribute).label.toLowerCase();
-        setValue(`attributeValues.${lowerLabel}`, _id);
-      });
+    if (mode === "edit") {
+      if (Array.isArray(values.attributeValues)) {
+        values.attributeValues.forEach((item: IAttributeOption) => {
+          const lowerLabel = (item.attribute as string).toLowerCase();
+          setValue(`attributeValues.${lowerLabel}`, item._id);
+        });
+      }
     }
   };
 
@@ -74,7 +76,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
 
   return (
     <Stack onSubmit={handleSubmit(submitForm)} spacing={2} component="form">
-      <Stack spacing={2} sx={{ maxHeight: "60vh", overflowY: "auto" }}>
+      <Stack spacing={2} sx={{ maxHeight: "60vh", overflowY: "scroll" }}>
         <Stack flexDirection={{ xs: "column", sm: "row" }} gap={2}>
           <FormTextField control={control} name="title" label="Title" />
           <FormSelectField
@@ -87,23 +89,24 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
 
         <FormTextEditor control={control} name="text" />
 
-        {!!attributesList.length && (
-          <Stack>
-            <Typography mb={1}>Additional fields (attributes):</Typography>
-            <Grid container spacing={2}>
-              {attributes}
-            </Grid>
-          </Stack>
-        )}
-
+        <Stack>
+          <Typography mb={1}>Additional fields (attributes):</Typography>
+          <Grid container gap={2}>
+            {attributes}
+          </Grid>
+        </Stack>
       </Stack>
-
       <Stack
         gap={2}
         flexDirection="row"
-        justifyContent='flex-end'
+        justifyContent="flex-end"
         alignItems="flex-end"
       >
+        {mode === "edit" && (
+          <Button onClick={() => navigate(-1)} variant="outlined">
+            Back
+          </Button>
+        )}
         <Button disabled={isSubmitDisabled} type="submit" variant="contained">
           Submit
         </Button>
