@@ -1,19 +1,20 @@
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { ErrorBoundary } from "react-error-boundary";
+import { Fallback, NavBar } from "../components/ui";
 import "react-toastify/dist/ReactToastify.css";
 
-import { Box, Container } from "@mui/material";
-import NavBar from "../components/ui/NavBar";
+import { Container } from "@mui/material";
 
-const AppWrapper = () => {
+const AppWrapper: React.FC = () => {
   return (
     <>
       <NavBar />
-      <Box component="main" mt={2}>
-        <Container maxWidth="xl">
+      <Container sx={{ mt: 2 }} component="main" maxWidth="xl">
+        <ErrorBoundary fallbackRender={Fallback}>
           <Outlet />
-        </Container>
-      </Box>
+        </ErrorBoundary>
+      </Container>
       <ToastContainer
         limit={1}
         hideProgressBar={true}

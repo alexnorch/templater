@@ -20,20 +20,21 @@ const TemplatesList: React.FC = () => {
     return <Typography>No template was identified or found</Typography>;
   }
 
-  const templateItems = templates.map(({
-    _id, category, text, title, attributeValues
-  }: ITemplateItem) => (
-    <TemplateItem
-      key={_id}
-      category={category}
-      _id={_id}
-      text={text}
-      title={title}
-      attributeValues={attributeValues as IAttributeOption[]} />
-  ));
+  const templateItems = templates.map(
+    ({ _id, category, text, title, attributeValues }: ITemplateItem) => (
+      <TemplateItem
+        key={_id}
+        category={category}
+        _id={_id}
+        text={text}
+        title={title}
+        attributeValues={attributeValues as IAttributeOption[]}
+      />
+    )
+  );
 
   return (
-    <ScrollContainer spacing={2} height='100%'>
+    <ScrollContainer spacing={2} height="100%">
       {!isLoading && isFetching && (
         <Box>
           <LinearProgress />

@@ -3,7 +3,7 @@ import DescriptionIcon from "@mui/icons-material/Description";
 
 const TemplatePlaceholder: React.FC = () => {
   return (
-    <Stack height='100%' justifyContent="center">
+    <Stack height="100%" justifyContent="center">
       <Box gap={1} display="flex" alignItems="center" flexDirection="column">
         <Typography>Select a template to see the details</Typography>
         <DescriptionIcon sx={{ color: "gray", fontSize: 50 }} />

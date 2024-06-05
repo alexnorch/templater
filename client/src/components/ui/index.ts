@@ -9,6 +9,7 @@ import FormTextEditor from "./FormTextEditor";
 import CustomTooltip from "./CustomTooltip";
 import ScrollContainer from "./ScrollContainer";
 import InputPassword from "./InputPassword";
+import Fallback from "./Fallback";
 
 export {
   AddButton,
@@ -22,4 +23,5 @@ export {
   CustomTooltip,
   ScrollContainer,
   InputPassword,
+  Fallback,
 };

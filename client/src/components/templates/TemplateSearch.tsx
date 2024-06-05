@@ -4,7 +4,7 @@ import { useDebounce } from "use-debounce";
 import { setTitle } from "../../store/slices/filterSlice";
 import { TextField, Box, InputAdornment } from "@mui/material";
 
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 
 const TemplateSearch: React.FC = () => {
   const [value, setValue] = useState<string>("");
@@ -20,7 +20,7 @@ const TemplateSearch: React.FC = () => {
   };
 
   return (
-    <Box >
+    <Box>
       <TextField
         fullWidth
         onChange={handleChange}
