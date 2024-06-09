@@ -4,9 +4,10 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { CiLogin } from "react-icons/ci";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { TextField, Stack, Typography, Box } from "@mui/material";
+import { TextField, Stack, Typography, Box, Button } from "@mui/material";
 import { authValidationRules } from "../utils/authValidationRules";
 import { InputPassword } from "../components/ui";
+import PasswordRecovery from "../components/auth/PasswordRecovery";
 
 import { useLoginUserMutation } from "../api/authApi";
 import { setCredentials } from "../store/slices/authSlice";
@@ -15,7 +16,7 @@ import type { ILoginForm } from "../types";
 const defaultValues = { email: "", password: "" };
 
 const Login: React.FC = () => {
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
   const {
     control,
     handleSubmit,
@@ -31,8 +32,8 @@ const Login: React.FC = () => {
   };
 
   const toggleShowPassword = () => {
-    setShowPassword((prev) => !prev)
-  }
+    setShowPassword((prev) => !prev);
+  };
 
   const handleLoginUser = async (credentials: ILoginForm) => {
     try {
@@ -42,8 +43,7 @@ const Login: React.FC = () => {
       navigate("/");
 
       localStorage.setItem("accessToken", userData.accessToken);
-      localStorage.setItem('userData', JSON.stringify(userData.user))
-
+      localStorage.setItem("userData", JSON.stringify(userData.user));
     } catch (error: any) {
       console.log(error);
     }
@@ -96,6 +96,8 @@ const Login: React.FC = () => {
             />
           )}
         />
+
+        <PasswordRecovery />
 
         <Stack alignItems="flex-end">
           <LoadingButton
