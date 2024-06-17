@@ -5,13 +5,18 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Grid, Stack, Button, Typography } from "@mui/material";
 
 import { useGetAttributesQuery } from "../../api/attributeApi";
-import { ITemplateItem, IAttributeOption } from "../../types";
+import {
+  ITemplateItem,
+  IAttributeOption,
+  IAttribute,
+  formMode,
+} from "../../types";
 import { useGetCategoriesQuery } from "../../api/categoryApi";
 import { FormSelectField, FormTextField, FormTextEditor } from "../ui";
 import { formatTemplateData } from "../../utils/helpers";
 
 interface TemplateFormProps {
-  mode: "edit" | "create";
+  mode: formMode;
   values: ITemplateItem;
   onSubmit: (data: ITemplateItem) => void;
   isLoading: boolean;
@@ -46,7 +51,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
     if (mode === "edit") {
       if (Array.isArray(values.attributeValues)) {
         values.attributeValues.forEach((item: IAttributeOption) => {
-          const lowerLabel = (item.attribute as string).toLowerCase();
+          const lowerLabel = (item.attribute as IAttribute).label.toLowerCase();
           setValue(`attributeValues.${lowerLabel}`, item._id);
         });
       }

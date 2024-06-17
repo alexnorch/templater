@@ -5,7 +5,7 @@ import {
   selectCurrentTemplate,
   setSelectedTemplate,
 } from "../../store/slices/templateSlice";
-import { IAttributeOption, ITemplateItem } from "../../types";
+import { IAttributeOption, ITemplateItem, formMode } from "../../types";
 import { TemplatePlaceholder, TemplateDetails, TemplateForm } from ".";
 import {
   useDeleteTemplateMutation,
@@ -85,7 +85,7 @@ const TemplateView: React.FC = () => {
       >
         <TemplateForm
           isLoading={isUpdateLoading}
-          mode="edit"
+          mode={formMode.edit}
           values={selectedTemplate}
           onSubmit={onEditTemplate}
         />

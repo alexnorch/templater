@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Box } from "@mui/material";
-import { ITemplateItem } from "../../types";
+import { ITemplateItem, formMode } from "../../types";
 import { CustomModal, CustomTooltip } from "../ui";
 import { useAddTemplateMutation } from "../../api/templateApi";
 import { useGetCategoriesQuery } from "../../api/categoryApi";
@@ -52,7 +52,7 @@ const TemplateAdd: React.FC = () => {
         sx={{ maxWidth: 800, width: { xs: "90%", sx: "100%" } }}
       >
         <TemplateForm
-          mode="create"
+          mode={formMode.create}
           onSubmit={handleSubmitForm}
           values={defaultValues}
           isLoading={isLoading}

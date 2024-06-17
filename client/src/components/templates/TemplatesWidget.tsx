@@ -11,6 +11,7 @@ import {
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import CloseIcon from "@mui/icons-material/Close";
+import { ScrollContainer } from "../ui";
 
 import { templatesWidgetData } from "../../constants/templateWidgetConstants";
 
@@ -46,7 +47,7 @@ const TemplatesWidget: React.FC = () => {
       </Stack>
 
       {!!isOpen && (
-        <Stack
+        <ScrollContainer
           zIndex={999}
           boxShadow={15}
           overflow="auto"
@@ -75,7 +76,13 @@ const TemplatesWidget: React.FC = () => {
           <Stack spacing={2}>
             {templatesWidgetData.map((el, index) => (
               <Accordion key={index} disableGutters>
-                <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
+                <AccordionSummary
+                  sx={{
+                    backgroundColor: "#3f51b5",
+                    color: "#fff",
+                  }}
+                  expandIcon={<ArrowDropDownIcon sx={{ color: "#fff" }} />}
+                >
                   <Typography variant="body1">{el.question}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -84,7 +91,7 @@ const TemplatesWidget: React.FC = () => {
               </Accordion>
             ))}
           </Stack>
-        </Stack>
+        </ScrollContainer>
       )}
     </>
   );

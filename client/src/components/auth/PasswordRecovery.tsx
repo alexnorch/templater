@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Stack, Button, Typography, TextField } from "@mui/material";
 import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
+
 import { CustomModal } from "../ui";
 
 const PasswordRecovery: React.FC = () => {
@@ -24,13 +25,13 @@ const PasswordRecovery: React.FC = () => {
         </Button>
       </Stack>
       <CustomModal
-        sx={{ maxWidth: 600, width: "100%" }}
+        sx={{ maxWidth: 450, width: "100%" }}
         handleClose={togglePasswordRecover}
         isOpen={shouldRecover}
         title="Reset Password Form"
       >
         {isSubmitted ? (
-          <ResetPasswordConfirmation />
+          <ResetPasswordConfirmation onSubmit={togglePasswordRecover} />
         ) : (
           <ResetPasswordForm onSubmit={onSubmitForm} />
         )}
@@ -39,20 +40,23 @@ const PasswordRecovery: React.FC = () => {
   );
 };
 
-const ResetPasswordConfirmation: React.FC = () => {
+const ResetPasswordConfirmation: React.FC<any> = ({ onSubmit }) => {
   return (
     <Stack spacing={2}>
       <MarkEmailReadIcon
         sx={{ fontSize: 70, alignSelf: "center" }}
-        color="success"
+        color="primary"
       />
-      <Typography>
+      <Typography variant="body2">
         An email has been sent to your e-mail address with instruction for
         resetting your password.
       </Typography>
-      <Typography>
+      <Typography variant="body2">
         This e-mail may take a few minutes to arrive in your inbox.
       </Typography>
+      <Button onClick={onSubmit} variant="contained">
+        Ok
+      </Button>
     </Stack>
   );
 };
@@ -60,12 +64,12 @@ const ResetPasswordConfirmation: React.FC = () => {
 const ResetPasswordForm: React.FC<any> = ({ onSubmit }) => {
   return (
     <Stack spacing={2}>
-      <Typography>
+      <Typography variant="body2">
         Enter your e-mail address, and we'll send you a link to reset your
         password.
       </Typography>
-      <TextField label="E-Mail Address" />
-      <Button onClick={onSubmit} variant="contained" color="success">
+      <TextField size="small" label="E-Mail Address" />
+      <Button onClick={onSubmit} variant="contained">
         Submit
       </Button>
     </Stack>
