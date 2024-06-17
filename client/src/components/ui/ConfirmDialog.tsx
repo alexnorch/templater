@@ -25,7 +25,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   return (
     <Dialog open={isOpen} onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
-      <DialogContent dividers>
+      <DialogContent>
         <DialogContentText>{text}</DialogContentText>
       </DialogContent>
       <DialogActions>

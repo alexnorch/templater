@@ -43,8 +43,7 @@ const Register: React.FC = () => {
       navigate("/templates");
 
       localStorage.setItem("accessToken", userData.accessToken);
-      localStorage.setItem('userData', JSON.stringify(userData.user))
-
+      localStorage.setItem("userData", JSON.stringify(userData.user));
     } catch (error) {
       console.log(error);
     }
@@ -69,6 +68,7 @@ const Register: React.FC = () => {
           render={({ field, fieldState: { invalid } }) => (
             <TextField
               {...field}
+              value={field.value.trim()}
               fullWidth
               error={invalid}
               helperText={errors?.email?.message}
@@ -86,6 +86,7 @@ const Register: React.FC = () => {
           render={({ field, fieldState: { invalid } }) => (
             <InputPassword
               {...field}
+              value={field.value.trim()}
               fullWidth
               error={invalid}
               helperText={errors?.password?.message}
@@ -107,6 +108,7 @@ const Register: React.FC = () => {
             <InputPassword
               {...field}
               fullWidth
+              value={field.value.trim()}
               error={invalid}
               helperText={errors?.confirmPassword?.message}
               variant="filled"

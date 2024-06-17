@@ -26,14 +26,14 @@ const FormSelectField: React.FC<FormSelectFieldProps> = ({
     <MenuItem key={_id} value={_id}>
       {value || (title && capitalizeFirstLetter(title))}
     </MenuItem>
-  ))
+  ));
 
   return (
     <FormControl variant="standard" size="small" fullWidth>
       <InputLabel shrink>{label}</InputLabel>
-      <Select displayEmpty  {...field} value={value} label={label}>
+      <Select displayEmpty {...field} value={value} label={label}>
         {selectOptions}
-        {name !== 'category' && <MenuItem value=''>None</MenuItem>}
+        {name !== "category" && <MenuItem value="">None</MenuItem>}
       </Select>
     </FormControl>
   );

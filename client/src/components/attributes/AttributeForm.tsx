@@ -1,9 +1,22 @@
-import { useForm, Controller, SubmitHandler, useFieldArray } from "react-hook-form";
-import { Stack, TextField, Button, Typography } from "@mui/material";
+import {
+  useForm,
+  Controller,
+  SubmitHandler,
+  useFieldArray,
+} from "react-hook-form";
+
+import {
+  Stack,
+  TextField,
+  Button,
+  Typography,
+  IconButton,
+} from "@mui/material";
+
 import { IAttribute } from "../../types";
 
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 
 interface IAttributeForm {
   formData: IAttribute;
@@ -22,13 +35,17 @@ const AttributeForm: React.FC<IAttributeForm> = ({
     formState: { errors },
   } = useForm({ values: formData });
 
-  const { fields = [], remove, append } = useFieldArray({
-    name: 'values',
-    rules: { required: 'Attribute Option is required' },
-    control
-  })
+  const {
+    fields = [],
+    remove,
+    append,
+  } = useFieldArray({
+    name: "values",
+    rules: { required: "Attribute Option is required" },
+    control,
+  });
 
-  const attrOptionErrMsg = errors.values?.root?.message
+  const attrOptionErrMsg = errors.values?.root?.message;
 
   const onSubmitForm: SubmitHandler<IAttribute> = (data) => {
     onSubmit(data);
@@ -40,8 +57,9 @@ const AttributeForm: React.FC<IAttributeForm> = ({
       alignItems="start"
       spacing={2}
       component="form"
+      height="100%"
     >
-      <Typography >Label:</Typography>
+      <Typography>Label:</Typography>
       <Controller
         name="label"
         control={control}
@@ -60,51 +78,50 @@ const AttributeForm: React.FC<IAttributeForm> = ({
 
       <Typography>Options:</Typography>
 
-      {!!attrOptionErrMsg &&
-        <Typography fontSize={12} color='error'>
+      {!!attrOptionErrMsg && (
+        <Typography fontSize={12} color="error">
           {attrOptionErrMsg}
-        </Typography>}
+        </Typography>
+      )}
 
-      <Stack spacing={2} width={1} maxHeight={200} overflow='auto'>
-        {fields.map((item, index) =>
-          <Stack flexDirection='row' alignItems='flex-start' key={item.id}>
+      <Stack spacing={2} width={1} maxHeight={200} overflow="auto">
+        {fields.map((item, index) => (
+          <Stack flexDirection="row" alignItems="flex-start" key={item.id}>
             <Controller
               name={`values.${index}.value`}
               control={control}
-              rules={{ required: 'The field is required' }}
+              rules={{ required: "The field is required" }}
               render={({ field, fieldState: { invalid } }) => (
                 <TextField
                   variant="outlined"
                   fullWidth
                   placeholder="Attribute Value"
                   error={invalid}
-                  helperText={errors?.values?.[index]?.value?.message?.toString()}
+                  helperText={errors?.values?.[
+                    index
+                  ]?.value?.message?.toString()}
                   size="small"
-
-                  {...field} />
+                  {...field}
+                />
               )}
             />
-            <Button
-              variant="contained"
-              onClick={() => remove(index)}>
+            <IconButton
+              color="error"
+              disableRipple
+              onClick={() => remove(index)}
+            >
               <RemoveIcon />
-            </Button>
-          </Stack>)}
+            </IconButton>
+          </Stack>
+        ))}
       </Stack>
 
-      <Button
-        color="primary"
-        variant="outlined"
-        endIcon={<AddIcon />}
-        onClick={() => append({ value: '' })}>
-        New Value
-      </Button>
+      <IconButton onClick={() => append({ value: "" })}>
+        <AddIcon />
+      </IconButton>
 
-      <Stack width={1} alignItems='flex-end'>
-        <Button
-          disabled={isLoading}
-          type="submit"
-          variant="contained">
+      <Stack width={1} alignItems="flex-end">
+        <Button disabled={isLoading} type="submit" variant="contained">
           Submit
         </Button>
       </Stack>

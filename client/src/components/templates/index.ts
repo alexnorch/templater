@@ -8,6 +8,7 @@ import TemplateDetails from "./TemplateDetails";
 import TemplateView from "./TemplateView";
 import TemplateSearch from "./TemplateSearch";
 import TemplateNavbar from "./TemplateNavbar";
+import TemplatesWidget from "./TemplatesWidget";
 
 export {
   TemplateDetails,
@@ -20,4 +21,5 @@ export {
   TemplateView,
   TemplateSearch,
   TemplateNavbar,
+  TemplatesWidget,
 };

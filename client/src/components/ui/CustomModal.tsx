@@ -17,7 +17,7 @@ const defaultStyles = {
   transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
   borderRadius: 1,
-  p: 3
+  p: 3,
 };
 
 const CustomModal: React.FC<CustomModalProps> = ({

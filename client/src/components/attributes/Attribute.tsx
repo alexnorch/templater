@@ -1,18 +1,24 @@
 import { useState } from "react";
-import { IconButton, Card, CardHeader, Menu, MenuItem, CardContent } from "@mui/material";
+import {
+  IconButton,
+  Card,
+  CardHeader,
+  Menu,
+  MenuItem,
+  CardContent,
+} from "@mui/material";
 import { AttributeForm, AttributeOptionsList } from ".";
 import type { IAttribute, IAttributeOption } from "../../types";
 import { ConfirmDialog, CustomModal } from "../ui";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-import { useDeleteAttributeMutation, useUpdateAttributeMutation } from "../../api/attributeApi";
+import {
+  useDeleteAttributeMutation,
+  useUpdateAttributeMutation,
+} from "../../api/attributeApi";
 
-const Attribute: React.FC<IAttribute> = ({
-  _id,
-  label,
-  values,
-}) => {
+const Attribute: React.FC<IAttribute> = ({ _id, label, values }) => {
   const [shouldDelete, setShouldDelete] = useState(false);
   const [shouldEdit, setShouldEdit] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -30,23 +36,23 @@ const Attribute: React.FC<IAttribute> = ({
   const handleMenuClose = () => setAnchorEl(null);
 
   const handleStartEditing = () => {
-    toggleShouldEdit()
-    handleMenuClose()
-  }
+    toggleShouldEdit();
+    handleMenuClose();
+  };
 
   const handleStartDeleting = () => {
-    toggleShouldDelete()
+    toggleShouldDelete();
     handleMenuClose();
-  }
+  };
 
   const handleUpdateAttribute = async (data: any) => {
     await updateAttribute({ _id, data }).unwrap();
-    toggleShouldEdit()
-  }
+    toggleShouldEdit();
+  };
 
   const handleDeleteAttribute = async () => {
     await deleteAttribute(_id).unwrap();
-  }
+  };
 
   return (
     <>
@@ -81,7 +87,8 @@ const Attribute: React.FC<IAttribute> = ({
       <CustomModal
         isOpen={shouldEdit}
         handleClose={toggleShouldEdit}
-        title="Editing Attribute">
+        title="Editing Attribute"
+      >
         <AttributeForm
           onSubmit={handleUpdateAttribute}
           isLoading={false}

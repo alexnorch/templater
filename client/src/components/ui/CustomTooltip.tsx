@@ -21,7 +21,11 @@ const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-const CustomTooltip: React.FC<TooltipProps> = ({ title, children, placement }) => {
+const CustomTooltip: React.FC<TooltipProps> = ({
+  title,
+  children,
+  placement,
+}) => {
   const tooltipText = title ? <Typography>{title}</Typography> : undefined;
 
   return (

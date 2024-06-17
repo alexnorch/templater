@@ -31,7 +31,6 @@ const TemplateDetails: React.FC<TemplateDetailsProps> = ({
   onStartEditing,
   onCopyText,
 }) => {
-
   const templateAttributes = (attributeValues as IAttributeOption[]).map(
     ({ value, _id }) => <Chip key={_id} label={value} />
   );
@@ -41,30 +40,28 @@ const TemplateDetails: React.FC<TemplateDetailsProps> = ({
   );
 
   return (
-    <Stack sx={{ height: '100%' }}>
+    <Stack sx={{ height: "100%" }}>
       <Stack direction="row" justifyContent="space-between">
         <Typography ml={2} variant="h5" component="h4">
           {title}
         </Typography>
         <Box>
-          <IconButton
-            onClick={onStartEditing}
-            size="small">
+          <IconButton onClick={onStartEditing} size="small">
             <EditIcon />
           </IconButton>
-          <IconButton
-            onClick={onStartDeleting}
-            size="small">
+          <IconButton onClick={onStartDeleting} size="small">
             <DeleteIcon />
           </IconButton>
         </Box>
       </Stack>
 
       <Tooltip title="Click the text to copy it." placement="top">
-        <Box
-          onClick={() => onCopyText(editorState)}
-          my={1}>
-          <Editor onChange={() => null} readOnly={true} editorState={editorState} />
+        <Box onClick={() => onCopyText(editorState)} my={1}>
+          <Editor
+            onChange={() => null}
+            readOnly={true}
+            editorState={editorState}
+          />
         </Box>
       </Tooltip>
 

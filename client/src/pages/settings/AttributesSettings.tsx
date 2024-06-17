@@ -4,8 +4,7 @@ import { CustomTooltip } from "../../components/ui";
 
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
-const attributesTooltip =
-  `Attributes add extra details to templates, enabling easy 
+const attributesTooltip = `Attributes add extra details to templates, enabling easy 
    filtering not just by categories, but also by other criteria 
    like language.`;
 

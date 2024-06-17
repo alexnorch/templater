@@ -19,7 +19,6 @@ const TemplateNavbar: React.FC = () => {
           <TemplateAdd />
         </Stack>
       </Stack>
-      <Divider sx={{ mt: 1 }} />
       <Stack mt={1}>
         <FilterByAttributeValue />
       </Stack>

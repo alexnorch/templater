@@ -5,7 +5,7 @@ import { useAddAttributeMutation } from "../../api/attributeApi";
 
 const defaultValues = {
   label: "",
-  values: []
+  values: [],
 };
 
 const AttributeAdd: React.FC = () => {
@@ -23,7 +23,7 @@ const AttributeAdd: React.FC = () => {
     <>
       <AddButton onClick={handleToggleModal} />
       <CustomModal
-        sx={{ maxWidth: 400, width: '100%' }}
+        sx={{ maxWidth: 400, width: "100%" }}
         title="Create Attribute"
         isOpen={isModal}
         handleClose={handleToggleModal}

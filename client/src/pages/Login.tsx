@@ -4,7 +4,7 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { CiLogin } from "react-icons/ci";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { TextField, Stack, Typography, Box, Button } from "@mui/material";
+import { TextField, Stack, Typography, Box } from "@mui/material";
 import { authValidationRules } from "../utils/authValidationRules";
 import { InputPassword } from "../components/ui";
 import PasswordRecovery from "../components/auth/PasswordRecovery";
@@ -68,6 +68,7 @@ const Login: React.FC = () => {
           render={({ field, fieldState: { invalid } }) => (
             <TextField
               {...field}
+              value={field.value.trim()}
               fullWidth
               error={invalid}
               helperText={errors?.email?.message}
@@ -85,6 +86,7 @@ const Login: React.FC = () => {
           render={({ field, fieldState: { invalid } }) => (
             <InputPassword
               {...field}
+              value={field.value.trim()}
               fullWidth
               variant="filled"
               showPassword={showPassword}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import TextEditor from "./TextEditor/TextEditor";
+import TextEditor from "../textEditor/TextEditor";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import { UseControllerProps, useController } from "react-hook-form";
 import { ITemplateItem } from "../../types";
